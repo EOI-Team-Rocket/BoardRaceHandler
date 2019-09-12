@@ -5,7 +5,7 @@ module.exports = {
 }
 
 function createEvent(req, res){
-    EventModel.create(req.body)
+    return EventModel.create(req.body)
         .then(responde => {
             res.status(200).json(responde)
         })
