@@ -1,3 +1,17 @@
-const mongoose = require('mongoose');
+const EventModel = require('./events.model');
 
-var Events
+module.exports = {
+    createEvent: createEvent
+}
+
+function createEvent(req, res){
+    EventModel.create(req.body)
+        .then(responde => {
+            res.status(200).json(responde)
+        })
+        .catch((err) => handdleError(err, res));
+}
+
+function handdleError(err, res){
+    return res.status(400).json(err);
+}
