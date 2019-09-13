@@ -10,12 +10,14 @@ const EVENTschema = new mongoose.Schema({
     date: {
         type: String,
         required: [true, "The date is required"],
+        //dd/mm/yyyy
         validate: /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/
     },
 
     hour: {
         type: String,
         required: [true, "The hour is required"],
+        //hh:mm:ss
         validate: /^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/
     },
 
@@ -57,10 +59,20 @@ const EVENTschema = new mongoose.Schema({
         max:100
     },
 
-    CreatedAt: {
+    createdAt: {
         type: Date,
         default: Date.now()
+    },
+
+    competition: {
+        type: String
+    },
+
+    participants: {
+        type: Array,
+        default: []
     }
+
 
 });
 
