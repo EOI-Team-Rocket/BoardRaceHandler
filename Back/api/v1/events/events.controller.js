@@ -1,25 +1,33 @@
 const EVENTModel = require("./events.model");
 
 module.exports = {
+    createEvent,
     readAllEvents,
     readOneEvent,
     updateEvent,
     deleteEvent
 }
 
+function createEvent(req, res){
+    return EVENTModel.create(req.body)
+        .then(responde => {
+            res.status(200).json(responde)
+        })
+        .catch((err) => handdleError(err, res));
+}
+
 function readAllEvents(req, res){
-    EVENTModel.find().then(events => {
+    return EVENTModel.find().then(events => {
         let result = {data : events};
         res.status(200).send(result);
-    });
-    return;
+    })
+    .catch((err) => handdleError(err, res));
 }
 
 function readOneEvent(req, res){
-    EVENTModel.findById(req.params.id)
-    .then(data => res.json(data))
-    .catch(err => res.status(400).json(parseError(err)))
-    return;
+    return EVENTModel.findById(req.params.id)
+        .then(data => res.json(data))
+        .catch((err) => handdleError(err, res));
 }
 
 function updateEvent(req, res){
@@ -27,21 +35,24 @@ function updateEvent(req, res){
     .then(response =>{
         return res.json(response);
     })
-    .catch(error => {
-        return res.status(400).send(error);
-    })
+    .catch((err) => handdleError(err, res));
 }
 
 function deleteEvent(req, res){
     let eventID = req.params.id;
-    EVENTModel.findOne({_id: eventID}).then(async event =>{
-        if(event == null || event == undefined){
-            res.status(404).send("El evento no existe");
-            return;
-        } else {
-            await event.remove();
-            res.status(200).send(event);
-            return;
-        }
-    });
+    EVENTModel.findOne({_id: eventID})
+        .then(async event =>{
+            if(event == null || event == undefined){
+                return res.status(404).send("El evento no existe");
+            } else {
+                await event.remove();
+                return res.status(200).send(event);
+            }
+        })
+        .catch((err) => handdleError(err, res));
+}
+
+//Function of error
+function handdleError(err, res) {
+    return res.status(400).json(err);
 }
