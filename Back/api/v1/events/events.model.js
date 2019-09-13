@@ -40,7 +40,7 @@ const EVENTschema = new mongoose.Schema({
     category: {
         type: Array,
         required: [true, "The category is required"],
-        validate: [arrayLength, "Unapropiate size"],
+        validate: [arrayLength, "Size of array must be 2"],
     },
 
     description: {
@@ -77,8 +77,8 @@ const EVENTschema = new mongoose.Schema({
 });
 
 // Returns true if the length of the array is 2
-function arrayLength(length){
-    return length == 2;
+function arrayLength(array){
+    return array.length == 2;
 }
 
 const EVENT = mongoose.model("event", EVENTschema);
