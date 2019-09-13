@@ -3,13 +3,13 @@
     <div id="nav">
       <div id="nav--leftpart">
         <router-link to="/">Pagina principal</router-link> | 
-        <router-link to="/categories">Categorias</router-link> |
+        <router-link to="/categories">Categorias</router-link> | <!-- change routerlink to dropdown-->
         <router-link to="/places">Lugares</router-link>
       </div>
       <div id="nav--rightpart">
         <router-link to="/dashboard" v-if="admin">Panel de control</router-link>
-        <router-link to="/login"> Iniciar sesión </router-link> <!-- login ugly  -->  |
-        <router-link to="/registration"> Registrarse </router-link>
+        <router-link to="/login"> Iniciar sesión </router-link> <!-- login in a component  -->  |
+        <router-link to="/signin"> Registrarse </router-link>
       </div>
     </div>
 
