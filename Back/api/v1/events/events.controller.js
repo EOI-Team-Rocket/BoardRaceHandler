@@ -40,7 +40,7 @@ function updateEvent(req, res){
 
 function deleteEvent(req, res){
     let eventID = req.params.id;
-    EVENTModel.findOne({_id: eventID})
+    return EVENTModel.findOne({_id: eventID})
         .then(async event =>{
             if(event == null || event == undefined){
                 return res.status(404).send("El evento no existe");
