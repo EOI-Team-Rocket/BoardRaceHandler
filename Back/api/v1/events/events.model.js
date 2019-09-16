@@ -17,7 +17,7 @@ const EVENTschema = new mongoose.Schema({
     hour: {
         type: String,
         required: [true, "The hour is required"],
-        //hh:mm:ss
+        //hh:mm
         validate: /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/
     },
 
@@ -82,4 +82,3 @@ function arrayLength(array){
 }
 
 module.exports = mongoose.model("event", EVENTschema);
-module.exports = EVENT;
