@@ -31,7 +31,7 @@ function readOneEvent(req, res){
 }
 
 function updateEvent(req, res){
-    EVENTModel.findByIdAndUpdate(req.params.id, {$set:req.body}, {new:true})
+    return EVENTModel.findByIdAndUpdate(req.params.id, {$set:req.body}, {new:true})
     .then(response =>{
         return res.json(response);
     })
