@@ -10,13 +10,15 @@ const EVENTschema = new mongoose.Schema({
     date: {
         type: String,
         required: [true, "The date is required"],
+        //dd/mm/yyyy
         validate: /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/
     },
 
     hour: {
         type: String,
         required: [true, "The hour is required"],
-        validate: /^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/
+        //hh:mm
+        validate: /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/
     },
 
     place: {
@@ -38,7 +40,7 @@ const EVENTschema = new mongoose.Schema({
     category: {
         type: Array,
         required: [true, "The category is required"],
-        validate: [arrayLength, "Unapropiate size"],
+        validate: [arrayLength, "Size of array must be 2"],
     },
 
     description: {
@@ -57,17 +59,26 @@ const EVENTschema = new mongoose.Schema({
         max:100
     },
 
-    CreatedAt: {
+    createdAt: {
         type: Date,
         default: Date.now()
+    },
+
+    competition: {
+        type: String
+    },
+
+    participants: {
+        type: Array,
+        default: []
     }
+
 
 });
 
 // Returns true if the length of the array is 2
-function arrayLength(length){
-    return length == 2;
+function arrayLength(array){
+    return array.length == 2;
 }
 
-const EVENT = mongoose.model("event", EVENTschema);
-module.exports = EVENT;
+module.exports = mongoose.model("event", EVENTschema);
