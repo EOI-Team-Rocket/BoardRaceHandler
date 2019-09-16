@@ -18,7 +18,7 @@ const EVENTschema = new mongoose.Schema({
         type: String,
         required: [true, "The hour is required"],
         //hh:mm:ss
-        validate: /^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/
+        validate: /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/
     },
 
     place: {
