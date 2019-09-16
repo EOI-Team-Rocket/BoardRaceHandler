@@ -81,5 +81,5 @@ function arrayLength(array){
     return array.length == 2;
 }
 
-const EVENT = mongoose.model("event", EVENTschema);
+module.exports = mongoose.model("event", EVENTschema);
 module.exports = EVENT;
