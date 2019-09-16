@@ -1,19 +1,23 @@
 <template>
-    <h1>Hello, i'm a CRUD</h1>
+    <div id="eventsContainer">
+        <eventList></eventList>
+    </div>
 </template>
 
 <script>
-import axios from "axios";
+import eventList from "@/components/eventList";
 export default {
     name: "CRUD.events.vue",
+    components: {
+        eventList
+    },
     data(){
         return {
-            events: []
+          
         }
     },
     methods: {
-
+        
     }
 }
 </script>
-

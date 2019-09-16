@@ -4,7 +4,6 @@
       <router-link to="/">Inicio</router-link> |
       <router-link to="/categories">Categorias</router-link> |
       <router-link to="/places">Lugares</router-link>  |
-      <router-link to="/dashboard" v-if="admin">Panel de control</router-link> |
       <router-link to="/login"> Iniciar sesión </router-link> <!-- login ugly  -->  |
       <router-link to="/registration"> Registrarse </router-link>  |
       <router-link to="/CRUD.events"> Administrar eventos </router-link>  |
