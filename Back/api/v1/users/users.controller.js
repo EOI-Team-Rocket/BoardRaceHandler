@@ -1,5 +1,13 @@
 var Users = require("./users.model");
 
+module.exports = { 
+    getUsers, 
+    getUsersByAffiliate, 
+    postUser, 
+    patchUser, 
+    deleteUser 
+}
+
 function getUsers(req, res) {
     Users.find()
         .then(result => {
@@ -54,4 +62,3 @@ function deleteUser(req, res) {
             res.send(err);
         });
 }
-module.exports = { getUsers, getUsersByAffiliate, postUser, patchUser, deleteUser }

@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-
-var userSchema = new Schema({
+const USERschema = new mongoose.Schema({
 
     createdAt: Date,
     personalInfo: {
@@ -95,4 +94,4 @@ var userSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model("User", USERschema);
