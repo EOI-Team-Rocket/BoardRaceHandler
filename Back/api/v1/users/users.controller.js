@@ -38,7 +38,7 @@ function postUser(req, res) {
         });
 }
 
-//Hay que hacer pruebas desde el front
+//To do: Tests in front
 function patchUser(req, res) {
 
     Users.findOneAndUpdate({
