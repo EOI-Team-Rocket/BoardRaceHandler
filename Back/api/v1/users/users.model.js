@@ -3,6 +3,10 @@ var Schema = mongoose.Schema;
 const USERschema = new mongoose.Schema({
 
     createdAt: Date,
+    password: {
+        type: String,
+        required: [true, "the field password is required"]
+    },
     personalInfo: {
         fullname: {
             name: {
@@ -15,15 +19,14 @@ const USERschema = new mongoose.Schema({
             },
             surname2: {
                 type: String,
-                required: [true, "the field surname2 is required"]
             },
         },
-        
+
         birthdate: {
             type: Date,
             required: [true, "the field birthdate is required"]
         },
-        
+
         island: {
             type: String,
             enum: ["Fuerteventura", "La Gomera", "Gran Canaria", "El Hierro", "Lanzarote", "La Palma", "Tenerife", "La Graciosa"],
@@ -61,7 +64,7 @@ const USERschema = new mongoose.Schema({
                 "Laser 4.7", "Laser Radial", "Nacra-17", "Optimist", "Radio Control", "Sin Clase", "Snipe",
                 "Thecno", "Vela Adaptada Iniciacion", "Windsurf/Fun Board", "Windsurf/RSX", "Windsurf/Velocidad"],
             //TODO:foreign key
-                required: true
+            required: true
         },
         age_category: {
             type: String,
