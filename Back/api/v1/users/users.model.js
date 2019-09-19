@@ -7,6 +7,14 @@ const USERschema = new mongoose.Schema({
         type: String,
         required: [true, "the field password is required"]
     },
+    email: {
+        type: String,
+        required: [true, "the field email is required"]
+    },
+    telf1: {
+        type: String,
+        required: [true, "the field telf is required"]
+    },
     personalInfo: {
         fullname: {
             name: {
@@ -32,19 +40,12 @@ const USERschema = new mongoose.Schema({
             enum: ["Fuerteventura", "La Gomera", "Gran Canaria", "El Hierro", "Lanzarote", "La Palma", "Tenerife", "La Graciosa"],
             required: [true, "the field island is required"]
         },
-        email: {
-            type: String,
-            required: [true, "the field email is required"]
-        },
         gender: {
             type: String,
             enum: ["H", "M", "X"]
         },
         telf: {
-            telf1: {
-                type: String,
-                required: [true, "the field telf is required"]
-            },
+
             telf2: String
         },
     },
