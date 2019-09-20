@@ -91,9 +91,9 @@ const USERschema = new mongoose.Schema({
             type: Schema.Types.ObjectId,
             ref: 'Federation'
         },
-        regatas: [{
+        regattas: [{
             type: Schema.Types.ObjectId,
-            ref: 'Regata'
+            ref: 'Regatta'
         }]
     }
 });
