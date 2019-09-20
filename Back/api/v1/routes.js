@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const controller = require("./events/events.controller");
+const federationController = require("./federations/federations.controller");
 
 router.post('/createEvent', controller.createEvent);
 router.get("/events", controller.readAllEvents);
@@ -19,11 +20,11 @@ router.delete("/deleteEvent/:id", controller.deleteEvent);
 
 
 /*-------------- FEDERATIONS ROUTES --------------*/
-router.post('/federations', controller.createEvent);
-router.get("/federations", controller.readAllEvents);
-router.get("/federations/:name", controller.readOneEvent);
-router.put("/federations/:name", controller.updateEvent);
-router.delete("/federations/:name", controller.deleteEvent);
+router.post('/federations', federationController.createFederation);
+router.get("/federations", federationController.readAllFederations);
+router.get("/federations/:name", federationController.readOneFederation);
+router.put("/federations/:name", federationController.updateFederation);
+router.delete("/federations/:name", federationController.deleteFederation);
 
 
 

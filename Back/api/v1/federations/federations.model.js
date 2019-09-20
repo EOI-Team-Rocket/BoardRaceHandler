@@ -20,4 +20,4 @@ const FEDERATIONschema = new mongoose.Schema({
 });
 
 
-module.exports = mongoose.model("event", FEDERATIONschema);
+module.exports = mongoose.model("federation", FEDERATIONschema);

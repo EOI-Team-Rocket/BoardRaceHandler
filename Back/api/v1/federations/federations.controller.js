@@ -1,4 +1,4 @@
-const FEDERATIONModel = require("./events.model");
+const FEDERATIONModel = require("./federations.model");
 
 module.exports = {
     createFederation,
@@ -25,13 +25,13 @@ function readAllFederations(req, res) {
 }
 
 function readOneFederation(req, res) {
-    return FEDERATIONModel.findById(req.params.id)
+    return FEDERATIONModel.find({ name: req.params.name })
         .then(data => res.json(data))
         .catch((err) => handdleError(err, res));
 }
 
 function updateFederation(req, res) {
-    return FEDERATIONModel.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true })
+    return FEDERATIONModel.update(req.params.id, { $set: req.body }, { new: true })
         .then(response => {
             return res.json(response);
         })
@@ -39,8 +39,7 @@ function updateFederation(req, res) {
 }
 
 function deleteFederation(req, res) {
-    let eventID = req.params.id;
-    return FEDERATIONModel.findOne({ _id: eventID })
+    return FEDERATIONModel.findOne({ name: req.params.name })
         .then(async event => {
             if (event == null || event == undefined) {
                 return res.status(404).send("El evento no existe");
