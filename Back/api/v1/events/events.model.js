@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+var Schema = mongoose.Schema;
 
 const EVENTschema = new mongoose.Schema({
     title: {
@@ -24,7 +25,7 @@ const EVENTschema = new mongoose.Schema({
     place: {
         type: String,
         required: [true, "The place is required"],
-        max: 100 
+        max: 100
     },
 
     image: {
@@ -32,9 +33,9 @@ const EVENTschema = new mongoose.Schema({
     },
 
     gender: {
-        type: Number,
+        type: String,
         required: [true, "The gender is required"],
-        enum: [0, 1, 2]
+        enum: ["H", "M", "X"]
     },
 
     category: {
@@ -54,9 +55,9 @@ const EVENTschema = new mongoose.Schema({
     },
 
     sailingClub: {
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: 'club',
         required: [true, "The description is required"],
-        max:100
     },
 
     createdAt: {
@@ -77,7 +78,7 @@ const EVENTschema = new mongoose.Schema({
 });
 
 // Returns true if the length of the array is 2
-function arrayLength(array){
+function arrayLength(array) {
     return array.length == 2;
 }
 
