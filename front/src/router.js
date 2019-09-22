@@ -39,6 +39,11 @@ export default new Router({
       path: '/create',
       name: 'Create',
       component: () => import('./views/Create.vue')
+    },
+    {
+      path: '/events/:name',
+      name: 'events',
+      component: () => import('./views/Events.vue')
     }
   ]
 })
