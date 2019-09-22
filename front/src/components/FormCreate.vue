@@ -1,6 +1,6 @@
 <template>
     <div class="create">
-        <form action="" id="" @submit="checkForm" method="">
+        <form action="" id="" @submit="checkForm" method="createEvent">
             <p v-if="errors.length">
                 <span v-for="error in errors" :key="error">{{error}}, </span>
             </p>
@@ -8,14 +8,15 @@
             <div class="group">
                 <div role="group" class="sub-group">
                     <label for="title">Título:</label>
-                    <b-form-input class="bg-input" id="title" v-model="event.title" :state="titleState" aria-describedby="input-live-help input-live-feedback" placeholder="Título" trim></b-form-input>
+                    <b-form-input class="bg-input" id="title" v-model="event.title" :state="titleState" 
+                    aria-describedby="input-live-help input-live-feedback" placeholder="Título"></b-form-input>
                 </div>
             </div>
 
             <div class="group">
                 <div role="group" class="sub-group">
                     <label for="date">Fecha:</label>
-                    <b-form-input class="sm-input" id="date" type="date" v-model="event.date"></b-form-input>
+                    <b-form-input class="sm-input" id="date" type="date" v-model="date"></b-form-input>
                 </div>
                 <div role="group" class="sub-group">
                     <label for="hour">Hora:</label>
@@ -26,14 +27,20 @@
             <div class="group">
                 <div role="group" class="sub-group">
                     <label for="input-live">Descripción:</label>
-                    <b-form-textarea class="bg-input description" id="description" v-model="event.description" :state="descriptionState" aria-describedby="input-live-help input-live-feedback" placeholder="Descripción"></b-form-textarea>
+                    <b-form-textarea class="bg-input description" id="description" v-model="event.description" 
+                    :state="descriptionState" aria-describedby="input-live-help input-live-feedback" 
+                    placeholder="Descripción"></b-form-textarea>
                 </div>
             </div>
+
+            <p>{{stateDescription}}</p>
 
             <div class="group">
                 <div role="group" class="sub-group">
                     <label for="place">Lugar:</label>
-                    <b-form-input class="sm-input" id="place" v-model="event.place" :state="placeState" aria-describedby="input-live-help input-live-feedback" placeholder="Lugar" trim></b-form-input>
+                    <b-form-input class="sm-input" id="place" v-model="event.place" 
+                    :state="placeState" aria-describedby="input-live-help input-live-feedback" 
+                    placeholder="Lugar" trim></b-form-input>
                 </div>
                 <div role="group" class="sub-group">
                     <fieldset id="gender">
@@ -55,11 +62,13 @@
             <div class="group">
                 <div role="group" class="sub-group">
                     <label for="boat_category">Categoria de Barco:</label>
-                    <b-form-select v-model="event.category.boat_category" :options="boats" size="sm" class="sm-input" id="boat_category"></b-form-select>
+                    <b-form-select v-model="event.category.boat_category" :options="boats" size="sm" 
+                    class="sm-input" id="boat_category"></b-form-select>
                 </div>
                 <div role="group" class="sub-group">
                     <label for="age_category">Categoria de Edad:</label>
-                    <b-form-select v-model="event.category.age_category" :options="competitions" size="sm" class="sm-input" id="age_category"></b-form-select>
+                    <b-form-select v-model="event.category.age_category" :options="competitions" size="sm" 
+                    class="sm-input" id="age_category"></b-form-select>
                 </div>
                 
             </div>
@@ -87,8 +96,9 @@
             </div>
 
             <input id="submit" type="submit" value="Crear Evento">
+            
         </form>
-</div>
+    </div>
 
 </template>
 
@@ -99,7 +109,9 @@ export default {
     name: 'FormCreate',
     data(){
         return {
-            selected: null,
+            stateTitle: null,
+            stateDescription: null,
+            statePlace: null,
             competitions: [
                 { value: null, text: 'Seleccionar una opción' },
                 { value: 'Race boat 1', text: 'Race boat 1' },
@@ -141,52 +153,65 @@ export default {
                 participants: []
             },
             postResult: null,
+            date: null
         }
     },
     computed: {
         titleState() {
-            if(this.event.title == null){
-                return null;
+        if(this.event.title == null){
+                return this.stateTitle;
             }else{
-                return this.event.title.length > 2 ? true : false;
+                this.stateTitle = this.event.title.length > 10 ? true : false;
+                return this.stateTitle;
             }
         },
         descriptionState(){
             if(this.event.description == null){
-                return null;
+                return this.stateDescription;
             }else{
-                return this.event.description.length > 140 ? true : false;
+                this.stateDescription = this.event.description.length > 140 ? true : false;
+                return this.stateDescription;
             }
         },
         placeState() {
             if(this.event.place == null){
-                return null;
+                return this.statePlace;
             }else{
-                return this.event.place.length > 5 ? true : false;
+                this.statePlace = this.event.place.length > 5 ? true : false;
+                return this.statePlace;
             }
         },
     },
     methods:{
-        checkForm:function(e){
-            const today = new Date();
-            if(!this.event.title) {
-                this.errors.push("El Título es requerido");
-            }else{
-                const date = this.event.date.split("-");
-                const dateDb = date[2]+"/"+date[1]+"/"+date[0];
-            }
-            this.event.createdAt = Date.now();
+        checkForm(){
+            if(!this.event.title) this.errors.push("El Título es requerido");
+            if(!this.stateTitle) this.errors.push("El Título es demasiado corto");
+            this.checkDate(this.date);
+            if(!this.event.hour) this.errors.push("La Hora es requerida");
+            if(!this.event.description) this.errors.push("La Descripción es requerida");
+            if(!this.stateDescription) this.errors.push("La Descripción es demasiado corta");
+            if(!this.event.place) this.errors.push("El Lugar es requerido");
+            if(!this.statePlace) this.errors.push("El Lugar es demasiado corto");
+            if(!this.event.gender) this.errors.push("El Sexo es requerido");
+            if(!this.event.category.boat_category) this.errors.push("La Categría de Barco es requerida");
+            if(!this.event.category.age_category) this.errors.push("La Categría de Edad es requerida");
+            if(!this.event.sailingClub) this.errors.push("El Club Naútico es requerido");
             
-            if(!this.event.date) {
+        },
+        checkDate(date){
+            if(!date) {
                 this.errors.push("La Fecha es requerida");
             } else {
-                if (date[0] < today.getFullYear()){
+                const today = new Date();
+                const arrayDate = date.split("-");
+                const dateDb = arrayDate[2]+"/"+arrayDate[1]+"/"+arrayDate[0];
+                if (arrayDate[0] < today.getFullYear()){
                     this.errors.push("La fecha no es valida");
                 } else {
-                    if (date[1] < today.getMonth()){
+                    if (arrayDate[1] < today.getMonth()){
                        this.errors.push("La fecha no es valida");
                     } else {
-                        if (date[2] < today.getDate()){
+                        if (arrayDate[2] < today.getDate()){
                             this.errors.push("La fecha no es valida");
                         } else {
                             this.event.date = dateDb;
@@ -194,24 +219,15 @@ export default {
                     } 
                 }
             }
-            
-            if(!this.event.hour) this.errors.push("La Hora es requerida");
-            if(!this.event.description) this.errors.push("La Descripción es requerida");
-            if(!this.event.place) this.errors.push("El Lugar es requerido");
-            if(!this.event.gender) this.errors.push("El Sexo es requerido");
-            if(!this.event.category.boat_category) this.errors.push("La Categría de Barco es requerida");
-            if(!this.event.category.age_category) this.errors.push("La Categría de Edad es requerida");
-            if(!this.event.sailingClub) this.errors.push("El Club Naútico es requerido");
-            e.preventDefault();
         },
-        createEvent:function(){
-            if(errors.length == 0){
-                axios.post('/', this.event).then(res => {
-                    
-                }).catch(err => {
-                    
-                });
-            }
+        createEvent(){
+            this.event.createdAt = Date.now();
+            axios.post('/', this.event).then(res => {
+                
+            }).catch(err => {
+
+            });
+            
         }
     },
     
