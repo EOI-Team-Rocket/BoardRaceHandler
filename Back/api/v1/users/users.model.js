@@ -93,7 +93,7 @@ const USERschema = new mongoose.Schema({
         },
         regattas: [{
             type: Schema.Types.ObjectId,
-            ref: 'Regatta'
+            ref: 'event'
         }]
     }
 });
