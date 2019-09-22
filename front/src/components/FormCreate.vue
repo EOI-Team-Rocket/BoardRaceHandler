@@ -1,13 +1,10 @@
 <template>
     <div class="create">
-
         <form action="" id="" @submit="checkForm" method="">
             <p v-if="errors.length">
                 <span v-for="error in errors" :key="error">{{error}}, </span>
-<!--                 <ul>
-                    <li v-for="error in errors" :key="error">{{error}}</li>
-                </ul> -->
             </p>
+
             <div class="group">
                 <div role="group" class="sub-group">
                     <label for="title">Título:</label>
@@ -26,7 +23,6 @@
                 </div>
             </div>
 
-            
             <div class="group">
                 <div role="group" class="sub-group">
                     <label for="input-live">Descripción:</label>
@@ -38,10 +34,7 @@
                 <div role="group" class="sub-group">
                     <label for="place">Lugar:</label>
                     <b-form-input class="sm-input" id="place" v-model="event.place" :state="placeState" aria-describedby="input-live-help input-live-feedback" placeholder="Lugar" trim></b-form-input>
-
-                    <b-form-invalid-feedback id="place-live-feedback">El título es demasiado corto</b-form-invalid-feedback>
                 </div>
-
                 <div role="group" class="sub-group">
                     <fieldset id="gender">
                         <span id="legend-gender">Sexo: </span>
@@ -54,10 +47,7 @@
                                 <label for="female">Mujer</label>
                                 <input type="radio" value="female" name="gender" v-model="event.gender" class="radio">
                             </div>
-                            
                         </div>
-                        
-
                     </fieldset>
                 </div>
             </div>
@@ -96,12 +86,7 @@
                 </div>
             </div>
 
-            
             <input id="submit" type="submit" value="Crear Evento">
-
-
-            
-
         </form>
 </div>
 
@@ -109,7 +94,6 @@
 
 <script>
 
-import moment from 'moment'
 
 export default {
     name: 'FormCreate',
@@ -156,12 +140,8 @@ export default {
                 competition: null,
                 participants: []
             },
-            date: "",
-            dateNow: ""
+            postResult: null,
         }
-    },
-    watch: {
-
     },
     computed: {
         titleState() {
@@ -178,35 +158,25 @@ export default {
                 return this.event.description.length > 140 ? true : false;
             }
         },
-        dateState(){
-            if(this.event.date == null){
+        placeState() {
+            if(this.event.place == null){
                 return null;
-            } else {
-                const date = this.event.date.split("-");
-                if(date < new Date().getFullYear()) {
-                    return true
-                }
+            }else{
+                return this.event.place.length > 5 ? true : false;
             }
-            
-        }
-
-    },
-    created(){
-        const date = new Date();
-        const day = date.getDate();
-        const month = date.getMonth();
-        const year = date.getFullYear();
-        this.dateNow =  day + "/" + month + "/" + year;
+        },
     },
     methods:{
         checkForm:function(e){
             const today = new Date();
-            const date = this.date.split("-");
-            const dateDb = date[2]+"/"+date[1]+"/"+date[0];
-
+            if(!this.event.title) {
+                this.errors.push("El Título es requerido");
+            }else{
+                const date = this.event.date.split("-");
+                const dateDb = date[2]+"/"+date[1]+"/"+date[0];
+            }
             this.event.createdAt = Date.now();
             
-            if(!this.event.title) this.errors.push("El Título es requerido");
             if(!this.event.date) {
                 this.errors.push("La Fecha es requerida");
             } else {
@@ -233,14 +203,22 @@ export default {
             if(!this.event.category.age_category) this.errors.push("La Categría de Edad es requerida");
             if(!this.event.sailingClub) this.errors.push("El Club Naútico es requerido");
             e.preventDefault();
+        },
+        createEvent:function(){
+            if(errors.length == 0){
+                axios.post('/', this.event).then(res => {
+                    
+                }).catch(err => {
+                    
+                });
+            }
         }
-    }
+    },
+    
 }
-
 </script>
 
 <style>
-    
     .create {
         display: flex;
         flex-direction: column;
@@ -311,7 +289,5 @@ export default {
         color: #FFEEDE;
         background-color: #222299;
          
-    }
-
-    
+    }    
 </style>
