@@ -1,8 +1,10 @@
 const router = require("express").Router();
+
+/*_______________CONTROLLERS_____________*/
 const eventController = require("./events/events.controller");
 const userController = require("./users/users.controller");
 const federationController = require("./federations/federations.controller");
-
+const clubController = require("./clubs/clubs.controller");
 /*-------------- EVENTS ROUTES --------------*/
 router.post('/createEvent', eventController.createEvent);
 router.get("/events", eventController.readAllEvents);
@@ -21,6 +23,12 @@ router.get("/federations", federationController.readAllFederations);
 router.get("/federations/:name", federationController.readOneFederation);
 router.put("/federations/:name", federationController.updateFederation);
 router.delete("/federations/:name", federationController.deleteFederation);
+/*-------------- CLUBS ROUTES --------------*/
+router.post('/clubs', clubController.createClub);
+router.get("/clubs", clubController.readAllClubs);
+router.get("/clubs/:name", clubController.readOneClub);
+router.put("/clubs/:name", clubController.updateClub);
+router.delete("/clubs/:name", clubController.deleteClub);
 
 
 
