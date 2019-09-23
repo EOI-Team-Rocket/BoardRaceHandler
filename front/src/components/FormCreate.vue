@@ -1,6 +1,5 @@
 <template>
     <div class="create">
-        <!-- <form id="" @submit="checkForm"> -->
             <div v-if="errors.length" class="errors">
                 <span v-for="(error, index) in errors" :key="error" >
                     <span class="error" v-if="index!==errors.length-1">{{error+",&nbsp;"}} </span>
