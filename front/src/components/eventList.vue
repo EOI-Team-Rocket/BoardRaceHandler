@@ -4,7 +4,7 @@
             {{error}}
         </p>
         <button class="btn btn-dark" id="collapseButton" @click="toggleState">{{collapse==true ? 'Mostrar más' : 'Mostrar menos'}}</button>
-        <button class="btn btn-dark" id="createEventButton">Crear evento</button>
+        <button class="btn btn-dark" id="createEventButton" @click="goToCreate">Crear evento</button>
         <div v-for="event in events" :key="event._id" class="d-flex flex-wrap justify-content-center eventItem">
             <div class="fillAllRow" id="titleRow">
                 <span id="eventTitle" >
@@ -116,6 +116,9 @@ export default {
             } else {
                 this.collapse=true;
             }
+        },
+        goToCreate(){
+            this.$router.push("/create");
         }
     },
     created(){

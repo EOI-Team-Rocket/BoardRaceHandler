@@ -12,7 +12,8 @@ module.exports = {
 function createEvent(req, res) {
     return EVENTModel.create(req.body)
         .then(response => {
-            res.status(200).json(response)
+            res.status(200).json(response);
+            
         })
         .catch((err) => handdleError(err, res));
 }
