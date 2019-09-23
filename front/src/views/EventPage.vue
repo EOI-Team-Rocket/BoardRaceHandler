@@ -3,23 +3,23 @@
       <div id="uppermid">
         <img src="../assets/regattaExample.jpg" alt="imgEvent">
         <div id="generalInfo">
-          <p>Titulo:{{regattaName}}</p>
+          <p>Titulo:{{event.title}}</p>
           <div id="dateTime">
-            <p>Fecha: {{regattaDate}}  </p>
-            <p>Hora: {{regattaHour}}</p>
+            <p>Fecha: {{event.date}}  </p>
+            <p>Hora: {{event.hour}}</p>
           </div>
-          <p>Lugar: {{regattaPlace}}</p>
+          <p>Lugar: {{event.place}}</p>
         </div>
       </div>
       <div id="lowermid">
         <div id="categoriesSex">
-          <p> Categorias: {{regattaCategories}} </p>
-          <p>Sexo: {{regattaSex}}</p>
+          <p> Categorias: {{event.boat_category}} {{event.age_category}} </p>
+          <p>Sexo: {{event.gender}}</p>
         </div>
-        <p>Descripcion: {{regattaDescription}}</p>
+        <p>Descripcion: {{event.description}}</p>
         <div id="categoriesSex">
-          <p id="entries"> Participantes: {{regattaEntries}} </p>
-          <p> Club Náutico: {{regattaSailorClub}}</p>
+          <p id="entries"> Participantes: {{event.participants}} </p>
+          <p> Club Náutico: {{event.sailingClub}}</p>
         </div>
         <button type="submit">Inscribirse</button>
       </div>
@@ -27,10 +27,25 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name:"eventpage",
-  /* introduce the things */
-  
+  data(){
+    return {
+      event: {}
+    }
+
+  },
+  created(){this.getEvent()},
+  methods: {
+    getEvent(){
+      axios.post('http://localhost:3000/api/v1/events/event 1')
+      .then(res =>{
+        this.event = res.data[0];
+        console.log(res);
+      })
+    }
+  }
 }
 </script>
 
