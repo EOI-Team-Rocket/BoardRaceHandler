@@ -3,18 +3,21 @@
         <p v-if="error">
             {{error}}
         </p>
-        <button class="btn btn-primary" id="createEventButton">Crear evento</button>
+        <button class="btn btn-dark" id="collapseButton" @click="toggleState">{{collapse==true ? 'Mostrar más' : 'Mostrar menos'}}</button>
+        <button class="btn btn-dark" id="createEventButton">Crear evento</button>
         <div v-for="event in events" :key="event._id" class="d-flex flex-wrap justify-content-center eventItem">
             <div class="fillAllRow" id="titleRow">
                 <span id="eventTitle" >
                     Título: {{event.title}}
                 </span>
             </div>
-            <div v-if="event.image" class="fillAllRow"> 
-                <img :src="event.image" id="eventImage">
-            </div>
-            <div v-else class="fillAllRow"> 
-                <img src="../../default_image.jpg" id="eventImage">
+            <div v-if="collapse==false" class="fillAllRow">
+                <div v-if="event.image"> 
+                    <img :src="event.image" id="eventImage">
+                </div>
+                <div v-else> 
+                    <img src="../../default_image.jpg" id="eventImage">
+                </div>
             </div>
             <div class="fillAllRow p-2 d-flex justify-content-center">
                 <div class="d-flex justify-content-start flex-wrap ml-5 eventDataContainer">
@@ -48,12 +51,12 @@
                     </div>
                 </div>
             </div>
-            <div class="fillAllRow" id="descriptionRowContainer">
+            <div v-if="collapse==false" class="fillAllRow" id="descriptionRowContainer">
                 <span class="blackEventDataBox">
                     Descripción: {{event.description}}
                 </span>
             </div>
-            <div v-if="event.participants" id="eventParticipants" class="fillAllRow d-flex justify-content-center eventRowContainer">
+            <div v-if="event.participants && collapse==false" id="eventParticipants" class="fillAllRow d-flex justify-content-center eventRowContainer">
                 <div class="blackEventDataBox">
                     <span>Participantes: </span>
                     <span v-for="(participant, index) in event.participants" :key="participant">
@@ -84,7 +87,8 @@ export default {
     data(){
         return {
            events: [],
-           error: ""
+           error: "",
+           collapse: true
         }
     },
     methods: {
@@ -105,6 +109,13 @@ export default {
             .catch(err => {
                 this.error=err+" --> En cristiano: error en consulta delete a la base de datos de eventos";
             });
+        },
+        toggleState(){
+            if(this.collapse==true){
+                this.collapse=false;
+            } else {
+                this.collapse=true;
+            }
         }
     },
     created(){
