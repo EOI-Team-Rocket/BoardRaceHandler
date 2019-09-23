@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+var Schema = mongoose.Schema;
 
 const EVENTschema = new mongoose.Schema({
     title: {
@@ -24,7 +25,7 @@ const EVENTschema = new mongoose.Schema({
     place: {
         type: String,
         required: [true, "The place is required"],
-        max: 100 
+        max: 100
     },
 
     image: {
@@ -32,15 +33,15 @@ const EVENTschema = new mongoose.Schema({
     },
 
     gender: {
-        type: Number,
+        type: String,
         required: [true, "The gender is required"],
-        enum: [0, 1, 2]
+        enum: ["H", "M", "X"]
     },
 
-    category: {
-        type: Array,
-        required: [true, "The category is required"],
-        validate: [arrayLength, "Size of array must be 2"],
+    boat_category: {
+        type: Schema.Types.ObjectId,
+        ref: 'boat',
+        required: [true, "The category is required"]
     },
 
     description: {
@@ -49,14 +50,21 @@ const EVENTschema = new mongoose.Schema({
         max: 800
     },
 
+    age_category: {
+        type: String,
+        enum: ["Infantil", "Iniciacion Infantil", "Juvenil", "Senior", "Ampliacion", "Ampliacion de Autonomica"
+            , "Autonomica"],
+        required: true
+    },
+
     capacity: {
         type: Number
     },
 
     sailingClub: {
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: 'club',
         required: [true, "The description is required"],
-        max:100
     },
 
     createdAt: {
@@ -68,17 +76,13 @@ const EVENTschema = new mongoose.Schema({
         type: String
     },
 
-    participants: {
-        type: Array,
-        default: []
-    }
+    participants: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }]
 
 
 });
 
-// Returns true if the length of the array is 2
-function arrayLength(array){
-    return array.length == 2;
-}
 
 module.exports = mongoose.model("event", EVENTschema);
