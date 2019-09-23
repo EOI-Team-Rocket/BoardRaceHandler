@@ -16,6 +16,7 @@ router.get('/users', userController.getUsers);
 router.get('/users/:license_number', userController.getUsersByAffiliate);
 router.patch('/users/:license_number', userController.patchUser)
 router.post('/users', userController.postUser);
+router.post('/registerInEvent',userController.registerInEvent)
 router.delete('/users/:license_number', userController.deleteUser);
 /*-------------- FEDERATIONS ROUTES --------------*/
 router.post('/federations', federationController.createFederation);
