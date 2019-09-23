@@ -9,6 +9,18 @@ export default new Router({
   routes: [
     {
       path: '/',
+      name: 'home',
+      component: Home
+    },
+    {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: () => import(/* webpackChunkName: "dashboard" */ './views/Dashboard.vue')
+    },
+    {
+      path: '/CRUDevents',
+      name: 'CRUDevents',
+      component: () => import(/* webpackChunkName: "CRUD.events" */ './views/CRUD.events.vue')  
       name: 'Home',
       component: Home
     },
