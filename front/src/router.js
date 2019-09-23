@@ -19,7 +19,7 @@ export default new Router({
     },
     {
       path: '/CRUD.events',
-      name: 'CRUD.events',
+      name: 'CRUDevents',
       component: () => import(/* webpackChunkName: "CRUD.events" */ './views/CRUD.events.vue')  
       name: 'Home',
       component: Home
