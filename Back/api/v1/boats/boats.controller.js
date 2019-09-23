@@ -40,7 +40,7 @@ function updateBoat(req, res) {
 
 function deleteBoat(req, res) {
     return BOATModel.findOne({ name: req.params.name })
-        .then(async event => {
+        .then(event => {
             if (event == null || event == undefined) {
                 return res.status(404).send("El evento no existe");
             } else {
