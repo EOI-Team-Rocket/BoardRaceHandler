@@ -18,16 +18,19 @@
         </div>
         <p>Descripcion: {{regattaDescription}}</p>
         <div id="categoriesSex">
-          <p> Participantes: {{regattaEntries}} </p> <!-- dropdown to do -->
+          <p id="entries"> Participantes: {{regattaEntries}} </p>
           <p> Club Náutico: {{regattaSailorClub}}</p>
         </div>
+        <button type="submit">Inscribirse</button>
       </div>
   </div>
 </template>
 
 <script>
 export default {
-  name:"eventpage"
+  name:"eventpage",
+  /* introduce the things */
+  
 }
 </script>
 
@@ -70,4 +73,36 @@ export default {
   justify-content: center;
 }
 
+#entries{
+  overflow: scroll;
+}
+
+button{
+  background: #84abe8;
+  background-image: -webkit-linear-gradient(top, #84abe8, #577eff);
+  background-image: -moz-linear-gradient(top, #84abe8, #577eff);
+  background-image: -ms-linear-gradient(top, #84abe8, #577eff);
+  background-image: -o-linear-gradient(top, #84abe8, #577eff);
+  background-image: linear-gradient(to bottom, #84abe8, #577eff);
+  -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  border-radius: 28px;
+  font-family: Arial;
+  color: #ffeede;
+  font-size: 18px;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+  border: none;
+}
+
+button:hover {
+  background: #9ed2ff;
+  background-image: -webkit-linear-gradient(top, #9ed2ff, #84c8e8);
+  background-image: -moz-linear-gradient(top, #9ed2ff, #84c8e8);
+  background-image: -ms-linear-gradient(top, #9ed2ff, #84c8e8);
+  background-image: -o-linear-gradient(top, #9ed2ff, #84c8e8);
+  background-image: linear-gradient(to bottom, #9ed2ff, #84c8e8);
+  text-decoration: none;
+  border: none;
+}
 </style>

@@ -16,9 +16,9 @@
         <router-link to="/eventpage">Evento</router-link> <!-- this is a test for the layout-->
       </div>
       <div id="nav--rightpart">
-        <router-link to="/dashboard" v-if="admin">Panel de control</router-link>
-        <b-dropdown id="dropdown-form" right text="Iniciar Sesión" ref="dropdown" class="m-2" @submit.prevent='login'> <!-- disapear when login-->
-          <b-dropdown-form class="dropdown-menu-right" @submit.prevent ="login">
+        <router-link to="/dashboard">Panel de control</router-link>
+        <b-dropdown id="dropdown-form" right text="Iniciar Sesión" ref="dropdown" class="m-2" > <!-- disapear when login-->
+          <b-dropdown-form class="dropdown-menu-right">
             <b-form-group label="Email" label-for="dropdown-form-email" >
               <b-form-input v-model="email"
                 id="dropdown-form-email"
