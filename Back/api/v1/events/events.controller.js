@@ -12,6 +12,8 @@ function createEvent(req, res){
     return EVENTModel.create(req.body)
         .then(response => {
             res.status(200).json(response)
+            console.log("HOLA DANI");
+            
         })
         .catch((err) => handdleError(err, res));
 }
