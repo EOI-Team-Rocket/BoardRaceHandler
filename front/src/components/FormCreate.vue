@@ -54,6 +54,10 @@
                                 <label class="input-label" for="female">Mujer</label>
                                 <input type="radio" value="M" name="gender" v-model="event.gender" class="radio">
                             </div>
+                            <div class="radio-value">
+                                <label class="input-label" for="x">Mixto</label>
+                                <input type="radio" value="X" name="gender" v-model="event.gender" class="radio">
+                            </div>
                         </div>
                     </fieldset>
                 </div>
