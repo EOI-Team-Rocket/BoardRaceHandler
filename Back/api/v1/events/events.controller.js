@@ -5,10 +5,11 @@ module.exports = {
     readAllEvents,
     readOneEvent,
     updateEvent,
-    deleteEvent
+    deleteEvent,
+    getUniqueEvent
 }
 
-function createEvent(req, res){
+function createEvent(req, res) {
     return EVENTModel.create(req.body)
         .then(response => {
             res.status(200).json(response)
@@ -16,33 +17,42 @@ function createEvent(req, res){
         .catch((err) => handdleError(err, res));
 }
 
-function readAllEvents(req, res){
+function readAllEvents(req, res) {
     return EVENTModel.find().then(events => {
-        let result = {data : events};
+        let result = { data: events };
         res.status(200).send(result);
     })
-    .catch((err) => handdleError(err, res));
+        .catch((err) => handdleError(err, res));
 }
 
-function readOneEvent(req, res){
+function readOneEvent(req, res) {
     return EVENTModel.findById(req.params.id)
         .then(data => res.json(data))
         .catch((err) => handdleError(err, res));
 }
-
-function updateEvent(req, res){
-    return EVENTModel.findByIdAndUpdate(req.params.id, {$set:req.body}, {new:true})
-    .then(response =>{
-        return res.json(response);
-    })
-    .catch((err) => handdleError(err, res));
+function getUniqueEvent(req, res) {
+    req.body.title = req.params.title;
+    return EVENTModel.find(req.body)
+        .then(result => {
+            res.send(result);
+        })
+        .catch(err => {
+            res.send(err);
+        });
+}
+function updateEvent(req, res) {
+    return EVENTModel.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true })
+        .then(response => {
+            return res.json(response);
+        })
+        .catch((err) => handdleError(err, res));
 }
 
-function deleteEvent(req, res){
+function deleteEvent(req, res) {
     let eventID = req.params.id;
-    return EVENTModel.findOne({_id: eventID})
-        .then(async event =>{
-            if(event == null || event == undefined){
+    return EVENTModel.findOne({ _id: eventID })
+        .then(async event => {
+            if (event == null || event == undefined) {
                 return res.status(404).send("El evento no existe");
             } else {
                 await event.remove();

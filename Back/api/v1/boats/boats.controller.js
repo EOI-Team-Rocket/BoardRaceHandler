@@ -17,8 +17,8 @@ function createBoat(req, res) {
 }
 
 function readAllBoats(req, res) {
-    return BOATModel.find().then(events => {
-        let result = { data: events };
+    return BOATModel.find().then(boats => {
+        let result = { data: boats };
         res.status(200).send(result);
     })
         .catch((err) => handdleError(err, res));
@@ -40,12 +40,13 @@ function updateBoat(req, res) {
 
 function deleteBoat(req, res) {
     return BOATModel.findOne({ name: req.params.name })
-        .then(event => {
-            if (event == null || event == undefined) {
-                return res.status(404).send("El evento no existe");
+        .then(boat => {
+            if (boat == null || boat == undefined) {
+                return res.status(404).send("El boato no existe");
             } else {
-                await event.remove();
-                return res.status(200).send(event);
+                return boat.remove().then(result => {
+                    return res.status(200).send(boat);
+                });
             }
         })
         .catch((err) => handdleError(err, res));

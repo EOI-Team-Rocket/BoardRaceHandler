@@ -7,6 +7,7 @@ const clubController = require("./clubs/clubs.controller");
 const boatController = require("./boats/boats.controller");
 /*-------------- EVENTS ROUTES --------------*/
 router.post('/events', eventController.createEvent);
+router.post('/events/:title', eventController.getUniqueEvent);
 router.get("/events", eventController.readAllEvents);
 router.get("/events/:id", eventController.readOneEvent);
 router.patch("/events/:id", eventController.updateEvent);
@@ -16,7 +17,7 @@ router.get('/users', userController.getUsers);
 router.get('/users/:license_number', userController.getUsersByAffiliate);
 router.patch('/users/:license_number', userController.patchUser)
 router.post('/users', userController.postUser);
-router.post('/registerInEvent',userController.registerInEvent)
+router.post('/registerInEvent', userController.registerInEvent)
 router.delete('/users/:license_number', userController.deleteUser);
 /*-------------- FEDERATIONS ROUTES --------------*/
 router.post('/federations', federationController.createFederation);
