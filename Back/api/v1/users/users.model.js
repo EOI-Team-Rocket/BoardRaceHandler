@@ -71,7 +71,6 @@ const USERschema = new mongoose.Schema({
             type: String,
             enum: ["Infantil", "Iniciacion Infantil", "Juvenil", "Senior", "Ampliacion", "Ampliacion de Autonomica"
                 , "Autonomica"],
-            //TODO:foreign key
             required: true
         },
         expiry_date: {
@@ -85,15 +84,15 @@ const USERschema = new mongoose.Schema({
         },
         club: {
             type: Schema.Types.ObjectId,
-            ref: 'Club'
+            ref: 'club'
         },
         federation: {
             type: Schema.Types.ObjectId,
-            ref: 'Federation'
+            ref: 'federation'
         },
         regattas: [{
             type: Schema.Types.ObjectId,
-            ref: 'Regatta'
+            ref: 'event'
         }]
     }
 });

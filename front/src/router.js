@@ -2,12 +2,25 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 
+
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
       path: '/',
+      name: 'home',
+      component: Home
+    },
+    {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: () => import(/* webpackChunkName: "dashboard" */ './views/Dashboard.vue')
+    },
+    {
+      path: '/CRUDevents',
+      name: 'CRUDevents',
+      component: () => import(/* webpackChunkName: "CRUD.events" */ './views/CRUD.events.vue')  
       name: 'Home',
       component: Home
     },
@@ -33,6 +46,11 @@ export default new Router({
       path: '/signin',
       name: 'signin',
       component: () => import('./views/Signin.vue')
+    },
+    {
+      path: '/create',
+      name: 'Create',
+      component: () => import('./views/Create.vue')
     },
     {
       path: '/events/:name',

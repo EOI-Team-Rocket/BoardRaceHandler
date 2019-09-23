@@ -1,56 +1,45 @@
-const EVENTModel = require("./events.model");
+const FEDERATIONModel = require("./federations.model");
 
 module.exports = {
-    createEvent,
-    readAllEvents,
-    readOneEvent,
-    updateEvent,
-    deleteEvent,
-    getUniqueEvent
+    createFederation,
+    readAllFederations,
+    readOneFederation,
+    updateFederation,
+    deleteFederation
 }
 
-function createEvent(req, res) {
-    return EVENTModel.create(req.body)
+function createFederation(req, res) {
+    return FEDERATIONModel.create(req.body)
         .then(response => {
             res.status(200).json(response)
         })
         .catch((err) => handdleError(err, res));
 }
 
-function readAllEvents(req, res) {
-    return EVENTModel.find().then(events => {
+function readAllFederations(req, res) {
+    return FEDERATIONModel.find().then(events => {
         let result = { data: events };
         res.status(200).send(result);
     })
         .catch((err) => handdleError(err, res));
 }
 
-function readOneEvent(req, res) {
-    return EVENTModel.findById(req.params.id)
+function readOneFederation(req, res) {
+    return FEDERATIONModel.find({ name: req.params.name })
         .then(data => res.json(data))
         .catch((err) => handdleError(err, res));
 }
-function getUniqueEvent(req, res) {
-    req.body.title = req.params.title;
-    return EVENTModel.find(req.body)
-        .then(result => {
-            res.send(result);
-        })
-        .catch(err => {
-            res.send(err);
-        });
-}
-function updateEvent(req, res) {
-    return EVENTModel.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true })
+
+function updateFederation(req, res) {
+    return FEDERATIONModel.update(req.params.id, { $set: req.body }, { new: true })
         .then(response => {
             return res.json(response);
         })
         .catch((err) => handdleError(err, res));
 }
 
-function deleteEvent(req, res) {
-    let eventID = req.params.id;
-    return EVENTModel.findOne({ _id: eventID })
+function deleteFederation(req, res) {
+    return FEDERATIONModel.findOne({ name: req.params.name })
         .then(async event => {
             if (event == null || event == undefined) {
                 return res.status(404).send("El evento no existe");
