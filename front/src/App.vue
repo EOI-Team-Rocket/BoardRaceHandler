@@ -13,20 +13,21 @@
             <b-dropdown-item-button aria-describedby="dropdown-boat" v-for="gender in genders" :key="gender.id"><router-link :to="{name: 'events', params: {name: gender.id} }"> {{gender.name}} </router-link></b-dropdown-item-button>
           </b-dropdown>
         <router-link to="/places">Lugares</router-link>
+        <router-link to="/eventpage">Evento</router-link> <!-- this is a test for the layout-->
       </div>
       <div id="nav--rightpart">
-        <router-link to="/dashboard" v-if="admin">Panel de control</router-link>
-        <b-dropdown id="dropdown-form" right text="Iniciar Sesión" ref="dropdown" class="m-2">
+        <router-link to="/dashboard">Panel de control</router-link>
+        <b-dropdown id="dropdown-form" right text="Iniciar Sesión" ref="dropdown" class="m-2" > <!-- disapear when login-->
           <b-dropdown-form class="dropdown-menu-right">
-            <b-form-group label="Email" label-for="dropdown-form-email" @submit.stop.prevent>
-              <b-form-input
+            <b-form-group label="Email" label-for="dropdown-form-email" >
+              <b-form-input v-model="email"
                 id="dropdown-form-email"
                 size="sm"
                 placeholder="email@example.com"
               ></b-form-input>
             </b-form-group>
             <b-form-group label="Contraseña" label-for="dropdown-form-password">
-              <b-form-input
+              <b-form-input v-model="password"
                 id="dropdown-form-password"
                 type="password"
                 size="sm"
@@ -56,7 +57,7 @@
 <script>
 export default {
   name: "app",
-  data(){
+  data(){ 
     return {
       boats: [
         {
@@ -104,6 +105,19 @@ export default {
           id: "female"
         }
       ],
+
+      email: '',
+      password:''
+    }
+  },
+
+  methods: {
+    login() {
+      console.log("he entrado en el login baby");
+      this.$store.dispatch('retrieveToken', {
+        email:this.email,
+        password:this.password
+      })
     }
   }
 }
@@ -172,6 +186,8 @@ body {
 
 #nav .btn-secondary {
   color: #222299;
+  background-color: transparent;
+  border-color: transparent;
 }
 
 #nav .btn-secondary:hover {
