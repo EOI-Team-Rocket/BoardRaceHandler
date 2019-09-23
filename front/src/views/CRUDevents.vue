@@ -7,7 +7,7 @@
 <script>
 import eventList from "@/components/eventList";
 export default {
-    name: "CRUD.events.vue",
+    name: "CRUDevents.vue",
     components: {
         eventList
     },
