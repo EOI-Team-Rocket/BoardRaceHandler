@@ -15,13 +15,7 @@ export default new Router({
     {
       path: '/dashboard',
       name: 'dashboard',
-      component: () => import(/* webpackChunkName: "dashboard" */ './views/Dashboard.vue')
-    },
-    {
-      path: '/CRUDevents',
-      name: 'CRUDevents',
-      component: () => import(/* webpackChunkName: "CRUD.events" */ './views/CRUDevents.vue')  
-
+      component: () => import(/* webpackChunkName: "dashboard" */ './views/CRUDevents.vue')
     },
     {
       path: '/places',
@@ -32,16 +26,6 @@ export default new Router({
       component: () => import('./views/Places.vue')
     },
     {
-      path: '/dashboard',
-      name: 'dashboard',
-      component: () => import('./views/Dashboard.vue')
-    },
-    {
-      path: '/login',
-      name: 'login',
-      component: () => import('./views/Login.vue')
-    },
-    {
       path: '/signin',
       name: 'signin',
       component: () => import('./views/Signin.vue')
@@ -50,11 +34,6 @@ export default new Router({
       path: '/create',
       name: 'Create',
       component: () => import('./views/Create.vue')
-    },
-    {
-      path: '/events/:name',
-      name: 'events',
-      component: () => import('./views/Events.vue')
     },
     {
       path: '/eventpage',
