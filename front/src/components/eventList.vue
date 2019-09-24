@@ -72,7 +72,7 @@
             </div>
             <div class="fillAllRow d-flex justify-content-center">
                 <div class="eventDataBox" id="buttonGroup">
-                    <button class="btn btn-primary">Modificar evento</button>
+                    <button class="btn btn-primary" @click="editEvent(event._id)">Modificar evento</button>
                     <button class="btn btn-primary" @click="deleteEvent(event)">Borrar evento</button>
                 </div>
             </div>
@@ -118,7 +118,10 @@ export default {
             }
         },
         goToCreate(){
-            this.$router.push("/create");
+            this.$router.push("/create"); 
+        },
+        editEvent(id){ //call the create with query param
+            this.$router.push("/create?id="+id);
         }
     },
     created(){
