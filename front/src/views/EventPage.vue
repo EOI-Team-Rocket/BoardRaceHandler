@@ -21,7 +21,7 @@
           <p id="entries">Participantes: {{event.participants}}&nbsp;&nbsp;</p>
           <p>&nbsp;&nbsp;Club Náutico: {{event.sailingClub}}</p>
         </div>
-        <button type="submit">Inscribirse</button>
+        <button type="submit" class="btn-inscription">Inscribirse</button>
       </div>
   </div>
 </template>
@@ -92,7 +92,7 @@ export default {
   overflow: scroll;
 }
 
-button{
+.btn-inscription{
   background: #84abe8;
   background-image: -webkit-linear-gradient(top, #84abe8, #577eff);
   background-image: -moz-linear-gradient(top, #84abe8, #577eff);
@@ -110,7 +110,7 @@ button{
   border: none;
 }
 
-button:hover {
+.btn-inscription:hover {
   background: #9ed2ff;
   background-image: -webkit-linear-gradient(top, #9ed2ff, #84c8e8);
   background-image: -moz-linear-gradient(top, #9ed2ff, #84c8e8);
