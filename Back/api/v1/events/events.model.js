@@ -5,7 +5,7 @@ const EVENTschema = new mongoose.Schema({
     title: {
         type: String,
         required: [true, "The title is required"],
-        max: 100
+        // max: 100
     },
 
     date: {
@@ -25,7 +25,7 @@ const EVENTschema = new mongoose.Schema({
     place: {
         type: String,
         required: [true, "The place is required"],
-        max: 100
+        // max: 100
     },
 
     image: {
@@ -35,36 +35,34 @@ const EVENTschema = new mongoose.Schema({
     gender: {
         type: String,
         required: [true, "The gender is required"],
-        enum: ["H", "M", "X"]
+        // enum: ["H", "M", "X"]
     },
 
     boat_category: {
-        type: Schema.Types.ObjectId,
-        ref: 'boat',
+        type: String,
         required: [true, "The category is required"]
     },
 
     description: {
         type: String,
         required: [true, "The description is required"],
-        max: 800
+        // max: 800
     },
 
     age_category: {
         type: String,
-        enum: ["Infantil", "Iniciacion Infantil", "Juvenil", "Senior", "Ampliacion", "Ampliacion de Autonomica"
-            , "Autonomica"],
+        // enum: ["Infantil", "Iniciacion Infantil", "Juvenil", "Senior", "Ampliacion", "Ampliacion de Autonomica"
+        //     , "Autonomica"],
         required: true
     },
 
     capacity: {
-        type: Number
+        type: String
     },
 
     sailingClub: {
-        type: Schema.Types.ObjectId,
-        ref: 'club',
-        required: [true, "The description is required"],
+        type: String,
+        // required: [true, "The description is required"],
     },
 
     createdAt: {
@@ -77,7 +75,7 @@ const EVENTschema = new mongoose.Schema({
     },
 
     participants: [{
-        type: Schema.Types.ObjectId,
+        type: String,
         ref: 'User'
     }]
 

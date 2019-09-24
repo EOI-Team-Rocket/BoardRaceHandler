@@ -228,9 +228,22 @@ export default {
             }
         },
         createEvent(){
-            axios.post('http://localhost:3000/api/v1/createEvent', this.event).then(res => {
+            console.log("hola")
+            // console.log(typeof this.event)
+            axios.post('http://localhost:3000/api/v1/events',{
+                title: this.event.title,
+                date: this.event.date,
+                hour: this.event.hour,
+                place: this.event.place,
+                gender: this.event.gender,
+                boat_category: this.event.boat_category,
+                age_category: this.event.age_category,
+                description: this.event.description,
+                sailingClub: this.event.sailingClub
+            }).then(res => {
                 this.$router.push("/CRUDevents");
             }).catch(err => {
+                console.log(err)
                 this.errors.push("ERROR AL CONECTAR CON LA BASE DE DATOS");
             });
             
