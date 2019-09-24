@@ -15,31 +15,7 @@ export default new Router({
     {
       path: '/dashboard',
       name: 'dashboard',
-      component: () => import(/* webpackChunkName: "dashboard" */ './views/Dashboard.vue')
-    },
-    {
-      path: '/CRUDevents',
-      name: 'CRUDevents',
-      component: () => import(/* webpackChunkName: "CRUD.events" */ './views/CRUDevents.vue')  
-
-    },
-    {
-      path: '/places',
-      name: 'places',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('./views/Places.vue')
-    },
-    {
-      path: '/dashboard',
-      name: 'dashboard',
-      component: () => import('./views/Dashboard.vue')
-    },
-    {
-      path: '/login',
-      name: 'login',
-      component: () => import('./views/Login.vue')
+      component: () => import(/* webpackChunkName: "dashboard" */ './views/CRUDevents.vue')
     },
     {
       path: '/signin',
