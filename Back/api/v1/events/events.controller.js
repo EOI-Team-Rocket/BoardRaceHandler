@@ -13,7 +13,7 @@ function createEvent(req, res) {
     return EVENTModel.create(req.body)
         .then(response => {
             res.status(200).json(response);
-            
+
         })
         .catch((err) => handdleError(err, res));
 }
@@ -28,14 +28,14 @@ function readAllEvents(req, res) {
 
 function readOneEvent(req, res) {
     return EVENTModel.findById(req.params.id)
-        .then(data => res.json(data))
+        .then(data => res.status(200).json(data))
         .catch((err) => handdleError(err, res));
 }
 function getUniqueEvent(req, res) {
     req.body.title = req.params.title;
     return EVENTModel.find(req.body)
         .then(result => {
-            res.send(result);
+            res.status(200).send(result);
         })
         .catch(err => {
             res.send(err);
@@ -44,7 +44,7 @@ function getUniqueEvent(req, res) {
 function updateEvent(req, res) {
     return EVENTModel.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true })
         .then(response => {
-            return res.json(response);
+            return res.status(200).json(response);
         })
         .catch((err) => handdleError(err, res));
 }
