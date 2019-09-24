@@ -102,7 +102,10 @@
                 <button v-if="!edit" @click="checkForm" class="btn-create">CREAR EVENTO</button>
                 <button v-else @click="checkForm" class="btn-create">MODIFICAR EVENTO</button>
             </div>     
+
+
     </div>
+
 
 </template>
 
@@ -201,8 +204,10 @@ export default {
             if(!this.event.age_category) this.errors.push("La Categría de Edad es requerida");
             if(!this.event.sailingClub) this.errors.push("El Club Naútico es requerido");
 
-            if(this.errors.length == 0 && this.edit==false) this.createEvent();
-            if(this.errors.length == 0 && this.edit==true) this.editEvent();
+            this.createEvent();
+
+            //if(this.errors.length == 0 && this.edit==false) this.createEvent();
+            //if(this.errors.length == 0 && this.edit==true) this.editEvent();
 
         },
         checkDate(date){
@@ -228,9 +233,22 @@ export default {
             }
         },
         createEvent(){
-            axios.post('http://localhost:3000/api/v1/events', this.event).then(res => {
+            console.log("hola")
+            // console.log(typeof this.event)
+            axios.post('http://localhost:3000/api/v1/events',{
+                title: this.event.title,
+                date: this.event.date,
+                hour: this.event.hour,
+                place: this.event.place,
+                gender: this.event.gender,
+                boat_category: this.event.boat_category,
+                age_category: this.event.age_category,
+                description: this.event.description,
+                sailingClub: this.event.sailingClub
+            }).then(res => {
                 this.$router.push("/CRUDevents");
             }).catch(err => {
+                console.log(err)
                 this.errors.push("ERROR AL CONECTAR CON LA BASE DE DATOS");
             });   
         },
