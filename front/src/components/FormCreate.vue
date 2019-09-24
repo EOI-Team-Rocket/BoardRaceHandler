@@ -102,7 +102,13 @@
                 <button v-if="!edit" @click="checkForm" class="btn-create">CREAR EVENTO</button>
                 <button v-else @click="checkForm" class="btn-create">MODIFICAR EVENTO</button>
             </div>     
+
+
+            {{date}}
+
+            {{event}}
     </div>
+
 
 </template>
 
@@ -201,8 +207,10 @@ export default {
             if(!this.event.age_category) this.errors.push("La Categría de Edad es requerida");
             if(!this.event.sailingClub) this.errors.push("El Club Naútico es requerido");
 
-            if(this.errors.length == 0 && this.edit==false) this.createEvent();
-            if(this.errors.length == 0 && this.edit==true) this.editEvent();
+            this.createEvent();
+
+            //if(this.errors.length == 0 && this.edit==false) this.createEvent();
+            //if(this.errors.length == 0 && this.edit==true) this.editEvent();
 
         },
         checkDate(date){
@@ -228,7 +236,7 @@ export default {
             }
         },
         createEvent(){
-            axios.post('http://localhost:3000/api/v1/events', this.event).then(res => {
+            axios.post('http://localhost:3000/api/v1/createEvent', this.event).then(res => {
                 this.$router.push("/CRUDevents");
             }).catch(err => {
                 this.errors.push("ERROR AL CONECTAR CON LA BASE DE DATOS");

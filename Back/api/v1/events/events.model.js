@@ -52,8 +52,8 @@ const EVENTschema = new mongoose.Schema({
 
     age_category: {
         type: String,
-        enum: ["Infantil", "Iniciacion Infantil", "Juvenil", "Senior", "Ampliacion", "Ampliacion de Autonomica"
-            , "Autonomica"],
+/*         enum: ["Infantil", "Iniciacion Infantil", "Juvenil", "Senior", "Ampliacion", "Ampliacion de Autonomica"
+            , "Autonomica"], */
         required: true
     },
 
