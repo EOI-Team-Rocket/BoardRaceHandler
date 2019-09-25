@@ -2,24 +2,30 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 const USERschema = new mongoose.Schema({
 
-    createdAt: Date,
     password: {
         type: String,
-        required: [true, "the field password is required"]
+        required: [true, "the field password is required"] //8 characters min, capital, num, schar
     },
     email: {
         type: String,
-        required: [true, "the field email is required"]
+        required: [true, "the field email is required"] //unique
     },
     telf1: {
         type: String,
-        required: [true, "the field telf is required"]
+        required: [true, "the field telf is required"] 
     },
+
+    telf2: {
+        type: String
+    },
+
+    //form with data and compare with excel
+    //compare name & surname1, num affiliate, category, federation
     personalInfo: {
         fullname: {
             name: {
                 type: String,
-                required: [true, "the field name is required"]
+                required: [true, "the field name is required"] 
             },
             surname1: {
                 type: String,
@@ -30,24 +36,11 @@ const USERschema = new mongoose.Schema({
             },
         },
 
-        birthdate: {
-            type: Date,
-            required: [true, "the field birthdate is required"]
-        },
-
-        island: {
-            type: String,
-            enum: ["Fuerteventura", "La Gomera", "Gran Canaria", "El Hierro", "Lanzarote", "La Palma", "Tenerife", "La Graciosa"],
-            required: [true, "the field island is required"]
-        },
         gender: {
             type: String,
-            enum: ["H", "M", "X"]
+            enum: ["H", "M"] //required in front
         },
-        telf: {
 
-            telf2: String
-        },
     },
     sportInfo: {
         license_number: {
@@ -56,7 +49,7 @@ const USERschema = new mongoose.Schema({
         },
         speciality: [{
             type: String,
-            enum: ["Deportista", "Directivo", "Juez", "Medidor", "Tecnico/Autonomico", "Tecnico"],
+            enum: ["Deportista"],
             required: true
         }],
         class: {
@@ -64,31 +57,30 @@ const USERschema = new mongoose.Schema({
             enum: ["420", "470", "29-ER", "49-ER", "Crucero", "Hansa 303", "Ideal 18", "J-80", "Kiteboarding",
                 "Laser 4.7", "Laser Radial", "Nacra-17", "Optimist", "Radio Control", "Sin Clase", "Snipe",
                 "Thecno", "Vela Adaptada Iniciacion", "Windsurf/Fun Board", "Windsurf/RSX", "Windsurf/Velocidad"],
-            //TODO:foreign key
             required: true
         },
-        age_category: {
+        category: {
             type: String,
             enum: ["Infantil", "Iniciacion Infantil", "Juvenil", "Senior", "Ampliacion", "Ampliacion de Autonomica"
                 , "Autonomica"],
             required: true
         },
-        expiry_date: {
+        expiration_date: {
             type: Date,
             default: undefined
         },
         state: {
             type: String,
-            enum: ["Activo", "Inactivo", "Pendiente"],
+            enum: ["Activo", "Inactivo", "Pendiente"], //ask alejandro
             required: true
         },
         club: {
-            type: Schema.Types.ObjectId,
-            ref: 'club'
+            type: String,
+            enum: [], //TODO add enum
         },
         federation: {
-            type: Schema.Types.ObjectId,
-            ref: 'federation'
+            type: String,
+            enum: [], //TODO add enum
         },
         regattas: [{
             type: Schema.Types.ObjectId,
@@ -97,4 +89,4 @@ const USERschema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model("User", USERschema);
+module.exports = mongoose.model("user", USERschema);
