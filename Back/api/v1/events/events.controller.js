@@ -10,7 +10,6 @@ module.exports = {
 }
 
 function createEvent(req, res) {
-    console.log(req.body)
     return EVENTModel.create(req.body)
         .then(response => {
             res.status(200).json(response);
