@@ -7,7 +7,7 @@
       <span class="eventProperty">{{event.date}}</span>
     </div>
     <div>
-      <span>{{event.place}}</span>
+      <span class="eventProperty">{{event.place}}</span>
     </div>
   </div>
 </template>
