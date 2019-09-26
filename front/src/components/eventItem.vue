@@ -1,7 +1,7 @@
 <template>
   <div class="listRow">
     <div>
-      <span>{{event.title}}</span>
+      <span class="eventProperty">{{event.title}}</span>
     </div>
     <div>
       <span class="eventProperty">{{event.date}}</span>
