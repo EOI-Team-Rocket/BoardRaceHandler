@@ -10,7 +10,8 @@
         <eventItem :event="event" />
         <div id="buttonGroup">
           <button>Eliminar</button>
-          <button>Editar</button>
+          <button @click="showModal">Editar</button>
+          <ModalDelete :show="show" :id="id" @hideModal="hideModal" @refrestList="refrestList" />
         </div>
       </div>
     </div>
@@ -20,14 +21,19 @@
 <script>
 import axios from "axios";
 import eventItem from "@/components/eventItem.vue";
+import ModalDelete from "../components/ModalDelete.vue";
 export default {
   name: "eventList",
   components: {
-    eventItem
+    eventItem,
+    ModalDelete
   },
   data() {
     return {
-      events: []
+      events: [],
+      show: false,
+      id: "",
+      refrest: ""
     };
   },
   methods: {
@@ -40,6 +46,12 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    },
+    showModal() {
+      this.show = true;
+    },
+    hideModal() {
+      this.show = false;
     }
   },
   created() {
