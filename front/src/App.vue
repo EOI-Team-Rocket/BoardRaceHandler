@@ -4,13 +4,13 @@
       <div id="nav--leftpart">
         <router-link to="/">Pagina principal</router-link>
           <b-dropdown id="dropdown" text="Embarcaciones" class="m-md-2">
-            <b-dropdown-item-button aria-describedby="dropdown-boat" v-for="boat in boats" :key="boat.id"><router-link :to="{name: 'events', params: {name: boat.id} }"> {{boat.name}} </router-link></b-dropdown-item-button>
+            <b-dropdown-item-button aria-describedby="dropdown-boat" v-for="boat in boats" :key="boat.id"><!--<router-link :to="{name: '', params: {name: boat.id} }"> {{boat.name}} </router-link>--></b-dropdown-item-button>
           </b-dropdown>
           <b-dropdown id="dropdown" text="Edad" class="m-md-2">
-            <b-dropdown-item-button aria-describedby="dropdown-boat" v-for="age in ages" :key="age.id"><router-link :to="{name: 'events', params: {name: age.id} }"> {{age.name}} </router-link></b-dropdown-item-button>           
+            <b-dropdown-item-button aria-describedby="dropdown-boat" v-for="age in ages" :key="age.id"><!--<router-link :to="{name: '', params: {name: age.id} }"> {{age.name}} </router-link>--></b-dropdown-item-button>           
           </b-dropdown>
           <b-dropdown id="dropdown" text="Sexo" class="m-md-2">
-            <b-dropdown-item-button aria-describedby="dropdown-boat" v-for="gender in genders" :key="gender.id"><router-link :to="{name: 'events', params: {name: gender.id} }"> {{gender.name}} </router-link></b-dropdown-item-button>
+            <b-dropdown-item-button aria-describedby="dropdown-boat" v-for="gender in genders" :key="gender.id"><!--<router-link :to="{name: '', params: {name: gender.id} }"> {{gender.name}} </router-link>--></b-dropdown-item-button>
           </b-dropdown>
         <router-link to="/places">Lugares</router-link>
         <router-link to="/eventpage">Evento</router-link> <!-- this is a test for the layout-->
@@ -118,6 +118,10 @@ export default {
         email:this.email,
         password:this.password
       })
+    },
+
+    onClick(){
+
     }
   }
 }

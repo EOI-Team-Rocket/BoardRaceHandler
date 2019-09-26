@@ -1,95 +1,143 @@
 <template>
   <div id="eventpage">
-      <div id="uppermid">
-        <img src="../assets/regattaExample.jpg" alt="imgEvent">
-        <div id="generalInfo">
-          <p>Titulo:{{event.title}}</p>
-          <div id="dateTime">
-            <p>Fecha: {{event.date}}&nbsp;&nbsp;</p>
-            <p>&nbsp;&nbsp;Hora: {{event.hour}}</p>
+    <!--------------------------------Title of event --------------------------------------------->
+    <div class="d-flex justify-content-center">
+      <h1 class="text-white mt-4">{{data_events.title}}</h1>
+    </div>
+    <!-------------------------------------------------------------------------------------------->
+
+
+    <!---------------------- Image and description of event. Left side --------------------------->
+    <div class="d-flex">
+      <div class="card card-width ml-5 mt-3">
+        <img class="card-img-top" src="../assets/regattaExample.jpg" alt="La imagen no se puede cargar" height="130px">
+        <div class="card-header">
+          <h4><b>Descripción del evento</b></h4>
+        </div>
+        <div class="card-body" data-spy="scroll" >
+          <p class="card-text">{{data_events.description}}</p>
+        </div>
+      </div>
+      <!-------------------------------------------------------------------------------------------->
+
+
+      <!---------------------- Datas of events. Left right ----------------------------------------->
+      <div class="container">
+        <div class="row">
+          <div class="col-6">
+            <div class="card ml-2 mt-3">
+              <div class="card-body">
+                <p class="card-text"><b>{{data_events.place}}</b></p>
+              </div>
+            </div>
           </div>
-          <p>Lugar: {{event.place}}</p>
+                
+          <div class="col-6">    
+            <div class="card ml-2 mt-3">
+              <div class="card-body">
+                <p class="card-text"><b>{{data_events.category}}</b></p>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div id="lowermid">
-        <div id="categoriesSex">
-          <p>Categorias: {{event.boat_category}} {{event.age_category}} &nbsp;&nbsp;</p>
-          <p>&nbsp;&nbsp;Sexo: {{event.gender}}</p>
+
+        <div class="row">
+          <div class="col-6">
+            <div class="card ml-2 mt-3">
+              <div class="card-body">
+                <p class="card-text"><b>{{data_events.date}}</b></p>
+              </div>
+            </div>
+          </div>
+                
+          <div class="col-6">    
+            <div class="card ml-2 mt-3">
+              <div class="card-body">
+                <p class="card-text"><b>{{data_events.manager}}</b></p>
+              </div>
+            </div>
+          </div>
         </div>
-        <p>Descripcion: {{event.description}}</p>
-        <div id="categoriesSex">
-          <p id="entries">Participantes: {{event.participants}}&nbsp;&nbsp;</p>
-          <p>&nbsp;&nbsp;Club Náutico: {{event.sailingClub}}</p>
+
+        <div class="row">
+          <div class="col-6">
+            <div class="card ml-2 mt-3">
+              <div class="card-body">
+                <p class="card-text"><b>{{data_events.hour}}</b></p>
+              </div>
+            </div>
+          </div>
         </div>
-        <button type="submit" class="btn-inscription">Inscribirse</button>
-      </div>
+
+
+        <div class="row">
+          <div class="col-12">
+            <div class="card ml-2 mt-5">
+              <div class="card-body">
+                <p class="card-text"><b>Participantes</b></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> 
+      <!-------------------------------------------------------------------------------------------->
+    </div>
+
+    <div class="d-flex justify-content-end">
+      <button type="submit" class="btn-inscription mr-5 mt-5">Inscribirse</button>
+    </div>
+    
+    
   </div>
 </template>
 
+
 <script>
 import axios from 'axios';
+
 export default {
   name:"eventpage",
-  data(){
+  data() {
     return {
-      event: {}
+      data_events: "",
+      url_api: "http://localhost:3000/api/v1/events/",
+      id_events: "5d8cba0a95a85d43b82f975f"
     }
-
   },
-  created(){this.getEvent()},
   methods: {
-    getEvent(){
-      axios.post('http://localhost:3000/api/v1/events/event 1')
-      .then(res =>{
-        this.event = res.data[0];
-        console.log(res);
+    getDataApi(){
+      axios.get(this.url_api + this.id_events)
+      .then(response => {
+        /*Obtenemos todos los datos de la llamada axios.get */
+        this.data_events = response.data;
+      })
+      .catch(error => {
+        console.log(error.message);
       })
     }
+  },
+
+  created: function() {
+    this.getDataApi();
+      
   }
 }
+
 </script>
 
 <style scoped>
 
-#eventpage{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  color: #ffeede;
+.card-width{
+  width: 30%;
 }
 
-#uppermid{
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  padding: 20px;
-  
-}
+.border-design{
+  padding: 3px 10px;
+  border: PowderBlue 5px solid;
+  border-radius: 20px;
+  width: 400px;
+  height: 50px;
 
-#uppermid img{
-  padding-right: 20px;
-}
-
-#generalInfo{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-#dateTime{
-  display:flex;
-  flex-direction: row;
-}
-
-#categoriesSex{
-  display:flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
-#entries{
-  overflow: scroll;
 }
 
 .btn-inscription{
