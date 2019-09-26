@@ -1,5 +1,6 @@
 var Users = require("./users.model");
-var Events = require("../events/events.model")
+var Events = require("../events/events.model");
+const authJWT = require('jwt');
 
 module.exports = {
     getUsers,
