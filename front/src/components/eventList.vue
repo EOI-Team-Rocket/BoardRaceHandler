@@ -9,13 +9,13 @@
       <div v-for="event in events" :key="event._id" class="headerItem">
         <eventItem :event="event" />
         <div id="buttonGroup">
-          <button>Eliminar</button>
-          <button @click="showModalDelete">Editar</button>
+          <button @click="showModalDelete(event._id)">Eliminar</button>
+          <button>Editar</button>
           <ModalDelete
-            :show="showDeleteModal"
+            :show="deleteModalIsShown"
             :id="id"
-            @hideModal="hideModalDelete"
-            @refrestList="refrestList"
+            @hideModal="showModalDelete"
+            @refrestList="getEvents"
           />
         </div>
       </div>
@@ -36,9 +36,8 @@ export default {
   data() {
     return {
       events: [],
-      showDeleteModal: false,
-      id: "",
-      refrest: ""
+      deleteModalIsShown: false,
+      id: ""
     };
   },
   methods: {
@@ -49,14 +48,12 @@ export default {
           this.events = events.data.data;
         })
         .catch(err => {
-          console.log(err);
+          console.log("Error getting events:" + err);
         });
     },
-    showModalDelete() {
-      this.showDeleteModal = true;
-    },
-    hideModalDelete() {
-      this.showDeleteModal = false;
+    showModalDelete(id) {
+      this.id = id;
+      this.deleteModalIsShown = !this.deleteModalIsShown;
     }
   },
   created() {
