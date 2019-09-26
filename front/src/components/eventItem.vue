@@ -27,7 +27,7 @@ export default {
   flex-grow: 1;
   flex-basis: 25%;
 }
-span {
+.eventProperty{
   size: 150%;
 }
 </style>
