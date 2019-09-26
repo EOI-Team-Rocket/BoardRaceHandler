@@ -5,8 +5,8 @@ module.exports = {
     readAllEvents,
     readOneEvent,
     updateEvent,
-    deleteEvent,
-    getUniqueEvent
+    deleteEvent
+    //getUniqueEvent
 }
 
 function createEvent(req, res) {
@@ -31,16 +31,16 @@ function readOneEvent(req, res) {
         .then(data => res.json(data))
         .catch((err) => handdleError(err, res));
 }
-function getUniqueEvent(req, res) {
-    req.body.title = req.params.title;
-    return EVENTModel.find(req.body)
-        .then(result => {
-            res.send(result);
-        })
-        .catch(err => {
-            res.send(err);
-        });
-}
+// function getUniqueEvent(req, res) {
+//     req.body.title = req.params.title;
+//     return EVENTModel.find(req.body)
+//         .then(result => {
+//             res.send(result);
+//         })
+//         .catch(err => {
+//             res.send(err);
+//         });
+// }
 function updateEvent(req, res) {
     return EVENTModel.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true })
         .then(response => {
