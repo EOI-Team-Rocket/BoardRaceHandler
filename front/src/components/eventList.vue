@@ -10,8 +10,13 @@
         <eventItem :event="event" />
         <div id="buttonGroup">
           <button>Eliminar</button>
-          <button @click="showModal">Editar</button>
-          <ModalDelete :show="show" :id="id" @hideModal="hideModal" @refrestList="refrestList" />
+          <button @click="showModalDelete">Editar</button>
+          <ModalDelete
+            :show="showDeleteModal"
+            :id="id"
+            @hideModal="hideModalDelete"
+            @refrestList="refrestList"
+          />
         </div>
       </div>
     </div>
@@ -31,7 +36,7 @@ export default {
   data() {
     return {
       events: [],
-      show: false,
+      showDeleteModal: false,
       id: "",
       refrest: ""
     };
@@ -47,11 +52,11 @@ export default {
           console.log(err);
         });
     },
-    showModal() {
-      this.show = true;
+    showModalDelete() {
+      this.showDeleteModal = true;
     },
-    hideModal() {
-      this.show = false;
+    hideModalDelete() {
+      this.showDeleteModal = false;
     }
   },
   created() {

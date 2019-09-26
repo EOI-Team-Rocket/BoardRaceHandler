@@ -18,11 +18,6 @@ export default new Router({
       component: () => import(/* webpackChunkName: "dashboard" */ './views/dashboard.vue')
     },
     {
-      path: '/signin',
-      name: 'signin',
-      component: () => import('./views/Signin.vue')
-    },
-    {
       path: '/create',
       name: 'Create',
       component: () => import('./views/Create.vue')
