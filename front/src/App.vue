@@ -17,17 +17,18 @@
       </div>
       <div id="nav--rightpart">
         <router-link to="/dashboard">Panel de control</router-link>
-        <b-dropdown id="dropdown-form" right text="Iniciar Sesión" ref="dropdown" class="m-2" > <!-- disapear when login-->
+        <b-dropdown v-if="loginState" id="dropdown-form" right text="Iniciar Sesión" ref="dropdown" class="m-2" > <!-- disapear when login-->
           <b-dropdown-form class="dropdown-menu-right">
+            <h2 id="error" v-if="error.status" >{{error.message}}</h2>
             <b-form-group label="Email" label-for="dropdown-form-email" >
-              <b-form-input v-model="email"
+              <b-form-input v-model="user.email"
                 id="dropdown-form-email"
                 size="sm"
                 placeholder="email@example.com"
               ></b-form-input>
             </b-form-group>
             <b-form-group label="Contraseña" label-for="dropdown-form-password">
-              <b-form-input v-model="password"
+              <b-form-input v-model="user.password"
                 id="dropdown-form-password"
                 type="password"
                 size="sm"
@@ -36,7 +37,7 @@
             </b-form-group>
 
             <b-form-checkbox class="mb-3">Recuérdame</b-form-checkbox>
-            <b-button variant="primary" size="sm" @click="onClick">Inicia sesión</b-button>
+            <b-button variant="primary" size="sm" @click="login">Inicia sesión</b-button>
           </b-dropdown-form>
           <b-dropdown-divider></b-dropdown-divider>
           <b-dropdown-item-button>Regístrate</b-dropdown-item-button>
@@ -55,6 +56,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: "app",
   data(){ 
@@ -105,20 +107,59 @@ export default {
           id: "female"
         }
       ],
-
-      email: '',
-      password:''
+      user:{
+        email: '',
+        password:''
+      },
+      error: {
+				status: false,
+				message: ''
+			},
+      jwt: "",
+      loginState: true
     }
   },
 
   methods: {
     login() {
       console.log("he entrado en el login baby");
-      this.$store.dispatch('retrieveToken', {
+      if(this.user.email == '' || this.user.password == ''){
+        console.log("VACIOS");
+				return;
+			}
+			this.error.status = false;
+      this.error.message = '';
+      console.log(this.user);
+      
+			axios.post('http://localhost:3000/api/v1/login', this.user)
+				.then(res => {
+        localStorage.setItem('jwt', JSON.stringify(res.data));
+        this.loginState = false;
+				})
+				.catch(err => {
+					if(err.response && err.response.status == 400) {
+						this.error.status = true;
+						this.error.message = "Wrong email or password";
+					}else {
+						this.error.status = true;
+						this.error.message = "Connection error";
+					}
+				}) 
+/*       this.$store.dispatch('retrieveToken', {
         email:this.email,
         password:this.password
-      })
+      }) */
     }
+  },
+  created(){
+    console.log(localStorage.getItem('jwt'));
+    const storage = localStorage.getItem('jwt')
+    if (storage != null){
+      this.loginState = false;
+    }else{
+      this.loginState = true;
+    }
+    
   }
 }
 </script>
