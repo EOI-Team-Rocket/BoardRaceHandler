@@ -1,7 +1,7 @@
 const JWT = require('jsonwebtoken');
 const moment = require('moment');
 const config = require('../../../config')[process.env.NODE_ENV];
-const User = require('../models/usersModel');
+const User = require('./users.model');
 
 function createToken(user) {
     let exp_token = moment().add(7, 'days').unix();

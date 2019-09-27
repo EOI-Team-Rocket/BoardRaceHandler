@@ -18,9 +18,7 @@ router.patch('/users/:license_number', userController.patchUser)
 router.post('/users', userController.postUser);
 router.post('/registerInEvent', userController.registerInEvent)
 router.delete('/users/:license_number', userController.deleteUser);
-
-router.post('/login', logIn);
-router.post('/singup', singUp);
+router.post('/login', userController.logIn);
 
 
 module.exports = router;
