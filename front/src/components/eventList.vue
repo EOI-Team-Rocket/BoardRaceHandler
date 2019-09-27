@@ -4,20 +4,12 @@
       <h2>Nombre</h2>
       <h2>Fecha</h2>
       <h2>Lugar</h2>
+      <h2></h2>
+      <h2></h2>
     </header>
     <div id="itemList">
       <div v-for="event in events" :key="event._id" class="headerItem">
-        <eventItem :event="event" />
-        <div id="buttonGroup">
-          <button @click="showModalDelete(event._id)">Eliminar</button>
-          <button>Editar</button>
-          <ModalDelete
-            :show="deleteModalIsShown"
-            :id="id"
-            @hideModal="showModalDelete"
-            @refrestList="getEvents"
-          />
-        </div>
+        <eventItem :event="event" @refreshList="getEvents" />
       </div>
     </div>
   </div>
@@ -26,18 +18,14 @@
 <script>
 import axios from "axios";
 import eventItem from "@/components/eventItem.vue";
-import ModalDelete from "../components/ModalDelete.vue";
 export default {
   name: "eventList",
   components: {
-    eventItem,
-    ModalDelete
+    eventItem
   },
   data() {
     return {
-      events: [],
-      deleteModalIsShown: false,
-      id: ""
+      events: []
     };
   },
   methods: {
@@ -50,10 +38,6 @@ export default {
         .catch(err => {
           console.log("Error getting events:" + err);
         });
-    },
-    showModalDelete(id) {
-      this.id = id;
-      this.deleteModalIsShown = !this.deleteModalIsShown;
     }
   },
   created() {
@@ -72,5 +56,6 @@ export default {
 }
 .columns * {
   flex: 1;
+  flex-basis: 50%;
 }
 </style>

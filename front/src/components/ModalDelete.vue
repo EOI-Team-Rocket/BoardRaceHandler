@@ -38,7 +38,7 @@ export default {
       axios
         .delete("http://localhost:3000/api/v1/events/" + this.id)
         .then(info => {
-          this.$emit("refrestList");
+          this.$emit("refreshList");
           this.$emit("hideModal", this.showComp);
         })
         .catch(err => {
