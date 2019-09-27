@@ -9,14 +9,8 @@
 
     <!---------------------- Image and description of event. Left side --------------------------->
     <div class="d-flex">
-      <div class="card card-width ml-5 mt-3">
-        <img class="card-img-top" src="../assets/regattaExample.jpg" alt="La imagen no se puede cargar" height="130px">
-        <div class="card-header">
-          <h4><b>Descripción del evento</b></h4>
-        </div>
-        <div class="card-body" data-spy="scroll" >
-          <p class="card-text">{{data_events.description}}</p>
-        </div>
+      <div class="ml-5 mt-3">
+        <img class="card-img-top" src="../assets/regattaExample.jpg" alt="La imagen no se puede cargar" height="300px">
       </div>
       <!-------------------------------------------------------------------------------------------->
 
@@ -27,7 +21,7 @@
           <div class="col-6">
             <div class="card ml-2 mt-3">
               <div class="card-body">
-                <p class="card-text"><b>{{data_events.place}}</b></p>
+                <h4 class="card-text"><b>{{data_events.place}}</b></h4>
               </div>
             </div>
           </div>
@@ -35,7 +29,7 @@
           <div class="col-6">    
             <div class="card ml-2 mt-3">
               <div class="card-body">
-                <p class="card-text"><b>{{data_events.category}}</b></p>
+                <h4 class="card-text"><b>{{data_events.category}}</b></h4>
               </div>
             </div>
           </div>
@@ -45,7 +39,7 @@
           <div class="col-6">
             <div class="card ml-2 mt-3">
               <div class="card-body">
-                <p class="card-text"><b>{{data_events.date}}</b></p>
+                <h4 class="card-text"><b>{{data_events.date}}</b></h4>
               </div>
             </div>
           </div>
@@ -53,7 +47,7 @@
           <div class="col-6">    
             <div class="card ml-2 mt-3">
               <div class="card-body">
-                <p class="card-text"><b>{{data_events.manager}}</b></p>
+                <h4 class="card-text"><b>{{data_events.manager}}</b></h4>
               </div>
             </div>
           </div>
@@ -63,18 +57,43 @@
           <div class="col-6">
             <div class="card ml-2 mt-3">
               <div class="card-body">
-                <p class="card-text"><b>{{data_events.hour}}</b></p>
+                <h4 class="card-text"><b>{{data_events.hour}}</b></h4>
               </div>
             </div>
           </div>
-        </div>
-
-
-        <div class="row">
-          <div class="col-12">
-            <div class="card ml-2 mt-5">
+          <div class="col-6">
+            <div class="ml-2 mt-3 card scroll-participants">
               <div class="card-body">
-                <p class="card-text"><b>Participantes</b></p>
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">First</th>
+                      <th scope="col">Last</th>
+                      <th scope="col">Handle</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">1</th>
+                      <td>Mark</td>
+                      <td>Otto</td>
+                      <td>@mdo</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">2</th>
+                      <td>Jacob</td>
+                      <td>Thornton</td>
+                      <td>@fat</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">3</th>
+                      <td>Larry</td>
+                      <td>the Bird</td>
+                      <td>@twitter</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
@@ -82,12 +101,23 @@
       </div> 
       <!-------------------------------------------------------------------------------------------->
     </div>
-
-    <div class="d-flex justify-content-end">
-      <button type="submit" class="btn-inscription mr-5 mt-5">Inscribirse</button>
+    
+    <div class="ml-5 mt-3 card scroll-description">
+      <div class="card-body">
+        <h4><strong>Descripción del evento</strong></h4>
+        <p>{{data_events.description}}</p>
+        <p>Contenido de Relleno</p>
+        <p>Contenido de Relleno</p>
+        <p>Contenido de Relleno</p>
+        <p>Contenido de Relleno</p>
+        <p>Contenido de Relleno</p>
+      </div>
     </div>
-    
-    
+  
+  
+    <div class="d-flex justify-content-end">
+      <button type="submit" class="btn-inscription mr-5 mt-3">Inscribirse</button>
+    </div>  
   </div>
 </template>
 
@@ -127,8 +157,15 @@ export default {
 
 <style scoped>
 
-.card-width{
-  width: 30%;
+.scroll-participants{
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.scroll-description{
+  max-height: 200px;
+  overflow-y: auto;
+  width: 1365px
 }
 
 .border-design{
