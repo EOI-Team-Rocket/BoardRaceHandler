@@ -9,7 +9,7 @@
 <script>
 import eventList from "@/components/eventList";
 export default {
-  name: "CRUDevents.vue",
+  name: "dashboard.vue",
   components: {
     eventList
   },
