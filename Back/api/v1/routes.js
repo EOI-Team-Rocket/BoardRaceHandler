@@ -3,11 +3,12 @@ const router = require("express").Router();
 const eventController = require("./events/events.controller");
 const userController = require("./users/users.controller");
 
+
 /*-------------- EVENTS ROUTES --------------*/
 router.post('/events', eventController.createEvent);
 router.get("/events", eventController.readAllEvents);
 router.get("/events/:id", eventController.readOneEvent);
-router.get('/events/:id/users', eventController.getUsersFromEvent); 
+//router.get('/events/:id/users', eventController.getUsersFromEvent); 
 router.patch("/events/:id", eventController.updateEvent);
 router.delete("/events/:id", eventController.deleteEvent);
 

@@ -2,7 +2,7 @@ var Users = require("./users.model");
 var Events = require("../events/events.model")
 
 module.exports = {
-    getUsers,
+    //getUsers,
     getUsersByAffiliate,
     postUser,
     patchUser,
@@ -18,15 +18,15 @@ module.exports = {
  * @param {JSON} res
  * @returns
  */
-function getUsers(req, res) {
-    return Users.find()
-        .then(result => {
-            res.send(result)
-        })
-        .catch(err => {
-            res.send(err);
-        });
-}
+// function getUsers(req, res) {
+//     return Users.find()
+//         .then(result => {
+//             res.send(result)
+//         })
+//         .catch(err => {
+//             res.send(err);
+//         });
+// }
 function getUsersByAffiliate(req, res) {
     return Users.find({
         "sportInfo.license_number": { $in: [req.params.license_number] }
