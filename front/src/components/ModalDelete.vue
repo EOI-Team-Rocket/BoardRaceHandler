@@ -39,7 +39,7 @@ export default {
       axios
         .delete("http://localhost:3000/api/v1/events/" + this.id)
         .then(info => {
-          this.updateCoachStatus();
+          this.updateFatherStatus();
         })
         .catch(err => {
           this.error =
