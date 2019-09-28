@@ -57,8 +57,8 @@ const EVENTschema = new mongoose.Schema({
     },
 
     capacity: {
-        type: Number
-        // add validate > 0
+        type: Number,
+        min: [1, "The capacity must be greater than 1"]
     },
 
     manager: {
@@ -68,7 +68,7 @@ const EVENTschema = new mongoose.Schema({
 
     createdAt: {
         type: Date,
-        default: Date.now() //create function because will take the server starts date
+        default: Date.now() 
     },
 
 

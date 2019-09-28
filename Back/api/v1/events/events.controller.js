@@ -6,11 +6,11 @@ module.exports = {
     readOneEvent,
     updateEvent,
     deleteEvent,
-    getUniqueEvent
+    getUniqueEvent,
+    getUsersFromEvent
 }
 
 function createEvent(req, res) {
-    console.log(req.body)
     return EVENTModel.create(req.body)
         .then(response => {
             res.status(200).json(response);
@@ -19,11 +19,16 @@ function createEvent(req, res) {
 }
 
 function readAllEvents(req, res) {
-    return EVENTModel.find().then(events => {
+    return EVENTModel.find()
+    .then(events => {
         let result = { data: events };
-        res.status(200).send(result);
+        if(!result || result.length<=0){
+            res.status(404).send("No events in database");
+        } else {
+            res.status(200).send(result);
+        }
     })
-        .catch((err) => handdleError(err, res));
+    .catch((err) => handdleError(err, res));
 }
 
 function readOneEvent(req, res) {
@@ -61,6 +66,10 @@ function deleteEvent(req, res) {
             }
         })
         .catch((err) => handdleError(err, res));
+}
+
+function getUsersFromEvent(err, res) { //TODO
+   return;
 }
 
 //Function of error
