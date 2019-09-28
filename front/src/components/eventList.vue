@@ -4,7 +4,7 @@
       <h2>Nombre</h2>
       <h2>Fecha</h2>
       <h2>Lugar</h2>
-      <h2></h2>
+      <button @click="toggleModalForm">Crear Evento</button>
       <h2></h2>
     </header>
     <div id="itemList">
@@ -12,20 +12,29 @@
         <eventItem :event="event" @refreshList="getEvents" />
       </div>
     </div>
+    <ModalForm
+        :show="showModalForm"
+        v-if="showModalForm"
+        @refreshList="getEvents"
+        @hideFormModal="toggleModalForm"
+    />
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import eventItem from "@/components/eventItem.vue";
+import ModalForm from "@/components/ModalForm.vue";
 export default {
   name: "eventList",
   components: {
-    eventItem
+    eventItem,
+    ModalForm
   },
   data() {
     return {
-      events: []
+      events: [],
+      showModalForm: false
     };
   },
   methods: {
@@ -38,6 +47,9 @@ export default {
         .catch(err => {
           console.log("Error getting events:" + err);
         });
+    },
+    toggleModalForm(){
+        this.showModalForm = !this.showModalForm;
     }
   },
   created() {
