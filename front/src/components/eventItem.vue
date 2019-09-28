@@ -22,7 +22,7 @@
     <ModalDelete
       :show="deleteModalIsShown"
       :id="event._id"
-      @hideModal="showModalDelete('')"
+      @hideModal="toggleModalDelete('')"
       @refreshList="refreshList"
       v-if="deleteModalIsShown"
     />
