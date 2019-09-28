@@ -25,9 +25,7 @@ function getUsers(req, res) {
         .then(result => {
             res.send(result)
         })
-        .catch(err => {
-            res.send(err);
-        });
+        .catch((err) => handdleError(err, res));
 }
 
 function getUsersByAffiliate(req, res) {
@@ -37,9 +35,7 @@ function getUsersByAffiliate(req, res) {
         .then(result => {
             res.send(result)
         })
-        .catch(err => {
-            res.send(err);
-        });
+        .catch((err) => handdleError(err, res));
 }
 
 function postUser(req, res) {
@@ -50,11 +46,12 @@ function postUser(req, res) {
             acces_token: dataToken[0],
             refresh_token: authJWT.createRefreshToken(user),
             expires_in: dataToken[1],
-            role: user.role
+            role: user.role,
+            license_number: user.sportInfo.license_number
         }
         return res.status(200).send(userResponde);
     })
-    .catch((err) => handdleError(err, res))
+    .catch((err) => handdleError(err, res));
 }
 
 function logIn(req, res) {
@@ -62,7 +59,7 @@ function logIn(req, res) {
         Users.findOne({
             email: req.body.email
         })
-        .select("_id password")
+        .select("_id password role sportInfo.license_number")
         .exec((err, userResult) => {
             if (err || !userResult) {
                 return res.status(401).send({
@@ -73,11 +70,12 @@ function logIn(req, res) {
             userResult.comparePassword(req.body.password, userResult.password, function (err, isMatch) {
                 if (isMatch & !err) {
                     let dataToken = authJWT.createToken(userResult);
-                    return res.status(200).send({
+                    return res.status(200).send({                        
                         acces_token: dataToken[0],
                         refresh_token: authJWT.createRefreshToken(userResult),
                         expires_in: dataToken[1],
-                        role: userResult.role
+                        role: userResult.role,
+                        license_number: userResult.sportInfo.license_number
                     });
                 }else {
                     return res.status(401).send({
@@ -152,9 +150,7 @@ function addEvent(eventId, userId) {
                     return err
                 })
         })
-        .catch(err => {
-            return err;
-        });
+        .catch((err) => handdleError(err, res));
 }
 
 /**
@@ -176,7 +172,9 @@ function addUserToEvent(eventId, userId) {
                 })
 
         })
-        .catch(err => {
-            return (err);
-        });
+        .catch((err) => handdleError(err, res));
+}
+
+function handdleError(err, res) {
+    return res.status(400).json(err);
 }

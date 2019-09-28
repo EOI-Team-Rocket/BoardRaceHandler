@@ -21,7 +21,7 @@ function createRefreshToken(user) {
     return JWT.sign({
         id: user.id,
         sub: user._id,
-        role:user.role,
+        role: user.role,
         iat: moment().unix(),
         exp: moment().add(15, 'days').unix(),
     }, config.SECRET_REFRESH_TOKEN)

@@ -54,7 +54,8 @@ const UserSchema = new mongoose.Schema({
     sportInfo: {
         license_number: {
             type: String,
-            required: true
+            required: true,
+            unique: true
         },
         speciality: [{
             type: String,

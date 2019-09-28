@@ -16,10 +16,10 @@
         <router-link to="/eventpage">Evento</router-link> <!-- this is a test for the layout-->
       </div>
       <div id="nav--rightpart">
-        <router-link to="/dashboard">Panel de control</router-link>
-        <b-dropdown v-if="loginState" id="dropdown-form" right text="Iniciar Sesión" ref="dropdown" class="m-2" > <!-- disapear when login-->
+        <router-link to="/dashboard" v-if="role === 'ADMIN'">Panel de control</router-link>
+        <b-dropdown v-if="!loginState" id="dropdown-form" right text="Iniciar Sesión" ref="dropdown" class="m-2" > <!-- disapear when login-->
           <b-dropdown-form class="dropdown-menu-right">
-            <h2 id="error" v-if="error.status" >{{error.message}}</h2>
+            <p id="error" v-if="error.status" >{{error.message}}</p>
             <b-form-group label="Email" label-for="dropdown-form-email" >
               <b-form-input v-model="user.email"
                 id="dropdown-form-email"
@@ -43,6 +43,11 @@
           <b-dropdown-item-button>Regístrate</b-dropdown-item-button>
           <b-dropdown-item-button>¿Contraseña olvidada?</b-dropdown-item-button>
         </b-dropdown>
+        <div class="" v-else>
+          <router-link to="/profile">Perfil</router-link>
+          <button @click="logOut">Log Out</button>
+        </div>
+
       </div>
     </div>
 
@@ -115,8 +120,8 @@ export default {
 				status: false,
 				message: ''
 			},
-      jwt: "",
-      loginState: true
+      role: "",
+      loginState: false,
     }
   },
 
@@ -124,7 +129,6 @@ export default {
     login() {
       console.log("he entrado en el login baby");
       if(this.user.email == '' || this.user.password == ''){
-        console.log("VACIOS");
 				return;
 			}
 			this.error.status = false;
@@ -133,31 +137,36 @@ export default {
       
 			axios.post('http://localhost:3000/api/v1/login', this.user)
 				.then(res => {
-        localStorage.setItem('jwt', JSON.stringify(res.data));
-        this.loginState = false;
+          localStorage.setItem('jwt', JSON.stringify(res.data));
+          this.loginState = true;
+          this.role = JSON.parse(localStorage.getItem("jwt")).role;
+          console.log(this.role);
+          
 				})
 				.catch(err => {
-					if(err.response && err.response.status == 400) {
+					if(err.response && err.response.status == 401) {
 						this.error.status = true;
-						this.error.message = "Wrong email or password";
-					}else {
+						this.error.message = "Email o cantraseña erroneo";
+					}else{
 						this.error.status = true;
-						this.error.message = "Connection error";
+						this.error.message = "Error de conexion";
 					}
-				}) 
-/*       this.$store.dispatch('retrieveToken', {
-        email:this.email,
-        password:this.password
-      }) */
+				}); 
+    },
+    logOut(){
+      this.loginState = false;
+      this.role = "";
+      localStorage.removeItem('jwt');
+
     }
   },
   created(){
     console.log(localStorage.getItem('jwt'));
     const storage = localStorage.getItem('jwt')
     if (storage != null){
-      this.loginState = false;
-    }else{
       this.loginState = true;
+    }else{
+      this.loginState = false;
     }
     
   }

@@ -12,17 +12,25 @@ passport.use('user', new JwtStrategy({
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: config.SECRET_TOKEN
 }, async(payload, done) => {
+    console.log(config);
+    console.log(payload.id);
     try {
         const user = await UserModel.findOne({
             _id: payload.id,
-            role: "ROLE_USER"
+            role: "USER"
         });
         if(!user){
             return done(null, false);
+            console.log("NO EXISTE");
+            
         }
         done(null, user);
+        console.log("EXISTE");
+        
     } catch (error) {
         done(error, false);
+        console.log("ERROR");
+        
     }
 }));
 
@@ -30,14 +38,14 @@ const authUser = passport.authenticate('user', {
     session: false
 });
 
-passport.use('company', new JwtStrategy({
+passport.use('admin', new JwtStrategy({
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: config.SECRET_TOKEN
 }, async(payload, done) => {
     try {
         const user = await UserModel.findOne({
             _id: payload.id,
-            role: "ROLE_COMPANY"
+            role: "ADMIN"
         });
         if(!user){
             return done(null, false);
@@ -48,7 +56,7 @@ passport.use('company', new JwtStrategy({
     }
 }));
 
-const authCompany = passport.authenticate('company', {
+const authAdmin = passport.authenticate('admin', {
     session: false
 })
 
@@ -72,3 +80,9 @@ passport.use('all', new JwtStrategy({
 const authAll = passport.authenticate('all', {
     session: false
 });
+
+module.exports = {
+    authUser,
+    authAdmin,
+    authAll
+}
