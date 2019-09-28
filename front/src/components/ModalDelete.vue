@@ -29,7 +29,7 @@ export default {
   methods: {
     hideModal() {
       this.showComp = false;
-      this.updateCoachStatus();
+      this.updateFatherStatus();
     },
     updateCoachStatus() {
       this.$emit("refreshList");
