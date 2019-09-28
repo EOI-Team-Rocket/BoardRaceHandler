@@ -6,7 +6,6 @@ module.exports = {
     readOneEvent,
     updateEvent,
     deleteEvent,
-    getUniqueEvent,
     getUsersFromEvent
 }
 
@@ -20,15 +19,15 @@ function createEvent(req, res) {
 
 function readAllEvents(req, res) {
     return EVENTModel.find()
-    .then(events => {
-        let result = { data: events };
-        if(!result || result.length<=0){
-            res.status(404).send("No events in database");
-        } else {
-            res.status(200).send(result);
-        }
-    })
-    .catch((err) => handdleError(err, res));
+        .then(events => {
+            let result = { data: events };
+            if (!result || result.length <= 0) {
+                res.status(404).send("No events in database");
+            } else {
+                res.status(200).send(result);
+            }
+        })
+        .catch((err) => handdleError(err, res));
 }
 
 function readOneEvent(req, res) {
@@ -36,16 +35,7 @@ function readOneEvent(req, res) {
         .then(data => res.json(data))
         .catch((err) => handdleError(err, res));
 }
-function getUniqueEvent(req, res) {
-    req.body.title = req.params.title;
-    return EVENTModel.find(req.body)
-        .then(result => {
-            res.send(result);
-        })
-        .catch(err => {
-            res.send(err);
-        });
-}
+
 function updateEvent(req, res) {
     return EVENTModel.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true })
         .then(response => {
@@ -69,7 +59,7 @@ function deleteEvent(req, res) {
 }
 
 function getUsersFromEvent(err, res) { //TODO
-   return;
+    return;
 }
 
 //Function of error

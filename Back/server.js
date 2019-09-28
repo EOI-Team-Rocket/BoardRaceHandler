@@ -11,7 +11,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/v1", v1Router);
 
-
 mongoose.connect(config.db, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }).then(() => {
     console.log("Conecting");
     app.listen(config.port, () => {

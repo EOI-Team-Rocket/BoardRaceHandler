@@ -1,11 +1,15 @@
 <template>
   <div class="home">
-    <HelloWorld/>
+    <div class="carouselContainer mt-5">
+      <Carousel resource="events" />
+    </div>
+    
     <div class="d-flex flex-wrap justify-content-left">
       <div v-for="data_event in data_events" :key="data_event.id">
         <CardAnimation :title="data_event.title" :place="data_event.place" :date="data_event.date"/> 
       </div>
     </div>
+    
     
   </div>
 </template>
@@ -14,13 +18,14 @@
 // @ is an alias to /src
 import axios from "axios";
 
-import HelloWorld from '@/components/HelloWorld.vue'
-import CardAnimation from '@/components/CardAnimation.vue'
+import Carousel from "@/components/Carousel";
+import CardAnimation from '@/components/CardAnimation.vue';
+
 
 export default {
-  name: 'home',
+  name: "home",
   components: {
-    HelloWorld,
+    Carousel,
     CardAnimation
   },
   data() {
@@ -44,5 +49,18 @@ export default {
   created: function() {
       this.getDataApi();
   }
-}
+};
 </script>
+<style scoped>
+  .home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  /* center carosuel */
+  .carouselContainer {
+    margin-left: 5%;
+    width: 80%;
+    height: 90%;
+  }
+</style>
