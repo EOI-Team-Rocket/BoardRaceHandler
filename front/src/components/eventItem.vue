@@ -46,7 +46,7 @@ export default {
     };
   },
   methods: {
-    showModalDelete() {
+    toggleModalDelete() {
       this.deleteModalIsShown = !this.deleteModalIsShown;
     },
     refreshList() {
