@@ -50,7 +50,7 @@ export default {
       this.deleteModalIsShown = !this.deleteModalIsShown;
     },
     refreshList() {
-      this.$emit("refreshList", this.event._id);
+      this.$emit("refreshList");
     }
   }
 };
