@@ -58,7 +58,6 @@
             </b-form-group>
 
             <b-form-checkbox class="mb-3">Recuérdame</b-form-checkbox>
-            <!-- <b-button variant="primary" size="sm" @click="onClick">Inicia sesión</b-button> -->
           </b-dropdown-form>
           <b-dropdown-divider></b-dropdown-divider>
           <b-dropdown-item-button>Regístrate</b-dropdown-item-button>

@@ -5,21 +5,21 @@
         <div id="generalInfo">
           <p>Titulo:{{event.title}}</p>
           <div id="dateTime">
-            <p>Fecha: {{event.date}}  </p>
-            <p>Hora: {{event.hour}}</p>
+            <p>Fecha: {{event.date}}&nbsp;&nbsp;</p>
+            <p>&nbsp;&nbsp;Hora: {{event.hour}}</p>
           </div>
           <p>Lugar: {{event.place}}</p>
         </div>
       </div>
       <div id="lowermid">
         <div id="categoriesSex">
-          <p> Categorias: {{event.boat_category}} {{event.age_category}} </p>
-          <p>Sexo: {{event.gender}}</p>
+          <p>Categorias: {{event.boat_category}} {{event.age_category}} &nbsp;&nbsp;</p>
+          <p>&nbsp;&nbsp;Sexo: {{event.gender}}</p>
         </div>
         <p>Descripcion: {{event.description}}</p>
         <div id="categoriesSex">
-          <p id="entries"> Participantes: {{event.participants}} </p>
-          <p> Club Náutico: {{event.sailingClub}}</p>
+          <p id="entries">Participantes: {{event.participants}}&nbsp;&nbsp;</p>
+          <p>&nbsp;&nbsp;Club Náutico: {{event.sailingClub}}</p>
         </div>
         <button type="submit" class="btn-inscription">Inscribirse</button>
       </div>
