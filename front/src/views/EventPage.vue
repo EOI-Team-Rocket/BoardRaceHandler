@@ -6,30 +6,33 @@
     </div>
     <!-------------------------------------------------------------------------------------------->
 
-
     <!---------------------- Image and description of event. Left side --------------------------->
     <div class="d-flex">
       <div class="ml-5 mt-3">
-        <img class="card-img-top" src="../assets/regattaExample.jpg" alt="La imagen no se puede cargar" height="300px">
+        <img
+          class="card-img-top"
+          src="../assets/regattaExample.jpg"
+          alt="La imagen no se puede cargar"
+          height="300px"
+        />
       </div>
       <!-------------------------------------------------------------------------------------------->
-
 
       <!---------------------- Datas of events. Left right ----------------------------------------->
       <div class="container">
         <div class="row">
-          <CardComponent :data="data_events.place"/>
-          <CardComponent :data="data_events.category"/>
+          <CardComponent :data="data_events.place" />
+          <CardComponent :data="data_events.category" />
         </div>
 
         <div class="row">
-          <CardComponent :data="data_events.date"/>
-          <CardComponent :data="data_events.manager"/>
+          <CardComponent :data="data_events.date" />
+          <CardComponent :data="data_events.manager" />
         </div>
 
         <div class="row">
-          <CardComponent :data="data_events.hour"/>
-          
+          <CardComponent :data="data_events.hour" />
+
           <div class="col-6">
             <div class="ml-2 mt-3 card scroll-participants">
               <div class="card-body">
@@ -67,13 +70,15 @@
             </div>
           </div>
         </div>
-      </div> 
+      </div>
       <!-------------------------------------------------------------------------------------------->
     </div>
-    
+
     <div class="ml-5 mt-3 card scroll-description">
       <div class="card-body">
-        <h4><strong>Descripción del evento</strong></h4>
+        <h4>
+          <strong>Descripción del evento</strong>
+        </h4>
         <p>{{data_events.description}}</p>
         <p>Contenido de Relleno</p>
         <p>Contenido de Relleno</p>
@@ -82,75 +87,72 @@
         <p>Contenido de Relleno</p>
       </div>
     </div>
-  
-  
+
     <div class="d-flex justify-content-end">
       <button type="submit" class="btn-inscription mr-5 mt-3">Inscribirse</button>
-    </div>  
+    </div>
   </div>
 </template>
 
 
 <script>
-import axios from 'axios';
-import CardComponent from '@/components/CardComponent.vue'
+import axios from "axios";
+import CardComponent from "@/components/CardComponent.vue";
 
 export default {
-  name:"eventpage",
+  name: "eventpage",
   data() {
     return {
       data_events: "",
       url_api: "http://localhost:3000/api/v1/events/",
-      id_events: "5d8cba0a95a85d43b82f975f"
-    }
+      id_events: "5d8e28c82fd4fe0d90698bad"
+    };
   },
   components: {
     CardComponent
   },
   methods: {
-    getDataApi(){
-      axios.get(this.url_api + this.id_events)
-      .then(response => {
-        /*Obtenemos todos los datos de la llamada axios.get */
-        this.data_events = response.data;
-      })
-      .catch(error => {
-        console.log(error.message);
-      })
+    getDataApi() {
+      axios
+        .get(this.url_api + this.id_events)
+        .then(response => {
+          /*Obtenemos todos los datos de la llamada axios.get */
+          console.log(this.url_api + this.id_events);
+          this.data_events = response.data;
+        })
+        .catch(error => {
+          console.log(error.message);
+        });
     }
   },
 
   created: function() {
     this.getDataApi();
-      
   }
-}
-
+};
 </script>
 
 <style scoped>
-
-.scroll-participants{
+.scroll-participants {
   max-height: 150px;
   overflow-y: auto;
 }
 
-.scroll-description{
+.scroll-description {
   max-height: 200px;
   overflow-y: auto;
-  width: 1365px
+  width: 1365px;
 }
 
-.border-design{
+.border-design {
   padding: 3px 10px;
   border: PowderBlue 5px solid;
   border-radius: 20px;
   width: 400px;
   height: 50px;
-
 }
 
-.btn-inscription{
+.btn-inscription {
   background: #84abe8;
   background-image: -webkit-linear-gradient(top, #84abe8, #577eff);
   background-image: -moz-linear-gradient(top, #84abe8, #577eff);
