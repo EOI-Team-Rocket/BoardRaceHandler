@@ -10,7 +10,7 @@
       <span class="eventProperty">{{event.place}}</span>
     </div>
     <div>
-      <button class="buttons" @click="showModalDelete">
+      <button class="buttons" @click="toggleModalDelete">
         <md-trash-icon w="40%" h="40%" />
       </button>
     </div>
