@@ -1,108 +1,28 @@
 <template>
     <div class="create">
-            <div v-if="errors.length" class="errors">
-                <span v-for="(error, index) in errors" :key="error" >
-                    <span class="error" v-if="index!==errors.length-1">{{error+",&nbsp;"}} </span>
-                    <span class="error" v-else>{{error+"."}}</span>
-                </span>
-            </div>
-
-            <div class="group">
-                <div role="group" class="sub-group">
-                    <label class="input-label" for="title">Título:</label>
-                    <b-form-input class="bg-input" id="title" v-model="event.title" :state="titleState" 
-                    aria-describedby="input-live-help input-live-feedback" placeholder="Título"></b-form-input>
+        <div id="leftPart"> <!--upload de la imagen, sexo radiobutton y descripcion-->
+            <input type="file" name="pic" accept="image/*">
+            <div id="gender"> 
+                <div class="radio-gender">
+                    <label for="male">Hombre</label>
+                    <input class="radio" type="radio" value="H" name="gender" v-model="event.gender" >
+                </div>
+                <div class="radio-gender">
+                    <label for="female">Mujer</label>
+                    <input class="radio" type="radio" value="M" name="gender" v-model="event.gender" >
+                </div>
+                <div class="radio-gender">
+                    <label for="mixed">Mixto</label>
+                    <input class="radio" type="radio" value="X" name="gender" v-model="event.gender" >
                 </div>
             </div>
+            <label for="description">Descripción:</label>
+            <b-form-textarea class="bg-input description" id="description" v-model="event.description" placeholder="Descripción"></b-form-textarea>
+        </div>
 
-            <div class="group">
-                <div role="group" class="sub-group">
-                    <label class="input-label" for="date">Fecha:</label>
-                    <b-form-input class="sm-input" id="date" type="date" v-model="date"></b-form-input>
-                </div>
-                <div role="group" class="sub-group">
-                    <label class="input-label" for="hour">Hora:</label>
-                    <b-form-input class="sm-input" id="hour" type="time" v-model="event.hour"></b-form-input>
-                </div>
-            </div>
-
-            <div class="group">
-                <div role="group" class="sub-group">
-                    <label class="input-label" for="input-live">Descripción:</label>
-                    <b-form-textarea class="bg-input description" id="description" v-model="event.description" 
-                    :state="descriptionState" aria-describedby="input-live-help input-live-feedback" 
-                    placeholder="Descripción"></b-form-textarea>
-                </div>
-            </div>
-
-            <div class="group">
-                <div role="group" class="sub-group">
-                    <label class="input-label" for="place">Lugar:</label>
-                    <b-form-input class="sm-input" id="place" v-model="event.place" 
-                    :state="placeState" aria-describedby="input-live-help input-live-feedback" 
-                    placeholder="Lugar" trim></b-form-input>
-                </div>
-                <div role="group" class="sub-group">
-                    <fieldset id="gender">
-                        <span class="label-gender" id="legend-gender">Sexo: </span>
-                        <div class="radios-group">
-                            <div class="radio-value">
-                                <label class="input-label" for="male">Hombre</label>
-                                <input type="radio" value="H" name="gender" v-model="event.gender" class="radio">
-                            </div>
-                            <div class="radio-value">
-                                <label class="input-label" for="female">Mujer</label>
-                                <input type="radio" value="M" name="gender" v-model="event.gender" class="radio">
-                            </div>
-                            <div class="radio-value">
-                                <label class="input-label" for="x">Mixto</label>
-                                <input type="radio" value="X" name="gender" v-model="event.gender" class="radio">
-                            </div>
-                        </div>
-                    </fieldset>
-                </div>
-            </div>
-
-            <div class="group">
-                <div role="group" class="sub-group">
-                    <label class="input-label" for="boat_category">Categoria de Barco:</label>
-                    <b-form-select v-model="event.boat_category" :options="boats" size="sm" 
-                    class="sm-input" id="boat_category"></b-form-select>
-                </div>
-                <div role="group" class="sub-group">
-                    <label class="input-label" for="age_category">Categoria de Edad:</label>
-                    <b-form-select v-model="event.age_category" :options="competitions" size="sm" 
-                    class="sm-input" id="age_category"></b-form-select>
-                </div>
-                
-            </div>
-
-            <div class="group">
-                <div role="group" class="sub-group">
-                    <label class="input-label" for="input-live">Competición:</label>
-                    <b-form-select v-model="event.competition" :options="competitions" size="sm" class="sm-input"></b-form-select>
-                </div>
-                <div role="group" class="sub-group">
-                    <label class="input-label" for="input-live">Club Naútico:</label>
-                    <b-form-select v-model="event.sailingClub" :options="competitions" size="sm" class="sm-input"></b-form-select>
-                </div>
-            </div>
-
-            <div class="group">
-                <div role="group" class="sub-group">
-                    <label class="input-label" for="input-live">Imagen:</label>
-                    <b-form-input class="sm-input" id="text" type="image" v-model="event.image" placeholder="Imagen"></b-form-input>
-                </div>
-                <div role="group" class="sub-group">
-                    <label class="input-label" for="input-live">Limite de Participantes:</label>
-                    <b-form-input class="sm-input" id="capacity" type="number" v-model="event.capacity"></b-form-input>
-                </div>
-            </div>
-            <div class="btn">
-                <button v-if="!edit" @click="checkForm" class="btn-create">CREAR EVENTO</button>
-                <button v-else @click="checkForm" class="btn-create">MODIFICAR EVENTO</button>
-            </div>     
-
+        <div id="rightPart">
+            <label></label>
+        </div>
 
     </div>
 
