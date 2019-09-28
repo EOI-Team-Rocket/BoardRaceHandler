@@ -18,49 +18,18 @@
       <!---------------------- Datas of events. Left right ----------------------------------------->
       <div class="container">
         <div class="row">
-          <div class="col-6">
-            <div class="card ml-2 mt-3">
-              <div class="card-body">
-                <h4 class="card-text"><b>{{data_events.place}}</b></h4>
-              </div>
-            </div>
-          </div>
-                
-          <div class="col-6">    
-            <div class="card ml-2 mt-3">
-              <div class="card-body">
-                <h4 class="card-text"><b>{{data_events.category}}</b></h4>
-              </div>
-            </div>
-          </div>
+          <CardComponent :data="data_events.place"/>
+          <CardComponent :data="data_events.category"/>
         </div>
 
         <div class="row">
-          <div class="col-6">
-            <div class="card ml-2 mt-3">
-              <div class="card-body">
-                <h4 class="card-text"><b>{{data_events.date}}</b></h4>
-              </div>
-            </div>
-          </div>
-                
-          <div class="col-6">    
-            <div class="card ml-2 mt-3">
-              <div class="card-body">
-                <h4 class="card-text"><b>{{data_events.manager}}</b></h4>
-              </div>
-            </div>
-          </div>
+          <CardComponent :data="data_events.date"/>
+          <CardComponent :data="data_events.manager"/>
         </div>
 
         <div class="row">
-          <div class="col-6">
-            <div class="card ml-2 mt-3">
-              <div class="card-body">
-                <h4 class="card-text"><b>{{data_events.hour}}</b></h4>
-              </div>
-            </div>
-          </div>
+          <CardComponent :data="data_events.hour"/>
+          
           <div class="col-6">
             <div class="ml-2 mt-3 card scroll-participants">
               <div class="card-body">
@@ -124,6 +93,7 @@
 
 <script>
 import axios from 'axios';
+import CardComponent from '@/components/CardComponent.vue'
 
 export default {
   name:"eventpage",
@@ -133,6 +103,9 @@ export default {
       url_api: "http://localhost:3000/api/v1/events/",
       id_events: "5d8cba0a95a85d43b82f975f"
     }
+  },
+  components: {
+    CardComponent
   },
   methods: {
     getDataApi(){
