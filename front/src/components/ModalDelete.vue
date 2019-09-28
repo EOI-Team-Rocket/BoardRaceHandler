@@ -31,7 +31,7 @@ export default {
       this.showComp = false;
       this.updateFatherStatus();
     },
-    updateCoachStatus() {
+    updateFatherStatus() {
       this.$emit("refreshList");
       this.$emit("hideModal", this.showComp);
     },
