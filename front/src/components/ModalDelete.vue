@@ -37,7 +37,6 @@ export default {
         },
         deleteEvent(){
             this.$emit("refrestList") ;
-/*             axios.delete("http://localhost:3000/api/v1/deleteEvent/"+id)
             .then(info => {
                 
             })
