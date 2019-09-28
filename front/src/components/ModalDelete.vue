@@ -16,7 +16,7 @@ import axios from "axios";
 Vue.component(Vodal.name, Vodal);
 
 export default {
-  name: "app",
+  name: "ModalDelete",
   props: {
     show: Boolean,
     id: String
