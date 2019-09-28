@@ -48,7 +48,6 @@ export default {
   methods: {
     showModalDelete() {
       this.deleteModalIsShown = !this.deleteModalIsShown;
-      console.log(this.deleteModalIsShown);
     },
     refreshList() {
       this.$emit("refreshList", this.event._id);

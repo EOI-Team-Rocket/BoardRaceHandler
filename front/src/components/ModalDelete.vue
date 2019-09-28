@@ -31,15 +31,15 @@ export default {
       this.showComp = false;
       this.updateCoachStatus();
     },
-    updateCoachStatus: function(event) {
+    updateCoachStatus() {
+      this.$emit("refreshList");
       this.$emit("hideModal", this.showComp);
     },
     deleteEvent() {
       axios
         .delete("http://localhost:3000/api/v1/events/" + this.id)
         .then(info => {
-          this.$emit("refreshList");
-          this.$emit("hideModal", this.showComp);
+          this.updateCoachStatus();
         })
         .catch(err => {
           this.error =
