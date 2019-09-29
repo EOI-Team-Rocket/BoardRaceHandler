@@ -63,13 +63,10 @@ function deleteUser(req, res) {
     });
 }
 async function registerInEvent(req, res) {
-  console.log("***************************STARTING***************************")
   var err;
   var event = await addUserToEvent(req.body.eventId, req.body.userId);
   var user;
-  console.log(".............. el resultado del evento es:  " + (event))
   err = event.err ? true : false;
-  console.log(".............. por tanto err será: " + err)
   if (err == false) {
     user = await addEvent(req.body.eventId, req.body.userId);
     err = user.err ? true : user.err
@@ -89,16 +86,12 @@ async function registerInEvent(req, res) {
  * Add user to an Event
  */
 function addUserToEvent(eventId, userId) {
-  console.log("************ Adding user to event:" + eventId + ' ' + userId)
   //finding event to add user
   return Events.findOne({ _id: eventId })
     .then(async result => {
-      console.log("************ this is the event: " + result.title)
       //adding user to event
       if (eventController.isOK(result)) {
-        console.log("************ is persona in participants: " + result.participants.includes(userId))
         if (!result.participants.includes(userId)) {
-          console.log("añado participante")
           result.participants.push(userId);
           //updating event
           return await Events.findByIdAndUpdate(eventId, { participants: result.participants })
@@ -112,7 +105,6 @@ function addUserToEvent(eventId, userId) {
           return { err: "regatta already joined" };
         }
       } else {
-        console.log("este evento es mierda pura")
         if (eventController.celebrateEvent(result) != false) {
           return { err: "regatta already celebrated" };
         } else {
@@ -128,12 +120,9 @@ function addUserToEvent(eventId, userId) {
  * Add event to an User
  */
 function addEvent(eventId, userId) {
-  console.log("************adding event to user********************");
   //finding user to add event
   return Users.findById(userId)
     .then(result => {
-      console.log("user:" + result.personalInfo.fullname)
-      console.log("already:" + result.sportInfo.regattas.includes(eventId))
       //adding the event to users
       if (!result.sportInfo.regattas.includes(eventId)) {
         result.sportInfo.regattas.push(eventId);
