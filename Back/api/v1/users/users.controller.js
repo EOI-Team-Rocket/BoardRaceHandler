@@ -7,7 +7,8 @@ module.exports = {
     postUser,
     patchUser,
     deleteUser,
-    registerInEvent
+    registerInEvent,
+    unregisterInEvent
 }
 
 
@@ -72,6 +73,7 @@ function deleteUser(req, res) {
             res.send(err);
         });
 }
+
 async function registerInEvent(req, res) {
 
     var user = addEvent(req.body.eventId, req.body.userId);
@@ -96,7 +98,10 @@ function addEvent(eventId, userId) {
     })
         .then(result => {
             //adding the event to users
-            result.sportInfo.regattas.push(eventId);
+            if(result.sportInfo.regattas.indexOf(eventId) == -1){
+                result.sportInfo.regattas.push(eventId);
+            }
+            
             //updating users
             return Users.findOneAndUpdate({ "_id": userId }, result)
                 .then(result => {
@@ -119,7 +124,9 @@ function addUserToEvent(eventId, userId) {
     return Events.findOne({ _id: eventId })
         .then(result => {
             //adding user to event
-            result.participants.push(userId);
+            if(result.participants.indexOf(userId) == -1){
+                result.participants.push(userId);
+            }
             //updating event
             return Events.findOneAndUpdate({ _id: eventId }, result)
                 .then(result => {
@@ -133,4 +140,78 @@ function addUserToEvent(eventId, userId) {
         .catch(err => {
             return (err);
         });
+}
+
+async function unregisterInEvent(req, res) {
+  var user = rmEvent(req.body.eventId, req.body.userId);
+  var event = rmUserToEvent(req.body.eventId, req.body.userId);
+
+  return await Promise.all([user, event]).then(results => {
+    res.json({
+      user: results[0],
+      event: results[1]
+    });
+  });
+}
+
+/**
+ * Add event to an User
+ */
+function rmEvent(eventId, userId) {
+  //finding user to add event
+  return Users.findOne({
+    _id: userId
+  })
+    .then(result => {
+      //adding the event to users
+      if (result.sportInfo.regattas.indexOf(eventId) != -1) {
+        const index = result.sportInfo.regattas.indexOf(eventId);
+        if (index > -1) {
+          result.sportInfo.regattas.splice(index, 1);
+        }
+        
+      }
+
+      
+
+      //updating users
+      return Users.findOneAndUpdate({ _id: userId }, result)
+        .then(result => {
+          return result;
+        })
+        .catch(err => {
+          return err;
+        });
+    })
+    .catch(err => {
+      return err;
+    });
+}
+
+/**
+ * Add user to an Event
+ */
+function rmUserToEvent(eventId, userId) {
+  //finding event to add user
+  return Events.findOne({ _id: eventId })
+    .then(result => {
+      //adding user to event
+      if (result.participants.indexOf(userId) != -1) {
+        const index = result.participants.indexOf(userId);
+        if (index > -1) {
+          result.participants.splice(index, 1);
+        }
+      }
+      //updating event
+      return Events.findOneAndUpdate({ _id: eventId }, result)
+        .then(result => {
+          return result;
+        })
+        .catch(err => {
+          return err;
+        });
+    })
+    .catch(err => {
+      return err;
+    });
 }

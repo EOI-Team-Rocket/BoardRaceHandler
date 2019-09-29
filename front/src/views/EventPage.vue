@@ -11,7 +11,7 @@
       <div class="ml-5 mt-3">
         <img
           class="card-img-top"
-          src="../assets/regattaExample.jpg"
+          :src="data_events.image"
           alt="La imagen no se puede cargar"
           height="300px"
         />
@@ -105,7 +105,7 @@ export default {
     return {
       data_events: "",
       url_api: "http://localhost:3000/api/v1/events/",
-      id_events: "5d8e28c82fd4fe0d90698bad"
+      id_events: "5d8bc3fad3144105683be32b"
     };
   },
   components: {
@@ -123,6 +123,9 @@ export default {
         .catch(error => {
           console.log(error.message);
         });
+    },
+    inscription(){
+      axios.post("http://localhost:3000/api/v1/registerInEvent")
     }
   },
 
