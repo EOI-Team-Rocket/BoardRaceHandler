@@ -106,8 +106,7 @@ export default {
   data() {
     return {
       data_events: "",
-      url_api: "http://localhost:3000/api/v1/events/",
-      id_events: "5d8bc4dacb458f37907af659",
+      id_events: "",
       stateBtn: true,
       error: ""
     };
@@ -118,7 +117,7 @@ export default {
   methods: {
     getDataApi() {
       axios
-        .get(this.url_api + this.id_events)
+        .get("http://localhost:3000/api/v1/events/" + this.id_events)
         .then(response => {
           /*Obtenemos todos los datos de la llamada axios.get */
           console.log(this.url_api + this.id_events);
@@ -169,7 +168,9 @@ export default {
   },
 
 
-  created: function() {
+  created() {
+    //const url = this.$route.query.id;
+    this.id_events = this.$route.query.id;
     this.getDataApi();
   }
 };
