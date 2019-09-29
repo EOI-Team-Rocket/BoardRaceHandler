@@ -3,7 +3,8 @@
         <div class="flip-card mt-5 ml-5">
             <div class="flip-card-inner">
                 <div class="card flip-card-front">
-                    <img src="../assets/regattaExample.jpg" alt="No se ha podido cargar la imagen">
+                    <img v-if="img != null" class="card-img" :src="img" alt="No se ha podido cargar la imagen">
+                    <img v-else class="card-img" src="../assets/regattaExample.jpg" alt="No se ha podido cargar la imagen">
                     <div class="card-body">
                         <h5 class="card-title text-dark">{{title}}</h5>
                     </div>      
@@ -25,12 +26,17 @@ export default {
     props:{
         title: String,
         place: String,
-        date: String
+        date: String,
+        img:String
     }
 }
 </script>
 
 <style scoped>
+
+    .card-img{
+        max-height: 80%;
+    }
 
     .flip-card {
         background-color: transparent;

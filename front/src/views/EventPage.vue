@@ -1,39 +1,42 @@
 <template>
   <div id="eventpage">
     <!--------------------------------Title of event --------------------------------------------->
-    <div class="d-flex justify-content-center">
-      <h1 class="text-white mt-4">{{data_events.title}}</h1>
-    </div>
+   
+    <h1 class="text-center text-white mt-4">{{data_events.title}}</h1>
+    
     <!-------------------------------------------------------------------------------------------->
 
-    <!---------------------- Image and description of event. Left side --------------------------->
+    
     <div class="d-flex">
-      <div class="ml-5 mt-3">
+      <!---------------------- Image and description of event. Left side --------------------------->
+      <div class="ml-5 mt-3 container-img">
         <img
+          v-if="data_events.image == undefined"
           class="card-img-top"
           src="../assets/regattaExample.jpg"
           alt="La imagen no se puede cargar"
-          height="300px"
+        />
+
+        <img 
+          v-else
+          class="card-img-top"
+          :src="data_events.image"
+          alt="La imagen no se puede cargar"
         />
       </div>
       <!-------------------------------------------------------------------------------------------->
 
       <!---------------------- Datas of events. Left right ----------------------------------------->
+      
+      <CardComponent :place="data_events.place" :category="data_events.category" :date="data_events.date" 
+                         :manager="data_events.manager" :hour="data_events.hour" :gender="data_events.gender" 
+                         :boat="data_events.boat_type" :capacity="data_events.capacity" class="cardComponent"/>
+      <!-------------------------------------------------------------------------------------------->
+
+      <!------------------------------------------Participants-------------------------------------->
       <div class="container">
-        <div class="row">
-          <CardComponent :data="data_events.place" />
-          <CardComponent :data="data_events.category" />
-        </div>
-
-        <div class="row">
-          <CardComponent :data="data_events.date" />
-          <CardComponent :data="data_events.manager" />
-        </div>
-
-        <div class="row">
-          <CardComponent :data="data_events.hour" />
-
-          <div class="col-6">
+        <div class="row">    
+          <div class="col-12">
             <div class="ml-2 mt-3 card scroll-participants">
               <div class="card-body">
                 <table class="table table-striped">
@@ -74,23 +77,28 @@
       <!-------------------------------------------------------------------------------------------->
     </div>
 
-    <div class="ml-5 mt-3 card scroll-description">
-      <div class="card-body">
-        <h4>
-          <strong>Descripción del evento</strong>
-        </h4>
-        <p>{{data_events.description}}</p>
-        <p>Contenido de Relleno</p>
-        <p>Contenido de Relleno</p>
-        <p>Contenido de Relleno</p>
-        <p>Contenido de Relleno</p>
-        <p>Contenido de Relleno</p>
+
+    <!-------------------------------------Description of event----------------------------------->
+    <div class="d-flex">  
+      <div class="ml-5 mt-3 card scroll-description">
+        <div class="card-body">
+          <h4>
+            <strong>Descripción del evento</strong>
+          </h4>
+          <p>{{data_events.description}}</p>
+        </div>
       </div>
     </div>
+    
+    <!-------------------------------------------------------------------------------------------->
 
+    
+
+    <!-------------------------------------Button of inscription----------------------------------->
     <div class="d-flex justify-content-end">
       <button type="submit" class="btn-inscription mr-5 mt-3">Inscribirse</button>
     </div>
+    <!--------------------------------------------------------------------------------------------->
   </div>
 </template>
 
@@ -105,7 +113,6 @@ export default {
     return {
       data_events: "",
       url_api: "http://localhost:3000/api/v1/events/",
-      id_events: "5d8e28c82fd4fe0d90698bad"
     };
   },
   components: {
@@ -113,11 +120,10 @@ export default {
   },
   methods: {
     getDataApi() {
-      axios
-        .get(this.url_api + this.id_events)
+      let urlId = this.$route.params.id;
+      axios.get(this.url_api + urlId)
         .then(response => {
           /*Obtenemos todos los datos de la llamada axios.get */
-          console.log(this.url_api + this.id_events);
           this.data_events = response.data;
         })
         .catch(error => {
@@ -125,7 +131,6 @@ export default {
         });
     }
   },
-
   created: function() {
     this.getDataApi();
   }
@@ -133,15 +138,29 @@ export default {
 </script>
 
 <style scoped>
+
+.container-img{
+  flex: 0 0 15%;
+}
+
+.card-img-top{
+  height: 100%;
+}
+
+.cardComponent{
+  flex: 0 0 40%;
+}
+
 .scroll-participants {
-  max-height: 150px;
+  max-height: 345px;
   overflow-y: auto;
+  flex: 0 0 45%;
 }
 
 .scroll-description {
   max-height: 200px;
   overflow-y: auto;
-  width: 1365px;
+  flex: 0 0 55%;
 }
 
 .border-design {
@@ -151,6 +170,7 @@ export default {
   width: 400px;
   height: 50px;
 }
+
 
 .btn-inscription {
   background: #84abe8;
