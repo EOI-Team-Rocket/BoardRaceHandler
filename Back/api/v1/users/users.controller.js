@@ -103,11 +103,9 @@ function addUserToEvent(eventId, userId) {
           //updating event
           return await Events.findByIdAndUpdate(eventId, { participants: result.participants })
             .then(event => {
-              console.log("hla????????:" + event)
               return event;
             })
             .catch(err => {
-              console.log("adoh")
               return { err: "regatta already joined" };
             });
         } else {
