@@ -6,14 +6,15 @@ module.exports = {
     readOneEvent,
     updateEvent,
     deleteEvent,
-    getUniqueEvent
+    getUniqueEvent,
+    getActiveEvents
 }
 
 function createEvent(req, res) {
     return EVENTModel.create(req.body)
         .then(response => {
             res.status(200).json(response);
-            
+
         })
         .catch((err) => handdleError(err, res));
 }
@@ -66,4 +67,25 @@ function deleteEvent(req, res) {
 //Function of error
 function handdleError(err, res) {
     return res.status(400).json(err);
+}
+function getActiveEvents(req, res) {
+    return EVENTModel.find().then(events => {
+        console.log(events);
+        res.status(200).send(getNotCelebratedEvents(events));
+    })
+        .catch((err) => handdleError(err, res));
+}
+function getNotCelebratedEvents(events) {
+    return events.map(event => {
+        if (!candel && !event.celebrated && new Date(event.date) > Date.now()) {
+            console.log("este evento mola:" + event)
+            return true;
+        } else {
+            console.log("este evento that caducado:" + event)
+            if (!event.celebrated && new Date(event.date) < Date.now()) {
+                console.log("procediendo a actualizar evento")
+            }
+            return false;
+        }
+    })
 }

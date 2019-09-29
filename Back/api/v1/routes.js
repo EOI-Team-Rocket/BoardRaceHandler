@@ -10,6 +10,7 @@ router.post('/events', eventController.createEvent);
 router.post('/events/:title', eventController.getUniqueEvent);
 router.get("/events", eventController.readAllEvents);
 router.get("/events/:id", eventController.readOneEvent);
+router.get("/events/active", eventController.getActiveEvents)
 router.patch("/events/:id", eventController.updateEvent);
 router.delete("/events/:id", eventController.deleteEvent);
 /*-------------- USERS ROUTES --------------*/

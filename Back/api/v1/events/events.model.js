@@ -27,7 +27,14 @@ const EVENTschema = new mongoose.Schema({
         required: [true, "The place is required"],
         max: 100
     },
-
+    cancel: {
+        type: Boolean,
+        default: false
+    },
+    celebrated: {
+        type: Boolean,
+        default: false
+    },
     image: {
         type: String
     },
