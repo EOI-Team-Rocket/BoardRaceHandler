@@ -63,26 +63,69 @@ function deleteUser(req, res) {
     });
 }
 async function registerInEvent(req, res) {
+  var err;
   var event = await addUserToEvent(req.body.eventId, req.body.userId);
   var user;
-  if (event) {
+  err = event.err ? true : event.err;
+  if (err === true) {
     user = await addEvent(req.body.eventId, req.body.userId);
+    err = user.err ? true : user.err
+    if (err === true) {
+      res.json({
+        event: event,
+        user: user
+      })
+    } else {
+      res.json({ err: err })
+    }
   } else {
-    return res.json({ err: "The event is cancel or celebrated." })
+    res.json({ err: err })
   }
-  return res.json({
-    user: user,
-    event: event
-  })
 }
-
+/**
+ * Add user to an Event
+ */
+function addUserToEvent(eventId, userId) {
+  //finding event to add user
+  return Events.findOne({ _id: eventId })
+    .then(result => {
+      //adding user to event
+      if (eventController.isOK(result)) {
+        if (!result.participants.includes(userId)) {
+          result.participants.push(userId);
+          //updating event
+          return Events.findOneAndUpdate({ _id: eventId }, result, {
+            new: true,
+            runValidators: true
+          })
+            .then(result => {
+              return result;
+            })
+            .catch(err => {
+              return { err: "regatta already joined" };
+            });
+        } else {
+          return { err: "regatta already joined" };
+        }
+      } else {
+        eventController.celebrateEvent(result._id);
+        return { err: "regatta already celebrated" };
+      }
+    })
+    .catch(err => {
+      return err;
+    });
+}
 /**
  * Add event to an User
  */
 function addEvent(eventId, userId) {
+  console.log("************adding event to user********************");
   //finding user to add event
   return Users.findById(userId)
     .then(result => {
+      console.log("user:" + result.personalInfo.fullname)
+      console.log("already:" + result.sportInfo.regattas.includes(eventId))
       //adding the event to users
       if (!result.sportInfo.regattas.includes(eventId)) {
         result.sportInfo.regattas.push(eventId);
@@ -98,7 +141,7 @@ function addEvent(eventId, userId) {
             return err;
           });
       } else {
-        return result;
+        return { err: "already in regatta" };
       }
     })
     .catch(err => {
@@ -106,35 +149,7 @@ function addEvent(eventId, userId) {
     });
 }
 
-/**
- * Add user to an Event
- */
-function addUserToEvent(eventId, userId) {
-  //finding event to add user
-  return Events.findOne({ _id: eventId })
-    .then(result => {
-      //adding user to event
-      if (!result.participants.includes(userId) || eventController.isCelebrated(result)) {
-        result.participants.push(userId);
-        //updating event
-        return Events.findOneAndUpdate({ _id: eventId }, result, {
-          new: true,
-          runValidators: true
-        })
-          .then(result => {
-            return result;
-          })
-          .catch(err => {
-            return err;
-          });
-      } else {
-        return result;
-      }
-    })
-    .catch(err => {
-      return err;
-    });
-}
+
 
 async function unregisterInEvent(req, res) {
   var event = await rmUserToEvent(req.body.eventId, req.body.userId);

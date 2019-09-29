@@ -7,7 +7,7 @@ module.exports = {
     updateEvent,
     deleteEvent,
     getActiveEvents,
-    isCelebrated,
+    isOK,
     celebrateEvent,
     cancelEvent
 }
@@ -83,7 +83,7 @@ function getActiveEvents(req, res) {
  */
 function getFuturesEvents(events) {
     const finalEvents = events.filter(event => {
-        if (isCelebrated(event)) {
+        if (isOK(event)) {
             return true;
         } else {
             if (!event.celebrated && new Date(event.date) < Date.now()) {
@@ -98,11 +98,11 @@ function getFuturesEvents(events) {
  * This will check if the event is canceled or celebrated or the date is in the past
  * @param {JSON} event 
  */
-function isCelebrated(event) {
-    if (!event.cancel && !event.celebrated && new Date(event.date) > Date.now()) {
-        return true
-    } else {
+function isOK(event) {
+    if (!event.cancel || !event.celebrated || new Date(event.date) > Date.now()) {
         return false
+    } else {
+        return true
     }
 }
 /**
