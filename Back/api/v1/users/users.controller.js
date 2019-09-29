@@ -1,32 +1,14 @@
 var Users = require("./users.model");
 var Events = require("../events/events.model")
+var eventController = require("../events/events.controller")
 
 module.exports = {
-    //getUsers,
     getUsersByAffiliate,
     postUser,
     patchUser,
     deleteUser,
     registerInEvent
 }
-
-
-/**
- *
- *
- * @param {JSON} req
- * @param {JSON} res
- * @returns
- */
-// function getUsers(req, res) {
-//     return Users.find()
-//         .then(result => {
-//             res.send(result)
-//         })
-//         .catch(err => {
-//             res.send(err);
-//         });
-// }
 function getUsersByAffiliate(req, res) {
     return Users.find({
         "sportInfo.license_number": { $in: [req.params.license_number] }
@@ -73,17 +55,18 @@ function deleteUser(req, res) {
         });
 }
 async function registerInEvent(req, res) {
-
-    var user = addEvent(req.body.eventId, req.body.userId);
-    var event = addUserToEvent(req.body.eventId, req.body.userId);
-
-    return await Promise.all([user, event]).then((results) => {
-        res.json({
-            user: results[0],
-            event: results[1]
-        })
+    var event = await addUserToEvent(req.body.eventId, req.body.userId);
+    var user;
+    if (event) {
+        user = await addEvent(req.body.eventId, req.body.userId);
+    } else {
+        return res.json({ err: "The event is cancel or celebrated." })
     }
-    );
+
+    return res.json({
+        user: user,
+        event: event
+    })
 }
 
 /**
@@ -118,16 +101,23 @@ function addUserToEvent(eventId, userId) {
     //finding event to add user
     return Events.findOne({ _id: eventId })
         .then(result => {
-            //adding user to event
-            result.participants.push(userId);
-            //updating event
-            return Events.findOneAndUpdate({ _id: eventId }, result)
-                .then(result => {
-                    return result;
-                })
-                .catch(err => {
-                    return err
-                })
+            if (eventController.isCelebrated(result)) {
+                //adding user to event
+                result.participants.push(userId);
+                //updating event
+                return Events.findOneAndUpdate({ _id: eventId }, result)
+                    .then(result => {
+                        return result;
+                    })
+                    .catch(err => {
+                        return err
+                    })
+            } else {
+                if (!result.celebrated && new Date(result.date) < Date.now()) {
+                    eventController.celebrateEvent(result._id);
+                }
+                return false;
+            }
 
         })
         .catch(err => {

@@ -6,10 +6,18 @@ module.exports = {
     readOneEvent,
     updateEvent,
     deleteEvent,
-    getUniqueEvent,
-    getActiveEvents
+    getActiveEvents,
+    isCelebrated,
+    celebrateEvent,
+    cancelEvent
 }
-
+function cancelEvent(req, res) {
+    return EVENTModel.findByIdAndUpdate(req.params.id, { cancel: true }, { new: true })
+        .then(response => {
+            return res.status(200).json(response);
+        })
+        .catch((err) => handdleError(err, res));
+}
 function createEvent(req, res) {
     return EVENTModel.create(req.body)
         .then(response => {
@@ -65,22 +73,46 @@ function handdleError(err, res) {
 }
 function getActiveEvents(req, res) {
     return EVENTModel.find().then(events => {
-        console.log(events);
-        res.status(200).send(getNotCelebratedEvents(events));
+        res.status(200).send(getFuturesEvents(events));
     })
         .catch((err) => handdleError(err, res));
 }
-function getNotCelebratedEvents(events) {
-    return events.map(event => {
-        if (!candel && !event.celebrated && new Date(event.date) > Date.now()) {
-            console.log("este evento mola:" + event)
+/**
+ * This will return all events not canceled, celebrated or with date in the past
+ * @param {Array<JSON>} events 
+ */
+function getFuturesEvents(events) {
+    const finalEvents = events.filter(event => {
+        if (isCelebrated(event)) {
             return true;
         } else {
-            console.log("este evento that caducado:" + event)
             if (!event.celebrated && new Date(event.date) < Date.now()) {
-                console.log("procediendo a actualizar evento")
+                celebrateEvent(event._id)
             }
             return false;
         }
     })
+    return finalEvents;
+}
+/**
+ * This will check if the event is canceled or celebrated or the date is in the past
+ * @param {JSON} event 
+ */
+function isCelebrated(event) {
+    if (!event.cancel && !event.celebrated && new Date(event.date) > Date.now()) {
+        return true
+    } else {
+        return false
+    }
+}
+/**
+ * This will change the celebrated status to true
+ * @param {String} eventId 
+ */
+function celebrateEvent(eventId) {
+    EVENTModel.findByIdAndUpdate(eventId, { celebrated: true }, { new: true })
+        .then(response => {
+            return response;
+        })
+        .catch((err) => handdleError(err, res));
 }
