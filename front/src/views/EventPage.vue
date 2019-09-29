@@ -89,7 +89,9 @@
     </div>
 
     <div class="d-flex justify-content-end">
-      <button type="submit" class="btn-inscription mr-5 mt-3">Inscribirse</button>
+      <p v-if="error != ''">{{error}}</p>
+      <button v-if="stateBtn" @click="inscription" class="btn-inscription mr-5 mt-3">Inscribirse</button>
+      <button v-else @click="unSubcription" class="btn-inscription mr-5 mt-3">Desinscribirse</button>
     </div>
   </div>
 </template>
@@ -105,7 +107,9 @@ export default {
     return {
       data_events: "",
       url_api: "http://localhost:3000/api/v1/events/",
-      id_events: "5d8bc3fad3144105683be32b"
+      id_events: "5d8bc4dacb458f37907af659",
+      stateBtn: true,
+      error: ""
     };
   },
   components: {
@@ -119,15 +123,51 @@ export default {
           /*Obtenemos todos los datos de la llamada axios.get */
           console.log(this.url_api + this.id_events);
           this.data_events = response.data;
+          const jwt = JSON.parse(localStorage.getItem("jwt"));
+          if(jwt != null){
+            if(this.data_events.participants.indexOf(jwt.id) != -1) this.stateBtn = false; 
+          }
         })
         .catch(error => {
-          console.log(error.message);
+          this.error = error;
         });
     },
     inscription(){
-      axios.post("http://localhost:3000/api/v1/registerInEvent")
+      const jwt = JSON.parse(localStorage.getItem("jwt"));
+      this.error = "";
+      if(jwt != null){
+        const ids = {
+          userId: jwt.id,
+          eventId: this.id_events
+        };
+        axios.post("http://localhost:3000/api/v1/registerInEvent", ids).then(res => {
+          this.stateBtn = false;
+          this.getDataApi();
+          
+        }).catch(err => {
+          this.error = err
+        });  
+      }else{
+        this.error = "Debe estar autenticado para poder inscribirse"
+      }
+      
+    },
+    unSubcription(){
+      const jwt = JSON.parse(localStorage.getItem("jwt"));
+      const ids = {
+        userId: jwt.id,
+        eventId: this.id_events
+      };
+      axios.post("http://localhost:3000/api/v1/unSubscription", ids)
+      .then(res => {
+        this.stateBtn = true;
+        this.getDataApi();
+            }).catch(err => {
+              this.error = err
+            });  
     }
   },
+
 
   created: function() {
     this.getDataApi();
