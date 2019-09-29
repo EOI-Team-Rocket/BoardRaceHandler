@@ -2,7 +2,7 @@
   <div class="carouselContainer">
     <b-carousel
       id="carousel-1"
-      :interval="500"
+      :interval="5000"
       controls
       indicators
       background="#ababab"
@@ -14,7 +14,7 @@
         v-for="data in datas"
         :key="data._id"
         :caption="data.title?data.title:data.name"
-        img-src="https://picsum.photos/1024/480/?image=52"
+        :img-src="data.image"
       >
         <p>
           {{data.date?'Fecha: '+data.date:''}}
@@ -43,7 +43,10 @@ export default {
     axios
       .get("http://localhost:3000/api/v1/" + this.resource)
       .then(datas => {
-        this.datas = datas.data.data.reverse();
+        this.datas = datas.data.data.reverse().slice(0, 5);
+        
+        
+        
       })
       .catch(err => {
         this.error = err;

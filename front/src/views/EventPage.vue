@@ -11,7 +11,7 @@
       <div class="ml-5 mt-3">
         <img
           class="card-img-top"
-          src="../assets/regattaExample.jpg"
+          :src="data_events.image"
           alt="La imagen no se puede cargar"
           height="300px"
         />
@@ -89,7 +89,9 @@
     </div>
 
     <div class="d-flex justify-content-end">
-      <button type="submit" class="btn-inscription mr-5 mt-3">Inscribirse</button>
+      <p v-if="error != ''">{{error}}</p>
+      <button v-if="stateBtn" @click="inscription" class="btn-inscription mr-5 mt-3">Inscribirse</button>
+      <button v-else @click="unSubcription" class="btn-inscription mr-5 mt-3">Desinscribirse</button>
     </div>
   </div>
 </template>
@@ -104,8 +106,9 @@ export default {
   data() {
     return {
       data_events: "",
-      url_api: "http://localhost:3000/api/v1/events/",
-      id_events: "5d8e28c82fd4fe0d90698bad"
+      id_events: "",
+      stateBtn: true,
+      error: ""
     };
   },
   components: {
@@ -114,19 +117,60 @@ export default {
   methods: {
     getDataApi() {
       axios
-        .get(this.url_api + this.id_events)
+        .get("http://localhost:3000/api/v1/events/" + this.id_events)
         .then(response => {
           /*Obtenemos todos los datos de la llamada axios.get */
           console.log(this.url_api + this.id_events);
           this.data_events = response.data;
+          const jwt = JSON.parse(localStorage.getItem("jwt"));
+          if(jwt != null){
+            if(this.data_events.participants.indexOf(jwt.id) != -1) this.stateBtn = false; 
+          }
         })
         .catch(error => {
-          console.log(error.message);
+          this.error = error;
         });
+    },
+    inscription(){
+      const jwt = JSON.parse(localStorage.getItem("jwt"));
+      this.error = "";
+      if(jwt != null){
+        const ids = {
+          userId: jwt.id,
+          eventId: this.id_events
+        };
+        axios.post("http://localhost:3000/api/v1/registerInEvent", ids).then(res => {
+          this.stateBtn = false;
+          this.getDataApi();
+          
+        }).catch(err => {
+          this.error = err
+        });  
+      }else{
+        this.error = "Debe estar autenticado para poder inscribirse"
+      }
+      
+    },
+    unSubcription(){
+      const jwt = JSON.parse(localStorage.getItem("jwt"));
+      const ids = {
+        userId: jwt.id,
+        eventId: this.id_events
+      };
+      axios.post("http://localhost:3000/api/v1/unSubscription", ids)
+      .then(res => {
+        this.stateBtn = true;
+        this.getDataApi();
+            }).catch(err => {
+              this.error = err
+            });  
     }
   },
 
-  created: function() {
+
+  created() {
+    //const url = this.$route.query.id;
+    this.id_events = this.$route.query.id;
     this.getDataApi();
   }
 };
