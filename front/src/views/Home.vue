@@ -10,7 +10,7 @@
 <script>
 // @ is an alias to /src
 import HelloWorld from "@/components/HelloWorld.vue";
-import Carousel from "@/components/Carousel";
+import Carousel from "@/components/Carousel.vue";
 
 export default {
   name: "home",
@@ -32,6 +32,5 @@ export default {
   width: 90%;
   height: 90%;
 }
-.helloWorldContainer {
-}
+
 </style>
