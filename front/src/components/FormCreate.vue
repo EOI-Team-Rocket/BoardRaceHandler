@@ -221,8 +221,6 @@ export default {
             }
         },
         createEvent(){
-            console.log("hola")
-            // console.log(typeof this.event)
             axios.post('http://localhost:3000/api/v1/events',{
                 title: this.event.title,
                 date: this.event.date,

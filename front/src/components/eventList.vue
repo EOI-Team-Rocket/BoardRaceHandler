@@ -13,7 +13,8 @@
       </div>
     </div>
     <ModalForm
-        :show="showModalForm"
+        :show="true"
+        :edit="false"
         v-if="showModalForm"
         @refreshList="getEvents"
         @hideFormModal="toggleModalForm"
