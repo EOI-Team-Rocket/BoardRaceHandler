@@ -67,7 +67,7 @@ async function registerInEvent(req, res) {
   var err;
   var event = await addUserToEvent(req.body.eventId, req.body.userId);
   var user;
-  console.log(".............. el resultado del evento es:  " + (event.title ? event.title : event))
+  console.log(".............. el resultado del evento es:  " + (event))
   err = event.err ? true : false;
   console.log(".............. por tanto err será: " + err)
   if (err == false) {
@@ -92,22 +92,22 @@ function addUserToEvent(eventId, userId) {
   console.log("************ Adding user to event:" + eventId + ' ' + userId)
   //finding event to add user
   return Events.findOne({ _id: eventId })
-    .then(result => {
+    .then(async result => {
       console.log("************ this is the event: " + result.title)
       //adding user to event
       if (eventController.isOK(result)) {
         console.log("************ is persona in participants: " + result.participants.includes(userId))
         if (!result.participants.includes(userId)) {
+          console.log("añado participante")
           result.participants.push(userId);
           //updating event
-          return Events.findOneAndUpdate({ _id: eventId }, result, {
-            new: true,
-            runValidators: true
-          })
-            .then(result => {
-              return result;
+          return await Events.findByIdAndUpdate(eventId, { participants: result.participants })
+            .then(event => {
+              console.log("hla????????:" + event)
+              return event;
             })
             .catch(err => {
+              console.log("adoh")
               return { err: "regatta already joined" };
             });
         } else {
@@ -115,8 +115,11 @@ function addUserToEvent(eventId, userId) {
         }
       } else {
         console.log("este evento es mierda pura")
-        eventController.celebrateEvent(result._id);
-        return { err: "regatta already celebrated" };
+        if (eventController.celebrateEvent(result) != false) {
+          return { err: "regatta already celebrated" };
+        } else {
+          return { err: "regatta canceled" };
+        }
       }
     })
     .catch(err => {

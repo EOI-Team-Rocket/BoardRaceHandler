@@ -87,7 +87,7 @@ function getFuturesEvents(events) {
             return true;
         } else {
             if (!event.celebrated && new Date(event.date) < Date.now()) {
-                celebrateEvent(event._id)
+                celebrateEvent(event)
             }
             return false;
         }
@@ -105,7 +105,7 @@ function isOK(event) {
     console.log("-----> celebrated: " + event.date)
     console.log("-----> celebrated: " + new Date(event.date))
     console.log("-----> date: " + (new Date(event.date) > Date.now()))
-    if (!event.cancel || !event.celebrated || (new Date(event.date) > Date.now())) {
+    if (!event.cancel && !event.celebrated && (new Date(event.date) > Date.now())) {
         console.log("-----> devuelvo true")
         return true
     } else {
@@ -117,10 +117,14 @@ function isOK(event) {
  * This will change the celebrated status to true
  * @param {String} eventId 
  */
-function celebrateEvent(eventId) {
-    EVENTModel.findByIdAndUpdate(eventId, { celebrated: true }, { new: true })
-        .then(response => {
-            return response;
-        })
-        .catch((err) => handdleError(err, res));
+function celebrateEvent(event) {
+    if (new Date(event.date) < Date.now()) {
+        EVENTModel.findByIdAndUpdate(event._id, { celebrated: true }, { new: true })
+            .then(response => {
+                return response;
+            })
+            .catch((err) => { err: err });
+    } else {
+        return false
+    }
 }
