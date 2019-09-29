@@ -63,11 +63,14 @@ function deleteUser(req, res) {
     });
 }
 async function registerInEvent(req, res) {
+  console.log("***************************STARTING***************************")
   var err;
   var event = await addUserToEvent(req.body.eventId, req.body.userId);
   var user;
-  err = event.err ? true : event.err;
-  if (err === true) {
+  console.log(".............. el resultado del evento es:  " + (event.title ? event.title : event))
+  err = event.err ? true : false;
+  console.log(".............. por tanto err será: " + err)
+  if (err == false) {
     user = await addEvent(req.body.eventId, req.body.userId);
     err = user.err ? true : user.err
     if (err === true) {
@@ -76,21 +79,24 @@ async function registerInEvent(req, res) {
         user: user
       })
     } else {
-      res.json({ err: err })
+      res.json({ err: user.err })
     }
   } else {
-    res.json({ err: err })
+    res.json({ err: event.err })
   }
 }
 /**
  * Add user to an Event
  */
 function addUserToEvent(eventId, userId) {
+  console.log("************ Adding user to event:" + eventId + ' ' + userId)
   //finding event to add user
   return Events.findOne({ _id: eventId })
     .then(result => {
+      console.log("************ this is the event: " + result.title)
       //adding user to event
       if (eventController.isOK(result)) {
+        console.log("************ is persona in participants: " + result.participants.includes(userId))
         if (!result.participants.includes(userId)) {
           result.participants.push(userId);
           //updating event
@@ -108,6 +114,7 @@ function addUserToEvent(eventId, userId) {
           return { err: "regatta already joined" };
         }
       } else {
+        console.log("este evento es mierda pura")
         eventController.celebrateEvent(result._id);
         return { err: "regatta already celebrated" };
       }

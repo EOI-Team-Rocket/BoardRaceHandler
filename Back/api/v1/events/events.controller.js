@@ -99,10 +99,18 @@ function getFuturesEvents(events) {
  * @param {JSON} event 
  */
 function isOK(event) {
-    if (!event.cancel || !event.celebrated || new Date(event.date) > Date.now()) {
-        return false
-    } else {
+    console.log("-----> Checking: " + event.title)
+    console.log("-----> cancel: " + event.cancel)
+    console.log("-----> celebrated: " + event.celebrated)
+    console.log("-----> celebrated: " + event.date)
+    console.log("-----> celebrated: " + new Date(event.date))
+    console.log("-----> date: " + (new Date(event.date) > Date.now()))
+    if (!event.cancel || !event.celebrated || (new Date(event.date) > Date.now())) {
+        console.log("-----> devuelvo true")
         return true
+    } else {
+        console.log("-----> devuelvo false")
+        return false
     }
 }
 /**
