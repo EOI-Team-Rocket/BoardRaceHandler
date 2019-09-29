@@ -29,8 +29,8 @@
       <!---------------------- Datas of events. Left right ----------------------------------------->
       
       <CardComponent :place="data_events.place" :category="data_events.category" :date="data_events.date" 
-                         :manager="data_events.manager" :hour="data_events.hour" :gender="data_events.gender" 
-                         :boat="data_events.boat_type" :capacity="data_events.capacity" class="cardComponent"/>
+                     :manager="data_events.manager" :hour="data_events.hour" :gender="data_events.gender" 
+                     :boat="data_events.boat_type" :capacity="data_events.capacity" class="cardComponent"/>
       <!-------------------------------------------------------------------------------------------->
 
       <!------------------------------------------Participants-------------------------------------->
@@ -39,33 +39,22 @@
           <div class="col-12">
             <div class="ml-2 mt-3 card scroll-participants">
               <div class="card-body">
+                <h1>Participantes Inscritos</h1>
                 <table class="table table-striped">
                   <thead>
                     <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">First</th>
-                      <th scope="col">Last</th>
-                      <th scope="col">Handle</th>
+                      <th scope="col"></th>
+                      <th scope="col">Nombre</th>
+                      <th scope="col">Primer Apellido</th>
+                      <th scope="col">Segundo Apellido</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>Mark</td>
-                      <td>Otto</td>
-                      <td>@mdo</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">2</th>
-                      <td>Jacob</td>
-                      <td>Thornton</td>
-                      <td>@fat</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">3</th>
-                      <td>Larry</td>
-                      <td>the Bird</td>
-                      <td>@twitter</td>
+                    <tr v-for="(data_event, index) in data_events.participants" :key="data_event._id">
+                      <th scope="row">{{index + 1}}</th>
+                      <td>{{data_event.personalInfo.fullname.name}}</td>
+                      <td>{{data_event.personalInfo.fullname.surname1}}</td>
+                      <td>{{data_event.personalInfo.fullname.surname2}}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -123,7 +112,6 @@ export default {
       let urlId = this.$route.params.id;
       axios.get(this.url_api + urlId)
         .then(response => {
-          /*Obtenemos todos los datos de la llamada axios.get */
           this.data_events = response.data;
         })
         .catch(error => {
@@ -140,7 +128,7 @@ export default {
 <style scoped>
 
 .container-img{
-  flex: 0 0 15%;
+  flex: 0 0 25%;
 }
 
 .card-img-top{
@@ -148,7 +136,7 @@ export default {
 }
 
 .cardComponent{
-  flex: 0 0 40%;
+  flex: 0 0 30%;
 }
 
 .scroll-participants {
