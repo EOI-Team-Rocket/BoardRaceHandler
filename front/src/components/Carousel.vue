@@ -58,7 +58,7 @@ export default {
 
 <style scoped>
 .carouselContainer {
-  height: 250px;
+  height: 100%;
   width: 500px;
 }
 
