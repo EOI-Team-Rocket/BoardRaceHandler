@@ -138,79 +138,55 @@ async function addEvent(eventId, user) {
 }
 
 async function unregisterInEvent(req, res) {
-  var event = await rmUserToEvent(req.body.eventId, req.body.userId);
-  var user;
-  if (event) {
-    user = rmEvent(req.body.eventId, req.body.userId);
-  } else {
-    return res.json({ err: "The event is cancel or celebrated." })
-  }
-  return res.json({
-    user: user,
-    event: event
-  })
-}
+  var userId = req.body.userId;
+  var eventId = req.body.eventId;
 
+  var user = await Users.findById(userId);;
+  var event = await Events.findById(eventId);
+
+  var err = confirmUnregister(user, event);
+
+  if (err == true) {
+    res.json({
+      event: await rmUserToEvent(event, userId),
+      user: await rmEvent(eventId, user)
+    });
+  } else {
+    res.json(err);
+  }
+}
+/**
+ * Will return true or the error if the regatta is canceled, celebrated
+ *
+ * @param {JSON} user
+ * @param {JSON} event
+ * @returns
+ */
+function confirmUnregister(user, event) {
+  if (eventController.isOK(event)) {
+    if (event.participants.includes(user._id) && user.sportInfo.regattas.includes(event._id)) {
+      return true;
+    } else {
+      return { err: "User is not joined" };
+    }
+  } else {
+    return handleEventFail(event);
+  }
+}
 /**
  * Add event to an User
  */
-function rmEvent(eventId, userId) {
-  //finding user to add event
-  return Users.findOne({
-    _id: userId
-  })
-    .then(result => {
-      //adding the event to users
-      if (result.sportInfo.regattas.includes(eventId)) {
-        const index = result.sportInfo.regattas.indexOf(eventId);
-        result.sportInfo.regattas.splice(index, 1);
-        //updating users
-        return Users.findOneAndUpdate({ _id: userId }, result, {
-          new: true,
-          runValidators: true
-        })
-          .then(result => {
-            return result;
-          })
-          .catch(err => {
-            return err;
-          });
-      } else {
-        return result;
-      }
-    })
-    .catch(err => {
-      return err;
-    });
+async function rmEvent(eventId, user) {
+  const index = user.sportInfo.regattas.indexOf(eventId);
+  user.sportInfo.regattas.splice(index, 1);
+  return await Users.findOneAndUpdate({ _id: user._id }, user, { new: true, runValidators: true });
 }
 
 /**
  * Add user to an Event
  */
-function rmUserToEvent(eventId, userId) {
-  //finding event to add user
-  return Events.findOne({ _id: eventId })
-    .then(result => {
-      //adding user to event
-      if (result.participants.includes(userId)) {
-        const index = result.participants.indexOf(userId);
-        result.participants.splice(index, 1);
-        //updating event
-        return Events.findOneAndUpdate({ _id: eventId }, result, {
-          new: true,
-          runValidators: true
-        })
-          .then(result => {
-            return result;
-          })
-          .catch(err => {
-            return err;
-          });
-      } else {
-        return result;
-      }
-    })
-    .catch(err => {
-      return err;
-    });
+function rmUserToEvent(event, userId) {
+  const index = event.participants.indexOf(userId);
+  event.participants.splice(index, 1);
+  return Events.findOneAndUpdate({ _id: event._id }, event, { new: true, runValidators: true })
 }
