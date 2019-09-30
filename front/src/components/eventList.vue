@@ -1,22 +1,24 @@
 <template>
   <div id="eventList">
-    <header id="eventsHeader" class="columns color--white"> 
-      <h2 class="listTitles">Nombre</h2>
-      <h2 class="listTitles">Fecha</h2>
-      <h2 class="listTitles">Lugar</h2>
-      <h2></h2> <!-- cris will fix it-->
+    <header id="eventsHeader" class="columns headerItem">
+      <h2>Nombre</h2>
+      <h2>Fecha</h2>
+      <h2>Lugar</h2>
+      <button @click="toggleModalForm">Crear Evento</button>
       <h2></h2>
     </header>
-<<<<<<< HEAD
-    <div id="itemList ">
-      <div v-for="event in events" :key="event._id" id="listItem">
-=======
     <div id="itemList">
-      <div v-for="event in showEvents" :key="event._id" class="headerItem">
->>>>>>> 4ceb81e77ad9144e1b49f45203600a26616f2758
+      <div v-for="event in showEvents" :key="event._id" id="listItem">
         <eventItem :event="event" @refreshList="getEvents" />
       </div>
     </div>
+    <ModalForm
+        :show="true"
+        :edit="false"
+        v-if="showModalForm"
+        @refreshList="getEvents"
+        @hideFormModal="toggleModalForm"
+    />
     <div class="d-flex justify-content-center mt-5" v-if="showEvents != null">
       <!--------------------------------------------Flecha de retorno------------------------------------------------>
       <button type="button" v-if="page > 1" @click="previous" class="btn btn-md btn-dark">&laquo;</button>
@@ -54,14 +56,17 @@
 <script>
 import axios from "axios";
 import eventItem from "@/components/eventItem.vue";
+import ModalForm from "@/components/ModalForm.vue";
 export default {
   name: "eventList",
   components: {
-    eventItem
+    eventItem,
+    ModalForm
   },
   data() {
     return {
       events: [],
+      showModalForm: false,
       page: 1,
       numberPages: 0,
       limit: 10,
@@ -83,6 +88,9 @@ export default {
           console.log("Error getting events:" + err);
         });
     },
+    toggleModalForm(){
+        this.showModalForm = !this.showModalForm;
+     },
     next() {
       if (this.page <= this.numberPages) {
         this.page++;
@@ -145,14 +153,12 @@ export default {
   flex: 1;
   flex-basis: 50%;
 }
-<<<<<<< HEAD
 
 #itemList {
   display: flex;
-=======
+}
 .select {
   background: #ffffff;
   color: #000000;
->>>>>>> 4ceb81e77ad9144e1b49f45203600a26616f2758
 }
 </style>

@@ -23,9 +23,13 @@
         <div id="rightPart">
             <label></label>
         </div>
+    
 
+            <div class="btn">
+                <button v-if="!edit" @click="checkForm" class="btn-create">CREAR EVENTO</button>
+                <button v-else @click="checkForm" class="btn-create">MODIFICAR EVENTO</button>
+            </div>     
     </div>
-
 
 </template>
 
@@ -153,8 +157,6 @@ export default {
             }
         },
         createEvent(){
-            console.log("hola")
-            // console.log(typeof this.event)
             axios.post('http://localhost:3000/api/v1/events',{
                 title: this.event.title,
                 date: this.event.date,
@@ -236,7 +238,6 @@ export default {
     #description {
         height: 250px;
         resize: none;
-
     }
     #gender{
         margin: 0 5px;

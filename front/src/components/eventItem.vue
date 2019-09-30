@@ -22,7 +22,7 @@
     <ModalDelete
       :show="deleteModalIsShown"
       :id="event._id"
-      @hideModal="toggleModalDelete('')"
+      @hideModal="toggleModalDelete"
       @refreshList="refreshList"
       v-if="deleteModalIsShown"
     />
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import ModalDelete from "./ModalDelete.vue";
+import ModalDelete from "@/components/ModalDelete.vue";
 
 export default {
   name: "eventItem",
