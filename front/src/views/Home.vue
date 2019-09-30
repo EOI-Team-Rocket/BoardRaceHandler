@@ -1,36 +1,37 @@
 <template>
   <div class="home">
-    <HelloWorld />
-    <div class="carouselContainer">
+    <div class="carouselContainer mt-5">
       <Carousel resource="events" />
     </div>
+    <ListCard/>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
-import Carousel from "@/components/Carousel.vue";
+import axios from "axios";
+
+import Carousel from '@/components/Carousel.vue';
+import ListCard from '@/components/ListCard.vue';
 
 export default {
   name: "home",
   components: {
-    HelloWorld,
-    Carousel
+    Carousel,
+    ListCard
   }
 };
 </script>
 <style scoped>
-.home {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-/* center carosuel */
-.carouselContainer {
-  margin-left: 5%;
-  width: 90%;
-  height: 90%;
-}
-
+  .home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  /* center carosuel */
+  .carouselContainer {
+    margin-left: 5%;
+    width: 80%;
+    height: 90%;
+  }
 </style>

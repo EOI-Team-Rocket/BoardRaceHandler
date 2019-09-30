@@ -40,7 +40,7 @@ function readAllEvents(req, res) {
 }
 
 function readOneEvent(req, res) {
-    return EVENTModel.findById(req.params.id)
+    return EVENTModel.findById(req.params.id).populate('participants')
         .then(data => res.json(data))
         .catch((err) => handdleError(err, res));
 }
