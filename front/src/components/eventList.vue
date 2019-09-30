@@ -8,7 +8,7 @@
       <h2></h2>
     </header>
     <div id="itemList ">
-      <div v-for="event in events" :key="event._id" id="listItem color--white">
+      <div v-for="event in events" :key="event._id" id="listItem">
         <eventItem :event="event" @refreshList="getEvents" />
       </div>
     </div>

@@ -38,14 +38,14 @@
               <div class="card-body">
                 <table class="table table-striped">
                   <thead>
-                    <tr> <!-- Explain this please-->
+                    <tr> 
                       <th scope="col">#</th>
                       <th scope="col">First</th>
                       <th scope="col">Last</th>
                       <th scope="col">Handle</th>
                     </tr>
                   </thead>
-                  <tbody> <!-- why this: because Airam -->
+                  <tbody> 
                     <tr>
                       <th scope="row">1</th>
                       <td>Mark</td>
@@ -99,7 +99,7 @@
 
 <script>
 import axios from "axios";
-import CardComponent from "@/components/CardComponent.vue"; /* cardComponent? */
+import CardComponent from "@/components/CardComponent.vue"; /* fix this */
 
 export default {
   name: "eventpage",
@@ -169,7 +169,6 @@ export default {
 
 
   created() {
-    //const url = this.$route.query.id;
     this.id_events = this.$route.query.id;
     this.getDataApi();
   }
