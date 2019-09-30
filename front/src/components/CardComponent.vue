@@ -30,7 +30,6 @@ export default {
         boat:String,
         capacity:Number
     }
-
 }
 </script>
 

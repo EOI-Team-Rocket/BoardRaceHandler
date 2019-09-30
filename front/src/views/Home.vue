@@ -11,9 +11,8 @@
 // @ is an alias to /src
 import axios from "axios";
 
-import Carousel from "@/components/Carousel";
+import Carousel from '@/components/Carousel.vue';
 import ListCard from '@/components/ListCard.vue';
-
 
 export default {
   name: "home",

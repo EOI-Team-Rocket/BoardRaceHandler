@@ -14,7 +14,7 @@
         v-for="data in datas"
         :key="data._id"
         :caption="data.title?data.title:data.name"
-        img-src="https://picsum.photos/1024/480/?image=52"
+        :img-src="data.image"
       >
         <p>
           {{data.date?'Fecha: '+data.date:''}}
@@ -43,7 +43,12 @@ export default {
     axios
       .get("http://localhost:3000/api/v1/" + this.resource)
       .then(datas => {
-        this.datas = datas.data.data.reverse();
+        this.datas = datas.data.data;
+        /* Ordenamos los datos para que se muestren de menor a mayor fecha */
+        this.datas.sort(function(a,b){
+          return new Date(a.date) - new Date(b.date); 
+        });
+        this.datas = this.datas.slice(0,5);
       })
       .catch(err => {
         this.error = err;
