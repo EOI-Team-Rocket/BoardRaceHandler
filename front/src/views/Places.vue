@@ -1,7 +1,6 @@
 <template>
   <div>
     <div>
-      <h2>Search and add a pin</h2>
       <label>
         <gmap-autocomplete @place_changed="setPlace"></gmap-autocomplete>
         <button @click="addMarker">Add</button>
@@ -55,7 +54,7 @@ export default {
         this.currentPlace = null;
       }
     },
-    geolocate: function() {
+    geolocate() {
       navigator.geolocation.getCurrentPosition(position => {
         this.center = {
           lat: position.coords.latitude,

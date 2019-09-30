@@ -20,10 +20,11 @@ Vue.use(BootstrapVue);
 Vue.config.productionTip = false;
 
 import * as VueGoogleMaps from "vue2-google-maps";
+import config from './data.json';
 
 Vue.use(VueGoogleMaps, {
   load: {
-    key: "AIzaSyA16s8asmvLWEVOtZeoYD_v_fM9HsyLMAw",
+    key: config.apikey,
     libraries: "places" // necessary for places input
   }
 });
