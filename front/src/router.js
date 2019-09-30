@@ -26,6 +26,12 @@ export default new Router({
       path: '/eventpage',
       name: 'eventpage',
       component: () => import('./views/EventPage.vue')
+    },
+
+    {
+      path: '/register',
+      name: 'register',
+      component: () => import('./views/RegisterUser.vue')
     }
   ]
 })

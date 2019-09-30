@@ -60,7 +60,7 @@
             <b-form-checkbox class="mb-3">Recuérdame</b-form-checkbox>
           </b-dropdown-form>
           <b-dropdown-divider></b-dropdown-divider>
-          <b-dropdown-item-button>Regístrate</b-dropdown-item-button>
+          <router-link to="/register"><b-dropdown-item-button>Regístrate</b-dropdown-item-button></router-link>
           <b-dropdown-item-button>¿Contraseña olvidada?</b-dropdown-item-button>
         </b-dropdown>
       </div>
