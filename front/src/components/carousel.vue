@@ -2,7 +2,7 @@
   <div class="carouselContainer">
     <b-carousel
       id="carousel-1"
-      :interval="5000"
+      :interval="4000"
       controls
       indicators
       background="#ababab"
@@ -43,10 +43,12 @@ export default {
     axios
       .get("http://localhost:3000/api/v1/" + this.resource)
       .then(datas => {
-        this.datas = datas.data.data.slice(0, 5);
-        
-        
-        
+        this.datas = datas.data.data;
+        /* Ordenamos los datos para que se muestren de menor a mayor fecha */
+        this.datas.sort(function(a,b){
+          return new Date(a.date) - new Date(b.date); 
+        });
+        this.datas = this.datas.slice(0,5);
       })
       .catch(err => {
         this.error = err;

@@ -36,7 +36,7 @@ const EVENTschema = new mongoose.Schema({
         enum: ["H", "M", "X"]
     },
 
-    class: {
+    boat_type: {
         type: String,
         enum: ["420", "470", "29-ER", "49-ER", "Crucero", "Hansa 303", "Ideal 18", "J-80", "Kiteboarding",
             "Laser 4.7", "Laser Radial", "Nacra-17", "Optimist", "Radio Control", "Sin Clase", "Snipe",
@@ -76,7 +76,6 @@ const EVENTschema = new mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: 'user'
     }]
-
 
 });
 

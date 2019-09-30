@@ -142,17 +142,23 @@ export default {
 
 
 <style>
+
+@font-face {
+  font-family: font;
+  src: url('./assets/Fragmentcore.otf');
+}
+
 body {
   background-image: url("./assets/background.jpg");
-  background-color: rgba(0, 0, 0, 0.50);
 }
 
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif; 
+  font-family: font;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  font-size: 18px;
 }
 #nav {
   display: flex;
