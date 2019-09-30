@@ -6,7 +6,9 @@ module.exports = {
     readOneEvent,
     updateEvent,
     deleteEvent,
-    getUsersFromEvent
+    getActiveEvents,
+    isOK,
+    celebrateEvent
 }
 
 function createEvent(req, res) {
@@ -67,11 +69,59 @@ function deleteEvent(req, res) {
         .catch((err) => handdleError(err, res));
 }
 
-function getUsersFromEvent(err, res) { //TODO
-    return;
-}
-
 //Function of error
 function handdleError(err, res) {
     return res.status(400).json(err);
+}
+function getActiveEvents(req, res) {
+    return EVENTModel.find().then(events => {
+        res.status(200).send(getFuturesEvents(events));
+    })
+        .catch((err) => handdleError(err, res));
+}
+/**
+ * This will return all events not canceled, celebrated or with date in the past
+ * @param {Array<JSON>} events 
+ */
+function getFuturesEvents(events) {
+    const finalEvents = events.filter(event => {
+        if (isOK(event)) {
+            return true;
+        } else {
+            if (!event.celebrated && new Date(event.date) < Date.now()) {
+                celebrateEvent(event)
+            }
+            return false;
+        }
+    })
+    return finalEvents;
+}
+/**
+ * This will check if the event is canceled or celebrated or the date is in the past
+ * @param {JSON} event 
+ */
+function isOK(event) {
+    if (!event.cancel && !event.celebrated && (new Date(event.date) > Date.now())) {
+        return true
+    } else {
+        return false
+    }
+}
+/**
+ * This will change the celebrated status to true
+ * @param {String} eventId 
+ */
+function celebrateEvent(event) {
+    if (new Date(event.date) < Date.now()) {
+        EVENTModel.findOneAndUpdate({ _id: event._id }, event, {
+            new: true,
+            runValidators: true
+        })
+            .then(response => {
+                return response;
+            })
+            .catch((err) => { err: err });
+    } else {
+        return false
+    }
 }
