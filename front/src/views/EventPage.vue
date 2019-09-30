@@ -161,7 +161,6 @@ export default {
 
   created() {
     this.id_events = this.$route.params.id;
-    console.log(this.id_events);
     
     this.getDataApi();
   }
