@@ -11,7 +11,7 @@
       <!---------------------- Image and description of event. Left side --------------------------->
       <div class="ml-5 mt-3 container-img">
         <img
-          v-if="data_events.image == undefined"
+          v-if="data_events.image == null"
           class="card-img-top"
           src="../assets/regattaExample.jpg"
           alt="La imagen no se puede cargar"
@@ -34,35 +34,31 @@
       <!-------------------------------------------------------------------------------------------->
 
       <!------------------------------------------Participants-------------------------------------->
-      <div class="container">
-        <div class="row">    
-          <div class="col-12">
-            <div class="ml-2 mt-3 card scroll-participants">
-              <div class="card-body">
-                <h1>Participantes Inscritos</h1>
-                <table class="table table-striped">
-                  <thead>
-                    <tr>
-                      <th scope="col"></th>
-                      <th scope="col">Nombre</th>
-                      <th scope="col">Primer Apellido</th>
-                      <th scope="col">Segundo Apellido</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="(data_event, index) in data_events.participants" :key="data_event._id">
-                      <th scope="row">{{index + 1}}</th>
-                      <td>{{data_event.personalInfo.fullname.name}}</td>
-                      <td>{{data_event.personalInfo.fullname.surname1}}</td>
-                      <td>{{data_event.personalInfo.fullname.surname2}}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
+     
+      <div class="ml-2 mt-3 card scroll-participants">
+        <div class="card-body">
+          <h1>Participantes Inscritos</h1>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Primer Apellido</th>
+                <th scope="col">Segundo Apellido</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(data_event, index) in data_events.participants" :key="data_event._id">
+                <th scope="row">{{index + 1}}</th>
+                <td>{{data_event.personalInfo.fullname.name}}</td>
+                <td>{{data_event.personalInfo.fullname.surname1}}</td>
+                <td>{{data_event.personalInfo.fullname.surname2}}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
+       
       <!-------------------------------------------------------------------------------------------->
     </div>
 
@@ -142,7 +138,7 @@ export default {
 .scroll-participants {
   max-height: 345px;
   overflow-y: auto;
-  flex: 0 0 45%;
+  flex: 0 0 40%;
 }
 
 .scroll-description {
