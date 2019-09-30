@@ -47,6 +47,7 @@ function postUser(req, res) {
             refresh_token: authJWT.createRefreshToken(user),
             expires_in: dataToken[1],
             role: user.role,
+            id: user._id,
             license_number: user.sportInfo.license_number
         }
         return res.status(200).send(userResponde);
@@ -70,12 +71,13 @@ function logIn(req, res) {
             userResult.comparePassword(req.body.password, userResult.password, function (err, isMatch) {
                 if (isMatch & !err) {
                     let dataToken = authJWT.createToken(userResult);
-                    return res.status(200).send({                        
-                        acces_token: dataToken[0],
-                        refresh_token: authJWT.createRefreshToken(userResult),
-                        expires_in: dataToken[1],
-                        role: userResult.role,
-                        license_number: userResult.sportInfo.license_number
+                    return res.status(200).send({
+                      acces_token: dataToken[0],
+                      refresh_token: authJWT.createRefreshToken(user),
+                      expires_in: dataToken[1],
+                      role: user.role,
+                      id: user._id,
+                      license_number: user.sportInfo.license_number
                     });
                 }else {
                     return res.status(401).send({
