@@ -1,98 +1,207 @@
 <template>
   <div id="eventpage">
-      <div id="uppermid">
-        <img src="../assets/regattaExample.jpg" alt="imgEvent">
-        <div id="generalInfo">
-          <p>Titulo:{{event.title}}</p>
-          <div id="dateTime">
-            <p>Fecha: {{event.date}}&nbsp;&nbsp;</p>
-            <p>&nbsp;&nbsp;Hora: {{event.hour}}</p>
-          </div>
-          <p>Lugar: {{event.place}}</p>
+    <!--------------------------------Title of event --------------------------------------------->
+   
+    <h1 class="text-center text-white mt-4">{{data_events.title}}</h1>
+    
+    <!-------------------------------------------------------------------------------------------->
+
+    
+    <div class="d-flex">
+      <!---------------------- Image and description of event. Left side --------------------------->
+      <div class="ml-5 mt-3 container-img">
+        <img
+          v-if="data_events.image == null"
+          class="card-img-top"
+          :src="data_events.image"
+          alt="La imagen no se puede cargar"
+        />
+
+        <img 
+          v-else
+          class="card-img-top"
+          :src="data_events.image"
+          alt="La imagen no se puede cargar"
+        />
+      </div>
+      <!-------------------------------------------------------------------------------------------->
+
+      <!---------------------- Datas of events. Left right ----------------------------------------->
+      
+      <CardComponent :place="data_events.place" :category="data_events.category" :date="data_events.date" 
+                     :manager="data_events.manager" :hour="data_events.hour" :gender="data_events.gender" 
+                     :boat="data_events.class_boat" :capacity="data_events.capacity" class="cardComponent"/>
+      <!-------------------------------------------------------------------------------------------->
+
+      <!------------------------------------------Participants-------------------------------------->
+     
+      <div class="ml-2 mt-3 card scroll-participants">
+        <div class="card-body">
+          <h1>Participantes Inscritos</h1>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Primer Apellido</th>
+                <th scope="col">Segundo Apellido</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(data_event, index) in data_events.participants" :key="data_event._id">
+                <th scope="row">{{index + 1}}</th>
+                <td>{{data_event.personalInfo.fullname.name}}</td>
+                <td>{{data_event.personalInfo.fullname.surname1}}</td>
+                <td>{{data_event.personalInfo.fullname.surname2}}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
-      <div id="lowermid">
-        <div id="categoriesSex">
-          <p>Categorias: {{event.boat_category}} {{event.age_category}} &nbsp;&nbsp;</p>
-          <p>&nbsp;&nbsp;Sexo: {{event.gender}}</p>
+       
+      <!-------------------------------------------------------------------------------------------->
+    </div>
+
+
+    <!-------------------------------------Description of event----------------------------------->
+    <div class="d-flex">  
+      <div class="ml-5 mt-3 card scroll-description">
+        <div class="card-body">
+          <h4>
+            <strong>Descripción del evento</strong>
+          </h4>
+          <p>{{data_events.description}}</p>
         </div>
-        <p>Descripcion: {{event.description}}</p>
-        <div id="categoriesSex">
-          <p id="entries">Participantes: {{event.participants}}&nbsp;&nbsp;</p>
-          <p>&nbsp;&nbsp;Club Náutico: {{event.sailingClub}}</p>
-        </div>
-        <button type="submit" class="btn-inscription">Inscribirse</button>
       </div>
+    </div>
+    
+    <!-------------------------------------------------------------------------------------------->
+
+    
+
+    <!-------------------------------------Button of inscription----------------------------------->
+    <div class="d-flex justify-content-end">
+      <p v-if="error != ''">{{error}}</p>
+      <button v-if="stateBtn" @click="inscription" class="btn-inscription mr-5 mt-3">Inscribirse</button>
+      <button v-else @click="unSubcription" class="btn-inscription mr-5 mt-3">Desinscribirse</button>
+    </div>
+    <!--------------------------------------------------------------------------------------------->
   </div>
 </template>
 
-<script>
-import axios from 'axios';
-export default {
-  name:"eventpage",
-  data(){
-    return {
-      event: {}
-    }
 
+<script>
+import axios from "axios";
+import CardComponent from "@/components/CardComponent.vue";
+
+export default {
+  name: "eventpage",
+  data() {
+    return {
+      data_events: "",
+      id_events: "",
+      stateBtn: true,
+      error: ""
+    };
   },
-  created(){this.getEvent()},
+  components: {
+    CardComponent
+  },
   methods: {
-    getEvent(){
-      axios.post('http://localhost:3000/api/v1/events/event 1')
-      .then(res =>{
-        this.event = res.data[0];
-        console.log(res);
-      })
+    getDataApi() {
+      axios
+        .get("http://localhost:3000/api/v1/events/" + this.id_events)
+        .then(response => {
+          this.data_events = response.data;
+          const jwt = JSON.parse(localStorage.getItem("jwt"));
+          if(jwt != null){
+            if(this.data_events.participants.indexOf(jwt.id) != -1) this.stateBtn = false; 
+          }
+        })
+        .catch(error => {
+          this.error = error;
+        });
+    },
+    inscription(){
+      const jwt = JSON.parse(localStorage.getItem("jwt"));
+      this.error = "";
+      if(jwt != null){
+        const ids = {
+          userId: jwt.id,
+          eventId: this.id_events
+        };
+        axios.post("http://localhost:3000/api/v1/registerInEvent", ids).then(res => {
+          this.stateBtn = false;
+          this.getDataApi();
+          
+        }).catch(err => {
+          this.error = err
+        });  
+      }else{
+        this.error = "Debe estar autenticado para poder inscribirse"
+      }
+      
+    },
+    unSubcription(){
+      const jwt = JSON.parse(localStorage.getItem("jwt"));
+      const ids = {
+        userId: jwt.id,
+        eventId: this.id_events
+      };
+      axios.post("http://localhost:3000/api/v1/unSubscription", ids)
+      .then(res => {
+        this.stateBtn = true;
+        this.getDataApi();
+            }).catch(err => {
+              this.error = err
+            });  
     }
+  },
+
+
+  created() {
+    this.id_events = this.$route.params.id;
+    this.getDataApi();
   }
-}
+};
 </script>
 
 <style scoped>
 
-#eventpage{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  color: #ffeede;
+.container-img{
+  flex: 0 0 25%;
 }
 
-#uppermid{
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  padding: 20px;
-  
+.card-img-top{
+  height: 100%;
 }
 
-#uppermid img{
-  padding-right: 20px;
+.cardComponent{
+  flex: 0 0 30%;
 }
 
-#generalInfo{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.scroll-participants {
+  max-height: 345px;
+  overflow-y: auto;
+  flex: 0 0 40%;
 }
 
-#dateTime{
-  display:flex;
-  flex-direction: row;
+.scroll-description {
+  max-height: 200px;
+  overflow-y: auto;
+  flex: 0 0 55%;
 }
 
-#categoriesSex{
-  display:flex;
-  flex-direction: row;
-  justify-content: center;
+.border-design {
+  padding: 3px 10px;
+  border: PowderBlue 5px solid;
+  border-radius: 20px;
+  width: 400px;
+  height: 50px;
 }
 
-#entries{
-  overflow: scroll;
-}
 
-.btn-inscription{
+.btn-inscription {
   background: #84abe8;
   background-image: -webkit-linear-gradient(top, #84abe8, #577eff);
   background-image: -moz-linear-gradient(top, #84abe8, #577eff);
