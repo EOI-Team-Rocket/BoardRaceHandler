@@ -10,7 +10,6 @@ router.get("/events", eventController.readAllEvents);
 router.get("/events/active", eventController.getActiveEvents)
 router.get("/events/:id", eventController.readOneEvent);
 router.patch("/events/:id", eventController.updateEvent);
-router.patch("/events/cancel/:id", eventController.cancelEvent)
 router.delete("/events/:id", eventController.deleteEvent);
 
 /*-------------- USERS ROUTES --------------*/
