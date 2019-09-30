@@ -38,7 +38,7 @@ const USERschema = new mongoose.Schema({
 
         gender: {
             type: String,
-            enum: ["H", "M"] //required in front
+            enum: ["F", "M"] //required in front
         },
 
     },
@@ -52,7 +52,7 @@ const USERschema = new mongoose.Schema({
             enum: ["Deportista"],
             required: true
         }],
-        class: {
+        class_boat: {
             type: String,
             enum: ["420", "470", "29-ER", "49-ER", "Crucero", "Hansa 303", "Ideal 18", "J-80", "Kiteboarding",
                 "Laser 4.7", "Laser Radial", "Nacra-17", "Optimist", "Radio Control", "Sin Clase", "Snipe",
