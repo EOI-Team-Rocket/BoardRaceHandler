@@ -111,7 +111,10 @@ function isOK(event) {
  */
 function celebrateEvent(event) {
     if (new Date(event.date) < Date.now()) {
-        EVENTModel.findByIdAndUpdate(event._id, { celebrated: true }, { new: true })
+        EVENTModel.findOneAndUpdate({ _id: event._id }, event, {
+            new: true,
+            runValidators: true
+        })
             .then(response => {
                 return response;
             })

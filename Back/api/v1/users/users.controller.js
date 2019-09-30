@@ -120,7 +120,10 @@ function handleEventFail(event) {
  */
 async function addUserToEvent(event, userId) {
   event.participants.push(userId);
-  return await Events.findByIdAndUpdate(event._id, { participants: event.participants })
+  return await Events.findOneAndUpdate({ _id: event._id }, { participants: event.participants }, {
+    new: true,
+    runValidators: true
+  })
 }
 /**
  *Will add an event to regattas in an user
