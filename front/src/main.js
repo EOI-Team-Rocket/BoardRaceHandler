@@ -19,6 +19,15 @@ Vue.use(BootstrapVue);
 
 Vue.config.productionTip = false;
 
+import * as VueGoogleMaps from "vue2-google-maps";
+
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: "AIzaSyA16s8asmvLWEVOtZeoYD_v_fM9HsyLMAw",
+    libraries: "places" // necessary for places input
+  }
+});
+
 new Vue({
   router,
   store,

@@ -8,24 +8,30 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'home',
+      path: "/",
+      name: "home",
       component: Home
     },
     {
-      path: '/dashboard',
-      name: 'dashboard',
-      component: () => import(/* webpackChunkName: "dashboard" */ './views/dashboard.vue')
+      path: "/dashboard",
+      name: "dashboard",
+      component: () =>
+        import(/* webpackChunkName: "dashboard" */ "./views/dashboard.vue")
     },
     {
-      path: '/create',
-      name: 'Create',
-      component: () => import('./views/Create.vue')
+      path: "/create",
+      name: "Create",
+      component: () => import("./views/Create.vue")
     },
     {
-      path: '/eventpage',
-      name: 'eventpage',
-      component: () => import('./views/EventPage.vue')
+      path: "/eventpage",
+      name: "eventpage",
+      component: () => import("./views/EventPage.vue")
+    },
+    {
+      path: "/places",
+      name: "places",
+      component: () => import("./views/Places.vue")
     }
   ]
-})
+});
