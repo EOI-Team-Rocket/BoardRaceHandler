@@ -8,16 +8,9 @@ module.exports = {
     deleteEvent,
     getActiveEvents,
     isOK,
-    celebrateEvent,
-    cancelEvent
+    celebrateEvent
 }
-function cancelEvent(req, res) {
-    return EVENTModel.findByIdAndUpdate(req.params.id, { cancel: true }, { new: true })
-        .then(response => {
-            return res.status(200).json(response);
-        })
-        .catch((err) => handdleError(err, res));
-}
+
 function createEvent(req, res) {
     return EVENTModel.create(req.body)
         .then(response => {
