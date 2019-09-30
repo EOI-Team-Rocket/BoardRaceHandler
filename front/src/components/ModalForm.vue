@@ -16,38 +16,45 @@
             <div id="upperSection">
                 <div id="imageContentElement">
                     <figure id="imageContainer">
-                        <img>
+                        <img :src="event.image">
                     </figure>
-                    <button id="uploadImageButton">Subir Imagen</button>
+                    <label for="uploadImageButton">Subir imagen</label>
+                    <input id="uploadImageButton" type="file" accept="image/" @change="putImageInData">
                 </div>
                 <fieldset id="inputTextElements">
-                    Título: <input name="title" type="text" class="inputTextElement">
-                    Fecha: <input name="date" type="date" class="inputTextElement">
-                    Hora: <input name="hour" type="time" class="inputTextElement">
+                    Título: <input name="title" type="text" class="inputTextElement" v-model="event.title">
+                    Fecha: <input name="date" class="inputTextElement" type="date" v-model="event.date">
+                    Hora: <input name="hour" type="time" class="inputTextElement" v-model="event.hour">
                 </fieldset>
             </div>
             <div id="upperCenterSection">
                 <fieldset id="radioButtonsElements">
                     <span class="radioButtonElement" id="genderCategoryLabel">Sexo: </span>
-                    <input type="radio" name="gender" value="male" class="radioButtonElement"> Masculino
-                    <input type="radio" name="gender" value="female" class="radioButtonElement"> Femenino
-                    <input type="radio" name="gender" value="mixed" class="radioButtonElement"> Mixto
+                    <input type="radio" name="gender" value="male" class="radioButtonElement" v-model="event.gender"> Masculino
+                    <input type="radio" name="gender" value="female" class="radioButtonElement" v-model="event.gender"> Femenino
+                    <input type="radio" name="gender" value="mixed" class="radioButtonElement" v-model="event.gender"> Mixto
                 </fieldset>
+                <div id="placeInputContainer">
+                    Lugar: <input id="placeInput" name="place" type="text" v-model="event.place">
+                </div>
+                <div id="capacityInputContainer">
+                    Aforo: <input id="capacityInput" name="capacity" type="number" min="1" v-model="event.capacity">
+                </div>
             </div>
             <div id="bottomCenterSection">
                 <div id="descriptionContainer">
-                    <textarea id="description">
+                    <textarea id="description" v-model="event.description">
                     </textarea>
                 </div>
                 <div id="optionsContainer">
-                    <select id="boatOptions" class="optionElement">  
+                    <select id="boatOptions" class="optionElement" v-model="event.class">  
                         <option v-for="boat in boats" :key="boat">{{boat}}</option>
                     </select>
-                    <select id="ageOptions" class="optionElement">
+                    <select id="ageOptions" class="optionElement" v-model="event.category">
                         <option v-for="age in ages" :key="age">{{age}}</option>
                     </select>
-                    <select id="clubOptions" class="optionElement">
-                        <option v-for="club in clubs" :key="club">{{club}}</option>
+                    <select id="managerOptions" class="optionElement" v-model="event.manager">
+                        <option v-for="manager in managers" :key="manager">{{manager}}</option>
                     </select>
                 </div>
             </div>
@@ -55,7 +62,7 @@
         <template v-slot:modal-footer="{}">
             <div id="bottomSection">
                 <div id="actionButtons">
-                    <button class="actionButton" v-if="edit">BORRAR</button>
+                    <button class="actionButton" v-if="edit" @click="deleteEvent">BORRAR</button>
                     <button v-if="!edit" @click="createEvent" class="actionButton">CREAR EVENTO</button>
                     <button v-else @click="updateEvent" class="actionButton">MODIFICAR EVENTO</button>
                 </div>
@@ -83,10 +90,21 @@ export default {
             "Thecno", "Vela Adaptada Iniciacion", "Windsurf/Fun Board", "Windsurf/RSX", "Windsurf/Velocidad"],
             ages: ["Infantil", "Iniciacion Infantil", "Juvenil", "Senior", "Ampliacion", 
             "Ampliacion de Autonomica", "Autonomica"],
-            clubs: ["Real Club Nautico"],
+            managers: ["Real Club Nautico"],
             formHeader: "",
             event: {
-                title: ""
+                title: null,
+                date: null,
+                hour: null,
+                place: null,
+                image: null,
+                gender: null,
+                class: null,
+                category: null,
+                description: null,
+                capacity: null,
+                manager: null,
+                participants: []
             }
         }
     },
@@ -100,22 +118,58 @@ export default {
             this.$emit("hideFormModal");
         },
         updateEvent(){
-
+            if(!this.formValidation()) return;
         },
         createEvent(){
-            axios.post('http://localhost:3000/api/v1/events',{
-                title: this.event.title,
-                date: this.event.date,
-                hour: this.event.hour,
-                place: this.event.place,
-                gender: this.event.gender,
-                boat_category: this.event.boat_category,
-                age_category: this.event.age_category,
-                description: this.event.description,
-                sailingClub: this.event.sailingClub
+            if(!this.formValidation()) return;
+            this.translateGender();
+            axios.post('http://localhost:3000/api/v1/events',this.event)
+            .then(res => {
+                 this.hideModal();
             })
-            .then()
-            .catch();
+            .catch(err => {
+                console.log(err);
+                this.errors.push("Error al conectar con la base de datos");
+            });
+        },
+        deleteEvent(){
+
+        },
+        formValidation(){
+            this.errors=[];
+            this.dateTimeValidator();
+            if(!this.event.title) this.errors.push("El título del evento es obligatorio");
+            if(!this.event.place) this.errors.push("El lugar es obligatorio");
+            if(!this.event.gender) this.errors.push("Hay que seleccionar una opción en 'sexo'");
+            if(!this.event.class) this.errors.push("La clase es obligatoria");
+            if(!this.event.category) this.errors.push("La categoría es obligatoria");
+            if(!this.event.description) this.errors.push("La descripción es obligatorio");
+            if(!this.event.manager) this.errors.push("El club naútico es obligatorio");
+            if(this.errors.length>0) return false;
+            return true;
+        },
+        dateTimeValidator(){ //enviar los mensajes si falla dependiendo del fallo Validar que el día no sea pasado
+            let today = new Date();
+            today=today.getTime();
+            let eventDay = new Date(this.event.date);
+            eventDay = eventDay.getTime();
+            if(eventDay<today) this.errors.push("No se puede introducir una fecha anterior a la actual");
+            this.event.date = new Date(this.event.date);;
+            return;
+        },
+        putImageInData(){ //to implement maybe will need event.target
+            return;
+        },
+        translateGender(){
+            switch(this.event.gender){
+                case "Masculino":
+                    this.event.gender="M";
+                    break;
+                case "Femenino":
+                    this.event.gender="F";
+                default:
+                    this.event.gender="X";
+            }
         }
     },
     created(){ //I don't know if this works or we will have tu use "watch: $route" because Vue.js recycles components
@@ -127,6 +181,7 @@ export default {
         }
     }
 }
+//rellenar los campos input si estamos editando
 </script>
 
 <style scoped>

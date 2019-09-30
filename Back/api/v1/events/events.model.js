@@ -11,7 +11,7 @@ const EVENTschema = new mongoose.Schema({
         type: String,
         required: [true, "The date is required"],
         //dd/mm/yyyy
-        validate: /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/ 
+        validate: /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$/ 
     },
 
     hour: {
@@ -33,7 +33,7 @@ const EVENTschema = new mongoose.Schema({
     gender: {
         type: String,
         required: [true, "The gender is required"],
-        enum: ["H", "M", "X"]
+        enum: ["M", "F", "X"]
     },
 
     class: {
