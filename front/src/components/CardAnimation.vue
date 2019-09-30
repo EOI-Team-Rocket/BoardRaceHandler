@@ -3,8 +3,7 @@
         <div class="flip-card mt-5 ml-5">
             <div class="flip-card-inner">
                 <div class="card flip-card-front">
-                    <img v-if="img != null" class="card-img" :src="img" alt="No se ha podido cargar la imagen">
-                    <img v-else class="card-img" src="../assets/regattaExample.jpg" alt="No se ha podido cargar la imagen">
+                    <img class="card-img" :src="img">
                     <div class="card-body">
                         <h5 class="card-title text-dark">{{title}}</h5>
                     </div>      

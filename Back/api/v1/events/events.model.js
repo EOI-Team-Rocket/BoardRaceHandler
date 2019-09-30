@@ -2,84 +2,113 @@ const mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 const EVENTschema = new mongoose.Schema({
-    title: {
-        type: String,
-        required: [true, "The title is required"],
-    },
+  title: {
+    type: String,
+    required: [true, "The title is required"]
+  },
 
-    date: {
-        type: String,
-        required: [true, "The date is required"],
-        //dd/mm/yyyy
-        validate: /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$/ 
-    },
+  date: {
+    type: String,
+    required: [true, "The date is required"],
+    //dd/mm/yyyy
+    validate: /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$/
+  },
 
-    hour: {
-        type: String,
-        required: [true, "The hour is required"],
-        //hh:mm
-        validate: /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/
-    },
+  hour: {
+    type: String,
+    required: [true, "The hour is required"],
+    //hh:mm
+    validate: /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/
+  },
 
-    place: {
-        type: String,
-        required: [true, "The place is required"],
-    },
-    cancel: {
-        type: Boolean,
-        default: false
-    },
-    celebrated: {
-        type: Boolean,
-        default: false
-    },
-    image: {
-        type: String //search
-    },
-    gender: {
-        type: String,
-        required: [true, "The gender is required"],
-        enum: ["F", "M", "X"]
-    },
-    class_boat: {
-        type: String,
-        enum: ["420", "470", "29-ER", "49-ER", "Crucero", "Hansa 303", "Ideal 18", "J-80", "Kiteboarding",
-            "Laser 4.7", "Laser Radial", "Nacra-17", "Optimist", "Radio Control", "Sin Clase", "Snipe",
-            "Thecno", "Vela Adaptada Iniciacion", "Windsurf/Fun Board", "Windsurf/RSX", "Windsurf/Velocidad"],
-        required: [true, "The class is required"]
-    },
-    category: {
-        type: String,
-        enum: ["Infantil", "Iniciacion Infantil", "Juvenil", "Senior", "Ampliacion", "Ampliacion de Autonomica"
-            , "Autonomica"],
-        required: [true, "The category is required"]
-    },
-    description: {
-        type: String,
-        required: [true, "The description is required"]
-    },
+  place: {
+    type: String,
+    required: [true, "The place is required"]
+  },
+  cancel: {
+    type: Boolean,
+    default: false
+  },
+  celebrated: {
+    type: Boolean,
+    default: false
+  },
+  image: {
+    type: String,
+    default:
+      "https://m.eldiario.es/fotos/XX-Regata-Internacional-Canarias-Madeira-Funchal_EDIIMA20180904_0528_19.jpg"
+  },
+  gender: {
+    type: String,
+    required: [true, "The gender is required"],
+    enum: ["F", "M", "X"]
+  },
+  class_boat: {
+    type: String,
+    enum: [
+      "420",
+      "470",
+      "29-ER",
+      "49-ER",
+      "Crucero",
+      "Hansa 303",
+      "Ideal 18",
+      "J-80",
+      "Kiteboarding",
+      "Laser 4.7",
+      "Laser Radial",
+      "Nacra-17",
+      "Optimist",
+      "Radio Control",
+      "Sin Clase",
+      "Snipe",
+      "Thecno",
+      "Vela Adaptada Iniciacion",
+      "Windsurf/Fun Board",
+      "Windsurf/RSX",
+      "Windsurf/Velocidad"
+    ],
+    required: [true, "The class is required"]
+  },
+  category: {
+    type: String,
+    enum: [
+      "Infantil",
+      "Iniciacion Infantil",
+      "Juvenil",
+      "Senior",
+      "Ampliacion",
+      "Ampliacion de Autonomica",
+      "Autonomica"
+    ],
+    required: [true, "The category is required"]
+  },
+  description: {
+    type: String,
+    required: [true, "The description is required"]
+  },
 
-    capacity: {
-        type: Number,
-        min: [1, "The capacity must be greater than 1"]
-    },
+  capacity: {
+    type: Number,
+    min: [1, "The capacity must be greater than 1"]
+  },
 
-    manager: {
-        type: String,
-        required: [true, "The manager is required"]
-    },
+  manager: {
+    type: String,
+    required: [true, "The manager is required"]
+  },
 
-    createdAt: {
-        type: Date,
-        default: Date.now()
-    },
+  createdAt: {
+    type: Date,
+    default: Date.now()
+  },
 
-
-    participants: [{
-        type: Schema.Types.ObjectId,
-        ref: 'user'
-    }]
-
+  participants: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "user"
+    }
+  ]
 });
 
 
