@@ -8,7 +8,7 @@
       <h2></h2>
     </header>
     <div id="itemList">
-      <div v-for="event in showEvents" :key="event._id" class="headerItem">
+      <div v-for="event in showEvents" :key="event._id" id="listItem">
         <eventItem :event="event" @refreshList="getEvents" />
       </div>
     </div>
@@ -136,8 +136,14 @@ export default {
 </script>
 
 <style scoped>
-.headerItem {
-  color: white;
+
+.color--white{
+  color: #ffeede;
+}
+
+.listTitles {
+  
+  font-size: 18px;
 }
 .columns {
   display: flex;
@@ -146,6 +152,10 @@ export default {
 .columns * {
   flex: 1;
   flex-basis: 50%;
+}
+
+#itemList {
+  display: flex;
 }
 .select {
   background: #ffffff;

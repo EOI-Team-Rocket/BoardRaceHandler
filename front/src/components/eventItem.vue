@@ -1,5 +1,5 @@
 <template>
-  <div :class="{listRow: true,deleting: this.deleteModalIsShown}">
+  <div :class="{listRow: true,deleting: this.deleteModalIsShown}" class="color--white">
     <div>
       <span class="eventProperty">{{event.title}}</span>
     </div>
@@ -57,6 +57,12 @@ export default {
 </script>
 
 <style scoped>
+
+.color--white{
+  color: #ffeede;
+}
+
+
 .buttons {
   height: 100%;
   width: 40%;

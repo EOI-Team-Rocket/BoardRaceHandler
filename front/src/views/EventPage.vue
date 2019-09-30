@@ -81,7 +81,7 @@
 
     <!-------------------------------------Button of inscription----------------------------------->
     <div class="d-flex justify-content-end">
-      <p v-if="error != ''">{{error}}</p>
+      <p v-if="error != ''" class="error">{{error}}</p>
       <button v-if="stateBtn" @click="inscription" class="btn-inscription mr-5 mt-3">Inscribirse</button>
       <button v-else @click="unSubcription" class="btn-inscription mr-5 mt-3">Desinscribirse</button>
     </div>
@@ -92,7 +92,7 @@
 
 <script>
 import axios from "axios";
-import CardComponent from "@/components/CardComponent.vue";
+import CardComponent from "@/components/CardComponent.vue"; /* fix this */
 
 export default {
   name: "eventpage",
@@ -161,6 +161,7 @@ export default {
 
   created() {
     this.id_events = this.$route.params.id;
+    
     this.getDataApi();
   }
 };
@@ -213,7 +214,7 @@ export default {
   border-radius: 28px;
   font-family: Arial;
   color: #ffeede;
-  font-size: 18px;
+  font-size: 15px;
   padding: 10px 20px 10px 20px;
   text-decoration: none;
   border: none;
@@ -221,11 +222,11 @@ export default {
 
 .btn-inscription:hover {
   background: #9ed2ff;
-  background-image: -webkit-linear-gradient(top, #9ed2ff, #84c8e8);
-  background-image: -moz-linear-gradient(top, #9ed2ff, #84c8e8);
-  background-image: -ms-linear-gradient(top, #9ed2ff, #84c8e8);
-  background-image: -o-linear-gradient(top, #9ed2ff, #84c8e8);
-  background-image: linear-gradient(to bottom, #9ed2ff, #84c8e8);
+  background-image: -webkit-linear-gradient(top, #577eff, #84abe8);
+  background-image: -moz-linear-gradient(top, #577eff, #84abe8);
+  background-image: -ms-linear-gradient(top, #577eff, #84abe8);
+  background-image: -o-linear-gradient(top, #577eff, #84abe8);
+  background-image: linear-gradient(to bottom, #577eff, #84abe8);
   text-decoration: none;
   border: none;
 }
