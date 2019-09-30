@@ -6,7 +6,6 @@
                     <span class="error" v-else>{{error+"."}}</span>
                 </span>
             </div>
-
             <div class="group">
                 <div role="group" class="sub-group">
                     <label class="input-label" for="title">Título:</label>
@@ -14,7 +13,6 @@
                     aria-describedby="input-live-help input-live-feedback" placeholder="Título"></b-form-input>
                 </div>
             </div>
-
             <div class="group">
                 <div role="group" class="sub-group">
                     <label class="input-label" for="date">Fecha:</label>
@@ -25,7 +23,6 @@
                     <b-form-input class="sm-input" id="hour" type="time" v-model="event.hour"></b-form-input>
                 </div>
             </div>
-
             <div class="group">
                 <div role="group" class="sub-group">
                     <label class="input-label" for="input-live">Descripción:</label>
@@ -34,7 +31,6 @@
                     placeholder="Descripción"></b-form-textarea>
                 </div>
             </div>
-
             <div class="group">
                 <div role="group" class="sub-group">
                     <label class="input-label" for="place">Lugar:</label>
@@ -62,7 +58,6 @@
                     </fieldset>
                 </div>
             </div>
-
             <div class="group">
                 <div role="group" class="sub-group">
                     <label class="input-label" for="boat_category">Categoria de Barco:</label>
@@ -74,9 +69,7 @@
                     <b-form-select v-model="event.age_category" :options="competitions" size="sm" 
                     class="sm-input" id="age_category"></b-form-select>
                 </div>
-                
             </div>
-
             <div class="group">
                 <div role="group" class="sub-group">
                     <label class="input-label" for="input-live">Competición:</label>
@@ -87,7 +80,6 @@
                     <b-form-select v-model="event.sailingClub" :options="competitions" size="sm" class="sm-input"></b-form-select>
                 </div>
             </div>
-
             <div class="group">
                 <div role="group" class="sub-group">
                     <label class="input-label" for="input-live">Imagen:</label>
@@ -102,11 +94,7 @@
                 <button v-if="!edit" @click="checkForm" class="btn-create">CREAR EVENTO</button>
                 <button v-else @click="checkForm" class="btn-create">MODIFICAR EVENTO</button>
             </div>     
-
-
-    </div>
-
-
+        </div>
 </template>
 
 <script>
@@ -233,8 +221,6 @@ export default {
             }
         },
         createEvent(){
-            console.log("hola")
-            // console.log(typeof this.event)
             axios.post('http://localhost:3000/api/v1/events',{
                 title: this.event.title,
                 date: this.event.date,
@@ -316,7 +302,6 @@ export default {
     #description {
         height: 250px;
         resize: none;
-
     }
     #gender{
         margin: 0 5px;
