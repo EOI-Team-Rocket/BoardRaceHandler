@@ -47,7 +47,7 @@
                     </textarea>
                 </div>
                 <div id="optionsContainer">
-                    <select id="boatOptions" class="optionElement" v-model="event.class">  
+                    <select id="boatOptions" class="optionElement" v-model="event.class_boat">  
                         <option v-for="boat in boats" :key="boat">{{boat}}</option>
                     </select>
                     <select id="ageOptions" class="optionElement" v-model="event.category">
@@ -99,7 +99,7 @@ export default {
                 place: null,
                 image: null,
                 gender: null,
-                class: null,
+                class_boat: null,
                 category: null,
                 description: null,
                 capacity: null,
@@ -141,7 +141,7 @@ export default {
             if(!this.event.title) this.errors.push("El título del evento es obligatorio");
             if(!this.event.place) this.errors.push("El lugar es obligatorio");
             if(!this.event.gender) this.errors.push("Hay que seleccionar una opción en 'sexo'");
-            if(!this.event.class) this.errors.push("La clase es obligatoria");
+            if(!this.event.class_boat) this.errors.push("La clase es obligatoria");
             if(!this.event.category) this.errors.push("La categoría es obligatoria");
             if(!this.event.description) this.errors.push("La descripción es obligatorio");
             if(!this.event.manager) this.errors.push("El club naútico es obligatorio");
@@ -185,10 +185,6 @@ export default {
 </script>
 
 <style scoped>
-.fillAll{
-    width:  90vh;
-    height: 90vh;
-}
 
 #description{
     resize: none;
