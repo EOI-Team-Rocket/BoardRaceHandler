@@ -1,4 +1,7 @@
 const EVENTModel = require("./events.model");
+const nodemailer = require("nodemailer");
+const dotenv = require("dotenv");
+const config = require("../../../config")[process.env.NODE_ENV];
 
 module.exports = {
     createEvent,
@@ -37,11 +40,20 @@ function readOneEvent(req, res) {
 }
 
 function updateEvent(req, res) {
-    return EVENTModel.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true })
-        .then(response => {
-            return res.json(response);
-        })
-        .catch((err) => handdleError(err, res));
+    return EVENTModel.findByIdAndUpdate(
+      req.params.id,
+      { $set: req.body },
+      { new: true }
+    )
+      .populate("participants")
+      .then(response => {
+          const event = response;
+          for (let i = 0; i < event.participants.length; i++) {
+            sendEmail(event.participants[i].email, response.title, "EVENTO ACTUALIZADO"+response);
+          }
+        return res.json(response);
+      })
+      .catch(err => handdleError(err, res));
 }
 
 function deleteEvent(req, res) {
@@ -66,3 +78,28 @@ function getUsersFromEvent(err, res) { //TODO
 function handdleError(err, res) {
     return res.status(400).json(err);
 }
+
+function sendEmail(email, subject, text){
+    var transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+            user: config.email,
+            pass: config.password
+        }
+    });
+    var mailOptions = {
+        from: config.email,
+        to: email,
+        subject: subject,
+        text: text
+    };
+
+    transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log("Email sent: " + info.response);
+        }
+    })
+}
+
