@@ -30,7 +30,7 @@
       
       <CardComponent :place="data_events.place" :category="data_events.category" :date="data_events.date" 
                      :manager="data_events.manager" :hour="data_events.hour" :gender="data_events.gender" 
-                     :boat="data_events.boat_type" :capacity="data_events.capacity" class="cardComponent"/>
+                     :boat="data_events.class_boat" :capacity="data_events.capacity" class="cardComponent"/>
       <!-------------------------------------------------------------------------------------------->
 
       <!------------------------------------------Participants-------------------------------------->

@@ -32,7 +32,6 @@ function postUser(req, res) {
     });
 }
 
-//To do: Tests in front
 function patchUser(req, res) {
   return Users.findOneAndUpdate(
     {
@@ -45,10 +44,14 @@ function patchUser(req, res) {
     }
   )
     .then(result => {
-      res.send(result);
+      if (result) {
+        res.json(result);
+      } else {
+        res.json({ err: "there is no user" })
+      }
     })
     .catch(err => {
-      res.send(err);
+      res.json(err);
     });
 }
 function deleteUser(req, res) {
@@ -92,11 +95,46 @@ function confirmRegister(user, event) {
     if (event.participants.includes(user._id) || user.sportInfo.regattas.includes(event._id)) {
       return { err: "regatta already joined" };
     } else {
-      return true;
+      var err = canUserJoin(user, event)
+      if (err == true) {
+        return true;
+      } else {
+        return err;
+      }
     }
   } else {
     return handleEventFail(event);
   }
+}
+function canUserJoin(user, event) {
+  var err = checkGender(user, event);
+  if (err == true) {
+    if (user.class_boat == event.class_boat) {
+      if (new Date(user.sportInfo.expiration_date) < Date.now()) {
+        if (event.participants.length < event.capacity) {
+          return true
+        } else {
+          return { err: "the event is full" }
+        }
+      } else {
+        return { err: "the user has his lisence expirated" }
+      }
+    } else {
+      return { err: "the class boat is: " + event.class_boat }
+    }
+  } else {
+    return err;
+  }
+}
+function checkGender(user, event) {
+  if (event.gender == 'X') {
+    return true
+  } else {
+    if (user.personalInfo.gender != event.gender) {
+      return { err: "the event is for " + event.gender }
+    }
+  }
+  return true
 }
 /**
  * Will return the type of error in the event when a user want to register 
