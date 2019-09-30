@@ -1,5 +1,4 @@
 <template>
-<!-- look for a good font -->
   <div id="app">
     <div id="nav">
       <div id="nav--leftpart">
@@ -168,10 +167,10 @@ body {
 
 #nav a {
   font-weight: bold;
-  color: #222299;
+  color: #2c3e50;
   text-decoration: none;
   padding: 15px;
-  font-weight: normal;
+  font-weight: bold;
 }
 
 #nav a:hover {
@@ -180,8 +179,8 @@ body {
   font-weight: bold;
 }
 
-.routerdropdown {
-  color: mediumblue;
+.routerdropdown a{
+  color: #2c3e50;
 }
 
 #nav .dropdown-menu {

@@ -81,7 +81,7 @@
 
     <!-------------------------------------Button of inscription----------------------------------->
     <div class="d-flex justify-content-end">
-      <p v-if="error != ''">{{error}}</p>
+      <p v-if="error != ''" class="error">{{error}}</p>
       <button v-if="stateBtn" @click="inscription" class="btn-inscription mr-5 mt-3">Inscribirse</button>
       <button v-else @click="unSubcription" class="btn-inscription mr-5 mt-3">Desinscribirse</button>
     </div>
