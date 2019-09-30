@@ -23,7 +23,7 @@ export default new Router({
       component: () => import('./views/Create.vue')
     },
     {
-      path: '/eventpage',
+      path: '/eventpage/:id',
       name: 'eventpage',
       component: () => import('./views/EventPage.vue')
     },
