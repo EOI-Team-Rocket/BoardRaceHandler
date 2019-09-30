@@ -154,7 +154,7 @@ export default {
             let eventDay = new Date(this.event.date);
             eventDay = eventDay.getTime();
             if(eventDay<today) this.errors.push("No se puede introducir una fecha anterior a la actual");
-            this.event.date = new Date(this.event.date);;
+            this.event.date = new Date(this.event.date);
             return;
         },
         putImageInData(){ //to implement maybe will need event.target
