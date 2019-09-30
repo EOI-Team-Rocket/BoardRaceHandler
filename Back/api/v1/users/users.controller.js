@@ -63,90 +63,76 @@ function deleteUser(req, res) {
     });
 }
 async function registerInEvent(req, res) {
-  var err;
-  var event = await addUserToEvent(req.body.eventId, req.body.userId);
-  var user;
-  err = event.err ? true : false;
-  if (err == false) {
-    user = await addEvent(req.body.eventId, req.body.userId);
-    err = user.err ? true : user.err
-    if (err === true) {
-      res.json({
-        event: event,
-        user: user
-      })
-    } else {
-      res.json({ err: user.err })
-    }
+  var userId = req.body.userId;
+  var eventId = req.body.eventId;
+
+  var user = await Users.findById(userId);;
+  var event = await Events.findOne({ _id: eventId });
+
+  var err = confirmRegister(user, event);
+
+  if (err == true) {
+    res.json({
+      event: await addUserToEvent(event, userId),
+      user: await addEvent(eventId, user)
+    });
   } else {
-    res.json({ err: event.err })
+    res.json(err);
   }
 }
 /**
- * Add user to an Event
+ * Will return true or the error if the regatta is canceled, celebrated or has already the user
+ *
+ * @param {JSON} user
+ * @param {JSON} event
+ * @returns
  */
-function addUserToEvent(eventId, userId) {
-  //finding event to add user
-  return Events.findOne({ _id: eventId })
-    .then(async result => {
-      //adding user to event
-      if (eventController.isOK(result)) {
-        if (!result.participants.includes(userId)) {
-          result.participants.push(userId);
-          //updating event
-          return await Events.findByIdAndUpdate(eventId, { participants: result.participants })
-            .then(event => {
-              return event;
-            })
-            .catch(err => {
-              return { err: "regatta already joined" };
-            });
-        } else {
-          return { err: "regatta already joined" };
-        }
-      } else {
-        if (eventController.celebrateEvent(result) != false) {
-          return { err: "regatta already celebrated" };
-        } else {
-          return { err: "regatta canceled" };
-        }
-      }
-    })
-    .catch(err => {
-      return err;
-    });
+function confirmRegister(user, event) {
+  if (eventController.isOK(event)) {
+    if (event.participants.includes(user._id) || user.sportInfo.regattas.includes(event._id)) {
+      return { err: "regatta already joined" };
+    } else {
+      return true;
+    }
+  } else {
+    return handleEventFail(event);
+  }
 }
 /**
- * Add event to an User
+ * Will return the type of error in the event when a user want to register 
+ *
+ * @param {JSON} event
+ * @returns
  */
-function addEvent(eventId, userId) {
-  //finding user to add event
-  return Users.findById(userId)
-    .then(result => {
-      //adding the event to users
-      if (!result.sportInfo.regattas.includes(eventId)) {
-        result.sportInfo.regattas.push(eventId);
-        //updating users
-        return Users.findOneAndUpdate({ _id: userId }, result, {
-          new: true,
-          runValidators: true
-        })
-          .then(result => {
-            return result;
-          })
-          .catch(err => {
-            return err;
-          });
-      } else {
-        return { err: "already in regatta" };
-      }
-    })
-    .catch(err => {
-      return err;
-    });
+function handleEventFail(event) {
+  if (eventController.celebrateEvent(event) != false) {
+    return { err: "regatta already celebrated" };
+  } else {
+    return { err: "regatta canceled" };
+  }
 }
-
-
+/**
+ * Will add an user to participants in an event
+ *
+ * @param {JSON} event
+ * @param {String} userId
+ * @returns
+ */
+async function addUserToEvent(event, userId) {
+  event.participants.push(userId);
+  return await Events.findByIdAndUpdate(event._id, { participants: event.participants })
+}
+/**
+ *Will add an event to regattas in an user
+ *
+ * @param {String} eventId
+ * @param {JSON} user
+ * @returns
+ */
+async function addEvent(eventId, user) {
+  user.sportInfo.regattas.push(eventId);
+  return await Users.findByIdAndUpdate(user._id, user)
+}
 
 async function unregisterInEvent(req, res) {
   var event = await rmUserToEvent(req.body.eventId, req.body.userId);
