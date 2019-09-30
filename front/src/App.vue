@@ -1,4 +1,5 @@
 <template>
+<!-- look for a good font -->
   <div id="app">
     <div id="nav">
       <div id="nav--leftpart">
@@ -65,10 +66,6 @@
         </b-dropdown>
       </div>
     </div>
-
-    <aside>
-      <!-- here goes the aside for the second sprint-->
-    </aside>
 
     <router-view />
   </div>
@@ -147,10 +144,11 @@ export default {
 <style>
 body {
   background-image: url("./assets/background.jpg");
+  background-color: rgba(0, 0, 0, 0.50);
 }
 
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif; 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

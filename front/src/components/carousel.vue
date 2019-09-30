@@ -8,8 +8,8 @@
       background="#ababab"
       img-width="1024"
       img-height="480"
-      style="text-shadow: 1px 1px 2px #333;"
-    >
+      style="text-shadow: 1px 1px 2px #333;" 
+    > <!-- try to put in style -->
       <b-carousel-slide
         v-for="data in datas"
         :key="data._id"
@@ -43,7 +43,7 @@ export default {
     axios
       .get("http://localhost:3000/api/v1/" + this.resource)
       .then(datas => {
-        this.datas = datas.data.data.reverse().slice(0, 5);
+        this.datas = datas.data.data.slice(0, 5);
         
         
         

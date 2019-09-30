@@ -1,5 +1,5 @@
 <template>
-  <div class="hello">
+  <div class="hello"> <!-- add the conection to the ddbb and see if it works -->
     <h1>Eventos</h1>
     <ul v-for="event in events" :key=event>
       <div class="event">
@@ -31,8 +31,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+h1{
+  color:#FFEEDE;
+}
+
 h3 {
   margin: 40px 0 0;
+  
 }
 ul {
   list-style-type: none;

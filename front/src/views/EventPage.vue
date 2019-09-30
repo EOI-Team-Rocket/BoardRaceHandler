@@ -38,14 +38,14 @@
               <div class="card-body">
                 <table class="table table-striped">
                   <thead>
-                    <tr>
+                    <tr> <!-- Explain this please-->
                       <th scope="col">#</th>
                       <th scope="col">First</th>
                       <th scope="col">Last</th>
                       <th scope="col">Handle</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody> <!-- why this: because Airam -->
                     <tr>
                       <th scope="row">1</th>
                       <td>Mark</td>
@@ -99,7 +99,7 @@
 
 <script>
 import axios from "axios";
-import CardComponent from "@/components/CardComponent.vue";
+import CardComponent from "@/components/CardComponent.vue"; /* cardComponent? */
 
 export default {
   name: "eventpage",
@@ -208,7 +208,7 @@ export default {
   border-radius: 28px;
   font-family: Arial;
   color: #ffeede;
-  font-size: 18px;
+  font-size: 15px;
   padding: 10px 20px 10px 20px;
   text-decoration: none;
   border: none;
@@ -216,11 +216,11 @@ export default {
 
 .btn-inscription:hover {
   background: #9ed2ff;
-  background-image: -webkit-linear-gradient(top, #9ed2ff, #84c8e8);
-  background-image: -moz-linear-gradient(top, #9ed2ff, #84c8e8);
-  background-image: -ms-linear-gradient(top, #9ed2ff, #84c8e8);
-  background-image: -o-linear-gradient(top, #9ed2ff, #84c8e8);
-  background-image: linear-gradient(to bottom, #9ed2ff, #84c8e8);
+  background-image: -webkit-linear-gradient(top, #577eff, #84abe8);
+  background-image: -moz-linear-gradient(top, #577eff, #84abe8);
+  background-image: -ms-linear-gradient(top, #577eff, #84abe8);
+  background-image: -o-linear-gradient(top, #577eff, #84abe8);
+  background-image: linear-gradient(to bottom, #577eff, #84abe8);
   text-decoration: none;
   border: none;
 }
