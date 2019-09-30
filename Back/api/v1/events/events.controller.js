@@ -35,7 +35,6 @@ function readOneEvent(req, res) {
         .then(data => res.status(200).json(data))
         .catch((err) => handdleError(err, res));
 }
-<<<<<<< HEAD
 function getUniqueEvent(req, res) {
     req.body.title = req.params.title;
     return EVENTModel.find(req.body)
@@ -46,9 +45,6 @@ function getUniqueEvent(req, res) {
             res.send(err);
         });
 }
-=======
-
->>>>>>> 43911531e013fe90750aa87369b3d4cf627056fd
 function updateEvent(req, res) {
     return EVENTModel.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true })
         .then(response => {
