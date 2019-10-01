@@ -29,9 +29,10 @@
     <ModalForm
       :show="true"
       :edit="true"
+      :id="event._id"
       v-if="editModalIsShown"
       @refreshList="editModalIsShown"
-      @hideFormModal="toggleModalForm"
+      @hideFormModal="toggleModalEdit"
     />
   </div>
 </template>

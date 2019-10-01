@@ -306,9 +306,7 @@ export default {
     }
   },
   created() {
-    console.log("hola?");
     if (this.id) {
-      //fill input fields if we are editing an boatEvent
       this.formHeader = "Modificar Evento";
       return;
     } else {
