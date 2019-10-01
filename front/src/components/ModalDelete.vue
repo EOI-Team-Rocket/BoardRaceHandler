@@ -1,5 +1,5 @@
 <template>
-  <div class>
+  <div>
     <vodal :show="show" animation="rotate" @hide="hideModal">
       <p>¿Esta seguro que quiere eliminar este evento?</p>
       <button @click="deleteEvent">SI</button>
@@ -33,7 +33,7 @@ export default {
     },
     updateFatherStatus() {
       this.$emit("refreshList");
-      this.$emit("hideModal", this.showComp);
+      this.$emit("hideModal");
     },
     deleteEvent() {
       axios

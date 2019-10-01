@@ -119,7 +119,7 @@ export default {
 
 <style scoped>
     .select{
-        background: #FFFFFF;
+        background: rgba(255, 255, 255, 0.85);
         color: #000000;
     }
 </style>

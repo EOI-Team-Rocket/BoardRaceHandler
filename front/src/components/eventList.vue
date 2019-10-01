@@ -1,10 +1,18 @@
 <template>
   <div id="eventList">
+<<<<<<< HEAD
     <header id="eventsHeader" class="columns color--white"> 
       <h2 class="listTitles">Nombre</h2>
       <h2 class="listTitles">Fecha</h2>
       <h2 class="listTitles">Lugar</h2>
       <h2></h2> <!-- cris will fix it-->
+=======
+    <header id="eventsHeader" class="columns headerItem">
+      <h2>Nombre</h2>
+      <h2>Fecha</h2>
+      <h2>Lugar</h2>
+      <button @click="toggleModalForm">Crear Evento</button>
+>>>>>>> c5669eb7a731c799e7a72043c2d433d3c5c8bfcd
       <h2></h2>
     </header>
     <div id="itemList">
@@ -12,6 +20,13 @@
         <eventItem :event="event" @refreshList="getEvents" />
       </div>
     </div>
+    <ModalForm
+        :show="true"
+        :edit="false"
+        v-if="showModalForm"
+        @refreshList="getEvents"
+        @hideFormModal="toggleModalForm"
+    />
     <div class="d-flex justify-content-center mt-5" v-if="showEvents != null">
       <!--------------------------------------------Flecha de retorno------------------------------------------------>
       <button type="button" v-if="page > 1" @click="previous" class="btn btn-md btn-dark">&laquo;</button>
@@ -49,14 +64,17 @@
 <script>
 import axios from "axios";
 import eventItem from "@/components/eventItem.vue";
+import ModalForm from "@/components/ModalForm.vue";
 export default {
   name: "eventList",
   components: {
-    eventItem
+    eventItem,
+    ModalForm
   },
   data() {
     return {
       events: [],
+      showModalForm: false,
       page: 1,
       numberPages: 0,
       limit: 10,
@@ -78,6 +96,9 @@ export default {
           console.log("Error getting events:" + err);
         });
     },
+    toggleModalForm(){
+        this.showModalForm = !this.showModalForm;
+     },
     next() {
       if (this.page <= this.numberPages) {
         this.page++;
@@ -143,6 +164,13 @@ export default {
 
 #itemList {
   display: flex;
+<<<<<<< HEAD
   flex-direction: column;
+=======
+}
+.select {
+  background: #ffffff;
+  color: #000000;
+>>>>>>> c5669eb7a731c799e7a72043c2d433d3c5c8bfcd
 }
 </style>
