@@ -1,5 +1,9 @@
-var Users = require("./users.model");
-var Events = require("../events/events.model");
+const Users = require("./users.model");
+const Events = require("../events/events.model");
+const nodemailer = require("nodemailer");
+const dotenv = require("dotenv");
+const config = require("../../../config")[process.env.NODE_ENV];
+
 
 module.exports = {
   //getUsers,
@@ -41,6 +45,7 @@ function getUsersByAffiliate(req, res) {
 function postUser(req, res) {
   return Users.create(req.body)
     .then(result => {
+      sendEmail()
       res.send(result);
     })
     .catch(err => {
@@ -227,4 +232,28 @@ function rmUserToEvent(eventId, userId) {
     .catch(err => {
       return err;
     });
+}
+
+function sendEmail(email, subject, text) {
+  var transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: config.email,
+      pass: config.password
+    }
+  });
+  var mailOptions = {
+    from: config.email,
+    to: email,
+    subject: subject,
+    text: text
+  };
+
+  transporter.sendMail(mailOptions, function(error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Email sent: " + info.response);
+    }
+  });
 }

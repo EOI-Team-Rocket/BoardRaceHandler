@@ -49,7 +49,11 @@ function updateEvent(req, res) {
       .then(response => {
           const event = response;
           for (let i = 0; i < event.participants.length; i++) {
-            sendEmail(event.participants[i].email, response.title, "EVENTO ACTUALIZADO"+response);
+            sendEmail(event.participants[i].email, response.title, 
+                "El evento: "+ response.title + ", en el cual esta inscrito, ha sido actualizado. "+ 
+                response.title + " en " + response.place + " el día " + response.date + " a las " +
+                response.hour + " organizado por: "+ response.manager + ". " + response.description
+                );
           }
         return res.json(response);
       })
@@ -102,4 +106,6 @@ function sendEmail(email, subject, text){
         }
     })
 }
+
+
 
