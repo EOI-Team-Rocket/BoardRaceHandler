@@ -61,8 +61,6 @@ export default {
 .color--white{
   color: #ffeede;
 }
-
-
 .buttons {
   height: 100%;
   width: 40%;
