@@ -1,20 +1,15 @@
 <template>
   <div id="eventList">
-<<<<<<< HEAD
-    <header id="eventsHeader" class="columns color--white"> 
-      <h2 class="listTitles">Nombre</h2>
-      <h2 class="listTitles">Fecha</h2>
-      <h2 class="listTitles">Lugar</h2>
-      <h2></h2> <!-- cris will fix it-->
-=======
-    <header id="eventsHeader" class="columns headerItem">
-      <h2>Nombre</h2>
-      <h2>Fecha</h2>
-      <h2>Lugar</h2>
-      <button @click="toggleModalForm">Crear Evento</button>
->>>>>>> c5669eb7a731c799e7a72043c2d433d3c5c8bfcd
-      <h2></h2>
-    </header>
+    <div id="header">
+      <div id="buttonCreate">
+        <button @click="toggleModalForm">Crear Evento</button>
+      </div>
+      <header id="eventsHeader" class="columns headerItem color--white">
+        <h2>Nombre</h2>
+        <h2>Fecha</h2>
+        <h2>Lugar</h2>
+      </header>
+    </div>
     <div id="itemList">
       <div v-for="event in showEvents" :key="event._id" id="listItem">
         <eventItem :event="event" @refreshList="getEvents" />
@@ -145,8 +140,24 @@ export default {
 
 <style scoped>
 
+
+
+#eventsContainers{
+  display:flex;
+  justify-content: space-between;
+}
+
+#buttonCreate{
+  text-align: right;
+  padding-top: 10px;
+}
+
 .color--white{
   color: #ffeede;
+}
+
+#eventsHeader{
+  padding:10px;
 }
 
 .listTitles {
@@ -164,13 +175,10 @@ export default {
 
 #itemList {
   display: flex;
-<<<<<<< HEAD
   flex-direction: column;
-=======
 }
 .select {
   background: #ffffff;
   color: #000000;
->>>>>>> c5669eb7a731c799e7a72043c2d433d3c5c8bfcd
 }
 </style>
