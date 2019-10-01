@@ -26,6 +26,12 @@ export default new Router({
       path: '/eventpage/:id',
       name: 'eventpage',
       component: () => import('./views/EventPage.vue')
+    },
+    {
+      path: '/profile',
+      name: 'Profile',
+      component: () => import('./views/Profile.vue')
     }
+
   ]
 })
