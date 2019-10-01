@@ -1,5 +1,5 @@
 <template>
-  <div :class="{listRow: true,deleting: this.deleteModalIsShown}" class="color--white">
+  <div :class="{listRow: true,deleting: this.deleteModalIsShown}" class="color--white ">
     <div>
       <span class="eventProperty">{{event.title}}</span>
     </div>
@@ -11,12 +11,12 @@
     </div>
     <div>
       <button class="buttons" @click="toggleModalDelete">
-        <md-trash-icon w="40%" h="40%" />
+        <md-trash-icon w="100%" h="100%" />
       </button>
     </div>
     <div>
       <button class="buttons">
-        <md-create-icon w="40%" h="40%" />
+        <md-create-icon w="100%" h="100%" />
       </button>
     </div>
     <ModalDelete
@@ -63,7 +63,11 @@ export default {
 }
 
 
+
 .buttons {
+  filter: brightness(0) invert(1);
+  background-color:transparent;
+  border-color: transparent;
   height: 100%;
   width: 40%;
 }
@@ -79,5 +83,11 @@ export default {
 }
 .deleting {
   background: rgba(255, 0, 0, 0.212);
+}
+
+.buttons .button--transparent{
+  background-color: transparent;
+  border-color: transparent;
+  color:white;
 }
 </style>

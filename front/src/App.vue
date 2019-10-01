@@ -30,7 +30,6 @@
             <router-link :to="{name: 'events', params: {name: gender.id} }">{{gender.name}}</router-link>
           </b-dropdown-item-button>
         </b-dropdown>
-        <router-link to="/places">Lugares</router-link>
       </div>
       <div id="nav--rightpart">
         <router-link to="/dashboard" v-if="role === 'ADMIN'">Panel de control</router-link>
