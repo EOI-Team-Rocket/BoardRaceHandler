@@ -204,17 +204,17 @@ export default {
       managers: ["Real Club Nautico"],
       formHeader: "",
       event: {
-        title: null,
-        date: null,
-        hour: null,
-        place: null,
-        image: null,
-        gender: null,
-        class_boat: null,
-        category: null,
-        description: null,
-        capacity: null,
-        manager: null,
+        title: "",
+        date: "",
+        hour: "",
+        place: "",
+        image: "",
+        gender: "",
+        class_boat: "",
+        category: "",
+        description: "",
+        capacity: "",
+        manager: "",
         participants: []
       }
     };
@@ -248,13 +248,13 @@ export default {
     formValidation() {
       if (
         this.dateTimeValidator() ||
-        !this.event.title ||
-        !this.event.place ||
-        !this.event.gender ||
-        !this.event.class_boat ||
-        !this.event.category ||
-        !this.event.description ||
-        !this.event.manager
+        this.event.title.length > 0 ||
+        this.event.place.length > 0 ||
+        this.event.gender.length > 0 ||
+        this.event.class_boat.length > 0 ||
+        this.event.category.length > 0 ||
+        this.event.description.length > 0 ||
+        this.event.manager.length > 0
       ) {
         return false;
       }
