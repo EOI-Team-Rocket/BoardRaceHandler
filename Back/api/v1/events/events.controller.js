@@ -41,22 +41,17 @@ function readOneEvent(req, res) {
         .then(data => res.status(200).json(data))
         .catch((err) => handdleError(err, res));
 }
-function getUniqueEvent(req, res) {
-    req.body.title = req.params.title;
-    return EVENTModel.find(req.body)
-        .then(result => {
-            res.status(200).send(result);
-        })
-        .catch(err => {
-            res.send(err);
-        });
-}
 function updateEvent(req, res) {
-    return EVENTModel.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true })
-        .then(response => {
-            return res.status(200).json(response);
-        })
-        .catch((err) => handdleError(err, res));
+    if (new Date(req.body.date) > Date.now()) {
+        return EVENTModel.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true })
+            .then(response => {
+                return res.status(200).json(response);
+            })
+            .catch((err) => handdleError(err, res));
+    } else {
+        res.status(400).json({ err: "the event is in the past." })
+    }
+
 }
 
 function deleteEvent(req, res) {

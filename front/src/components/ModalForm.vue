@@ -231,9 +231,9 @@ export default {
       if (!this.formValidation()) return;
     },
     createEvent() {
-      console.log("starting");
       this.translateGender();
       if (true) {
+        var finalDate = this.boatEvent.date.split("-");
         axios
           .post("http://localhost:3000/api/v1/events", {
             title: this.boatEvent.title,
@@ -253,7 +253,6 @@ export default {
             this.hideModal();
           })
           .catch(err => {
-            console.log(err);
             this.errors.push("Error al conectar con la base de datos");
           });
       }
@@ -307,7 +306,7 @@ export default {
     }
   },
   created() {
-    //I don't know if this works or we will have tu use "watch: $route" because Vue.js recycles components
+    console.log("hola?");
     if (this.id) {
       //fill input fields if we are editing an boatEvent
       this.formHeader = "Modificar Evento";

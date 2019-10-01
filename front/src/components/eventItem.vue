@@ -15,7 +15,7 @@
       </button>
     </div>
     <div>
-      <button class="buttons">
+      <button class="buttons" @click="toggleModalEdit">
         <md-create-icon w="40%" h="40%" />
       </button>
     </div>
@@ -26,28 +26,40 @@
       @refreshList="refreshList"
       v-if="deleteModalIsShown"
     />
+    <ModalForm
+      :show="true"
+      :edit="true"
+      v-if="editModalIsShown"
+      @refreshList="editModalIsShown"
+      @hideFormModal="toggleModalForm"
+    />
   </div>
 </template>
 
 <script>
 import ModalDelete from "@/components/ModalDelete.vue";
-
+import ModalForm from "@/components/ModalForm.vue";
 export default {
   name: "eventItem",
   props: {
     event: Object
   },
   components: {
-    ModalDelete
+    ModalDelete,
+    ModalForm
   },
   data() {
     return {
-      deleteModalIsShown: false
+      deleteModalIsShown: false,
+      editModalIsShown: false
     };
   },
   methods: {
     toggleModalDelete() {
       this.deleteModalIsShown = !this.deleteModalIsShown;
+    },
+    toggleModalEdit() {
+      this.editModalIsShown = !this.deleteModalIsShown;
     },
     refreshList() {
       this.$emit("refreshList");
@@ -57,8 +69,7 @@ export default {
 </script>
 
 <style scoped>
-
-.color--white{
+.color--white {
   color: #ffeede;
 }
 .buttons {
