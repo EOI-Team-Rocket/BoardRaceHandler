@@ -34,7 +34,9 @@ const EVENTschema = new mongoose.Schema({
     default: false
   },
   image: {
-    type: String //search
+    type: String,
+    default:
+      "https://m.eldiario.es/fotos/XX-Regata-Internacional-Canarias-Madeira-Funchal_EDIIMA20180904_0528_19.jpg"
   },
   gender: {
     type: String,

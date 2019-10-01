@@ -9,19 +9,7 @@
     <div class="d-flex">
       <!---------------------- Image and description of event. Left side --------------------------->
       <div class="ml-5 mt-3 container-img">
-        <img
-          v-if="data_events.image == null"
-          class="card-img-top"
-          :src="data_events.image"
-          alt="La imagen no se puede cargar"
-        />
-
-        <img
-          v-else
-          class="card-img-top"
-          :src="data_events.image"
-          alt="La imagen no se puede cargar"
-        />
+        <img class="card-img-top" :src="data_events.image" />
       </div>
       <!-------------------------------------------------------------------------------------------->
 
