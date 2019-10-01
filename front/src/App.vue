@@ -155,9 +155,9 @@ export default {
         {
           name: "Windsurf/Velocidad",
           id: "windsurf/velocidad"
-        },
+        }
       ],
-ages: [
+      ages: [
         {
           name: "Infantil",
           id: "childish"
@@ -187,7 +187,7 @@ ages: [
           id: "automaty"
         }
       ],
-genders: [
+      genders: [
         {
           name: "Hombre",
           id: "male"
@@ -208,7 +208,6 @@ genders: [
 
   methods: {
     login() {
-      console.log("he entrado en el login baby");
       this.$store.dispatch("retrieveToken", {
         email: this.email,
         password: this.password
@@ -220,10 +219,9 @@ genders: [
 
 
 <style>
-
 @font-face {
   font-family: font;
-  src: url('./assets/Fragmentcore.otf');
+  src: url("./assets/Fragmentcore.otf");
 }
 
 body {
@@ -258,7 +256,7 @@ body {
   font-weight: bold;
 }
 
-.routerdropdown a{
+.routerdropdown a {
   color: #2c3e50;
 }
 

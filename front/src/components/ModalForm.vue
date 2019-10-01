@@ -293,11 +293,9 @@ export default {
       axios
         .delete("http://localhost:3000/api/v1/events/" + this.id)
         .then(res => {
-          console.log(res);
           this.$emit("refreshList");
           this.$emit("hideFormModal");
-        })
-        .catch(err => console.log(err));
+        });
     },
     formValidation() {
       if (
@@ -344,27 +342,24 @@ export default {
 
   created() {
     if (this.id) {
-      axios
-        .get("http://localhost:3000/api/v1/events/" + this.id)
-        .then(res => {
-          this.boatEvent = res.data;
-          switch (this.boatEvent.gender) {
-            case "F":
-              var radiobtn = document.getElementById("female");
-              radiobtn.checked = true;
-              break;
-            case "M":
-              var radiobtn = document.getElementById("male");
-              radiobtn.checked = true;
-              break;
-            default:
-              var radiobtn = document.getElementById("mixed");
-              radiobtn.checked = true;
-              break;
-          }
-          this.formHeader = "Modificar Evento";
-        })
-        .catch(err => console.log(err));
+      axios.get("http://localhost:3000/api/v1/events/" + this.id).then(res => {
+        this.boatEvent = res.data;
+        switch (this.boatEvent.gender) {
+          case "F":
+            var radiobtn = document.getElementById("female");
+            radiobtn.checked = true;
+            break;
+          case "M":
+            var radiobtn = document.getElementById("male");
+            radiobtn.checked = true;
+            break;
+          default:
+            var radiobtn = document.getElementById("mixed");
+            radiobtn.checked = true;
+            break;
+        }
+        this.formHeader = "Modificar Evento";
+      });
     } else {
       this.formHeader = "Crear Evento";
     }

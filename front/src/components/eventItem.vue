@@ -60,7 +60,7 @@ export default {
       this.deleteModalIsShown = !this.deleteModalIsShown;
     },
     toggleModalEdit() {
-      this.editModalIsShown = !this.deleteModalIsShown;
+      this.editModalIsShown = !this.editModalIsShown;
     },
     refreshList() {
       this.$emit("refreshList");
