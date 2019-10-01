@@ -31,7 +31,7 @@
       :edit="true"
       :id="event._id"
       v-if="editModalIsShown"
-      @refreshList="editModalIsShown"
+      @refreshList="refreshList"
       @hideFormModal="toggleModalEdit"
     />
   </div>

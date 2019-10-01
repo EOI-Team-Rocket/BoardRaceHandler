@@ -1,5 +1,11 @@
 <template>
-  <b-modal v-model="showModal" @hidden="hideModal" id="modal-scrollable" size="lg">
+  <b-modal
+    :no-close-on-backdrop="false"
+    v-model="showModal"
+    @hidden="hideModal"
+    id="modal-scrollable"
+    size="lg"
+  >
     <!-- HEADER -->
     <template v-slot:modal-header>
       <div>
@@ -62,6 +68,7 @@
                 type="radio"
                 name="gender"
                 value="male"
+                id="male"
                 class="radioButtonElement"
                 v-model="boatEvent.gender"
               />
@@ -72,6 +79,7 @@
                 type="radio"
                 name="gender"
                 value="female"
+                id="female"
                 class="radioButtonElement"
                 v-model="boatEvent.gender"
               />
@@ -82,6 +90,7 @@
                 type="radio"
                 name="gender"
                 value="mixed"
+                id="mixed"
                 class="radioButtonElement"
                 v-model="boatEvent.gender"
               />
@@ -167,6 +176,8 @@ export default {
   data() {
     return {
       showModal: this.show,
+      // cant close modal when click out
+      noBackdrop: false,
       errors: [],
       boats: [
         "420",
@@ -228,12 +239,33 @@ export default {
       this.$emit("hideFormModal");
     },
     updateEvent() {
-      if (!this.formValidation()) return;
+      if (this.formValidation()) {
+        axios
+          .patch("http://localhost:3000/api/v1/events/" + this.id, {
+            title: this.boatEvent.title,
+            date: this.boatEvent.date,
+            hour: this.boatEvent.hour,
+            place: this.boatEvent.place,
+            image: this.boatEvent.image,
+            gender: this.boatEvent.gender,
+            class_boat: this.boatEvent.class_boat,
+            category: this.boatEvent.category,
+            description: this.boatEvent.description,
+            capacity: this.boatEvent.capacity,
+            manager: this.boatEvent.manager,
+            participants: this.boatEvent.participants
+          })
+          .then(res => {
+            this.hideModal();
+          })
+          .catch(err => {
+            this.errors.push("Error al conectar con la base de datos");
+          });
+      }
     },
     createEvent() {
       this.translateGender();
-      if (true) {
-        var finalDate = this.boatEvent.date.split("-");
+      if (this.formValidation()) {
         axios
           .post("http://localhost:3000/api/v1/events", {
             title: this.boatEvent.title,
@@ -259,7 +291,6 @@ export default {
     },
     deleteEvent() {},
     formValidation() {
-      console.log("starting form validation");
       if (
         !this.isDateOk() ||
         this.boatEvent.title.length <= 0 ||
@@ -270,22 +301,18 @@ export default {
         this.boatEvent.description.length <= 0 ||
         this.boatEvent.manager.length <= 0
       ) {
-        console.log(this.isDateOk());
-        console.log(boatEvent);
-        console.log("ese formulario es  mierda");
         return false;
       } else {
         return true;
       }
     },
     isDateOk() {
-      console.log("starting date validation");
       let today = new Date().getTime();
       let boatEventDay = new Date(this.boatEvent.date).getTime();
       if (boatEventDay < today) {
         return false;
       } else {
-        this.boatEvent.date = new Date(this.boatEvent.date);
+        this.boatEvent.date = this.boatEvent.date;
         return true;
       }
     },
@@ -305,16 +332,35 @@ export default {
       }
     }
   },
+
   created() {
     if (this.id) {
-      this.formHeader = "Modificar Evento";
-      return;
+      axios
+        .get("http://localhost:3000/api/v1/events/" + this.id)
+        .then(res => {
+          this.boatEvent = res.data;
+          switch (this.boatEvent.gender) {
+            case "F":
+              var radiobtn = document.getElementById("female");
+              radiobtn.checked = true;
+              break;
+            case "M":
+              var radiobtn = document.getElementById("male");
+              radiobtn.checked = true;
+              break;
+            default:
+              var radiobtn = document.getElementById("mixed");
+              radiobtn.checked = true;
+              break;
+          }
+          this.formHeader = "Modificar Evento";
+        })
+        .catch(err => console.log(err));
     } else {
       this.formHeader = "Crear Evento";
     }
   }
 };
-//rellenar los campos input si estamos editando
 </script>
 
 <style scoped>
