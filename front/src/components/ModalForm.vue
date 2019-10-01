@@ -289,7 +289,16 @@ export default {
           });
       }
     },
-    deleteEvent() {},
+    deleteEvent() {
+      axios
+        .delete("http://localhost:3000/api/v1/events/" + this.id)
+        .then(res => {
+          console.log(res);
+          this.$emit("refreshList");
+          this.$emit("hideFormModal");
+        })
+        .catch(err => console.log(err));
+    },
     formValidation() {
       if (
         !this.isDateOk() ||
