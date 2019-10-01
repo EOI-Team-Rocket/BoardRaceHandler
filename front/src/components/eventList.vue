@@ -1,14 +1,14 @@
 <template>
   <div id="eventList">
-    <header id="eventsHeader" class="columns headerItem">
-      <h2>Nombre</h2>
-      <h2>Fecha</h2>
-      <h2>Lugar</h2>
-      <h2></h2>
+    <header id="eventsHeader" class="columns color--white"> 
+      <h2 class="listTitles">Nombre</h2>
+      <h2 class="listTitles">Fecha</h2>
+      <h2 class="listTitles">Lugar</h2>
+      <h2></h2> <!-- cris will fix it-->
       <h2></h2>
     </header>
     <div id="itemList">
-      <div v-for="event in showEvents" :key="event._id" class="headerItem">
+      <div v-for="event in showEvents" :key="event._id" id="listItem">
         <eventItem :event="event" @refreshList="getEvents" />
       </div>
     </div>
@@ -123,8 +123,14 @@ export default {
 </script>
 
 <style scoped>
-.headerItem {
-  color: white;
+
+.color--white{
+  color: #ffeede;
+}
+
+.listTitles {
+  
+  font-size: 18px;
 }
 .columns {
   display: flex;
@@ -134,8 +140,9 @@ export default {
   flex: 1;
   flex-basis: 50%;
 }
-.select {
-  background: #ffffff;
-  color: #000000;
+
+#itemList {
+  display: flex;
+  flex-direction: column;
 }
 </style>
