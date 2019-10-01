@@ -12,8 +12,6 @@ passport.use('user', new JwtStrategy({
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: config.SECRET_TOKEN
 }, async(payload, done) => {
-    console.log(config);
-    console.log(payload.id);
     try {
         const user = await UserModel.findOne({
             _id: payload.id,

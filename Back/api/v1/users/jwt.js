@@ -4,8 +4,6 @@ const config = require('../../../config')[process.env.NODE_ENV];
 const User = require('./users.model');
 
 function createToken(user) {
-    console.log("create");
-    
     let exp_token = moment().add(7, 'days').unix();
     return [
         JWT.sign({

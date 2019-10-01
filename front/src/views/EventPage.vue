@@ -1,12 +1,11 @@
 <template>
   <div id="eventpage">
     <!--------------------------------Title of event --------------------------------------------->
-   
+
     <h1 class="text-center text-white mt-4">{{data_events.title}}</h1>
-    
+
     <!-------------------------------------------------------------------------------------------->
 
-    
     <div class="d-flex">
       <!---------------------- Image and description of event. Left side --------------------------->
       <div class="ml-5 mt-3 container-img">
@@ -17,7 +16,7 @@
           alt="La imagen no se puede cargar"
         />
 
-        <img 
+        <img
           v-else
           class="card-img-top"
           :src="data_events.image"
@@ -27,14 +26,22 @@
       <!-------------------------------------------------------------------------------------------->
 
       <!---------------------- Datas of events. Left right ----------------------------------------->
-      
-      <CardComponent :place="data_events.place" :category="data_events.category" :date="data_events.date" 
-                     :manager="data_events.manager" :hour="data_events.hour" :gender="data_events.gender" 
-                     :boat="data_events.class_boat" :capacity="data_events.capacity" class="cardComponent"/>
+
+      <CardComponent
+        :place="data_events.place"
+        :category="data_events.category"
+        :date="data_events.date"
+        :manager="data_events.manager"
+        :hour="data_events.hour"
+        :gender="data_events.gender"
+        :boat="data_events.class_boat"
+        :capacity="data_events.capacity"
+        class="cardComponent"
+      />
       <!-------------------------------------------------------------------------------------------->
 
       <!------------------------------------------Participants-------------------------------------->
-     
+
       <div class="ml-2 mt-3 card scroll-participants">
         <div class="card-body">
           <h1>Participantes Inscritos</h1>
@@ -58,13 +65,12 @@
           </table>
         </div>
       </div>
-       
+
       <!-------------------------------------------------------------------------------------------->
     </div>
 
-
     <!-------------------------------------Description of event----------------------------------->
-    <div class="d-flex">  
+    <div class="d-flex">
       <div class="ml-5 mt-3 card scroll-description">
         <div class="card-body">
           <h4>
@@ -74,10 +80,8 @@
         </div>
       </div>
     </div>
-    
-    <!-------------------------------------------------------------------------------------------->
 
-    
+    <!-------------------------------------------------------------------------------------------->
 
     <!-------------------------------------Button of inscription----------------------------------->
     <div class="d-flex justify-content-end">
@@ -114,70 +118,86 @@ export default {
         .then(response => {
           this.data_events = response.data;
           const jwt = JSON.parse(localStorage.getItem("jwt"));
-          if(jwt != null){
-            if(this.data_events.participants.indexOf(jwt.id) != -1) this.stateBtn = false; 
+          if (jwt != null) {
+            const user = this.data_events.participants.filter(data =>
+              data._id.includes(jwt.id)
+            );
+            if (user.length > 0) this.stateBtn = false;
           }
         })
         .catch(error => {
           this.error = error;
         });
     },
-    inscription(){
+    inscription() {
       const jwt = JSON.parse(localStorage.getItem("jwt"));
+      const tkn = jwt.acces_token;
       this.error = "";
-      if(jwt != null){
+      if (jwt != null) {
         const ids = {
           userId: jwt.id,
           eventId: this.id_events
         };
-        axios.post("http://localhost:3000/api/v1/registerInEvent", ids).then(res => {
-          this.stateBtn = false;
-          this.getDataApi();
-          
-        }).catch(err => {
-          this.error = err
-        });  
-      }else{
-        this.error = "Debe estar autenticado para poder inscribirse"
+        console.log(jwt.acces_token);
+
+        axios
+          .post("http://localhost:3000/api/v1/registerInEvent", ids, {
+            headers: { Authorization: "Bearer " + tkn }
+          })
+          .then(res => {
+            console.log(res);
+
+            this.stateBtn = false;
+            this.getDataApi();
+          })
+          .catch(err => {
+            this.error = err;
+          });
+      } else {
+        this.error = "Debe estar autenticado para poder inscribirse";
       }
-      
     },
-    unSubcription(){
+    unSubcription() {
       const jwt = JSON.parse(localStorage.getItem("jwt"));
+      const tkn = jwt.acces_token;
       const ids = {
         userId: jwt.id,
         eventId: this.id_events
       };
-      axios.post("http://localhost:3000/api/v1/unSubscription", ids)
-      .then(res => {
-        this.stateBtn = true;
-        this.getDataApi();
-            }).catch(err => {
-              this.error = err
-            });  
+      console.log(jwt.acces_token);
+
+      axios
+        .post("http://localhost:3000/api/v1/unSubscription", ids, {
+          headers: { Authorization: "Bearer " + tkn }
+        })
+        .then(res => {
+          this.stateBtn = true;
+          this.getDataApi();
+        })
+        .catch(err => {
+          this.error = err;
+        });
     }
   },
 
-
   created() {
     this.id_events = this.$route.params.id;
-    
+
     this.getDataApi();
   }
 };
 </script>
 
 <style scoped>
-
-.container-img{
+.container-img {
   flex: 0 0 25%;
 }
 
-.card-img-top{
+.card-img-top {
   height: 100%;
 }
 
-.cardComponent{
+.cardComponent {
   flex: 0 0 30%;
 }
 
@@ -200,7 +220,6 @@ export default {
   width: 400px;
   height: 50px;
 }
-
 
 .btn-inscription {
   background: #84abe8;

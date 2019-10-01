@@ -100,11 +100,11 @@ function logIn(req, res) {
               let dataToken = authJWT.createToken(userResult);
               return res.status(200).send({
                 acces_token: dataToken[0],
-                refresh_token: authJWT.createRefreshToken(user),
+                refresh_token: authJWT.createRefreshToken(userResult),
                 expires_in: dataToken[1],
-                role: user.role,
-                id: user._id,
-                license_number: user.sportInfo.license_number
+                role: userResult.role,
+                id: userResult._id,
+                license_number: userResult.sportInfo.license_number
               });
             } else {
               return res.status(401).send({
@@ -196,14 +196,15 @@ function confirmRegister(user, event) {
       }
     }
   } else {
-    return handleEventFail(event);
+    return { err: "regatta already celebrated 96" };
   }
 }
+
 function canUserJoin(user, event) {
   var err = checkGender(user, event);
   if (err == true) {
-    if (user.class_boat == event.class_boat) {
-      if (new Date(user.sportInfo.expiration_date) < Date.now()) {
+    if (user.sportInfo.class_boat == event.class_boat) {
+      if (new Date(user.sportInfo.expiration_date) > Date.now()) {
         if (event.participants.length < event.capacity) {
           return true;
         } else {
@@ -219,6 +220,7 @@ function canUserJoin(user, event) {
     return err;
   }
 }
+
 function checkGender(user, event) {
   if (event.gender == "X") {
     return true;
@@ -229,6 +231,7 @@ function checkGender(user, event) {
   }
   return true;
 }
+
 /**
  * Will return the type of error in the event when a user want to register
  *
@@ -242,6 +245,7 @@ function handleEventFail(event) {
     return { err: "regatta canceled" };
   }
 }
+
 /**
  * Will add an user to participants in an event
  *
@@ -290,6 +294,7 @@ async function unregisterInEvent(req, res) {
     res.json(err);
   }
 }
+
 /**
  * Will return true or the error if the regatta is canceled, celebrated
  *
@@ -308,9 +313,10 @@ function confirmUnregister(user, event) {
       return { err: "User is not joined" };
     }
   } else {
-    return handleEventFail(event);
+    return { err: "regatta already celebrated 52" };
   }
 }
+
 /**
  * Add event to an User
  */
