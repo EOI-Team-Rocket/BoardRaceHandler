@@ -9,13 +9,6 @@
         <button @click="hideModal">X</button>
       </div>
     </template>
-    <!-- ERRORS -->
-    <!-- <div v-if="errors.length" id="errorsContainer">
-      <span v-for="(error, index) in errors" :key="error">
-        <span v-if="index!==errors.length-1" class="error">{{error+",&nbsp;"}}</span>
-        <span v-else class="error">{{error+"."}}</span>
-      </span>
-    </div>-->
     <!-- FORM -->
     <div id="form-column form-container">
       <!-- TOP SECTION -->
@@ -24,8 +17,8 @@
         <div class="form-column">
           <div id="imageContainer">
             <img
-              class="event-img"
-              :src="event.image?event.image:'https://www.churchtrac.com/articles/apple/uploads/2017/09/Antu_insert-image.svg_-846x846.png'"
+              class="boatEvent-img"
+              :src="boatEvent.image?boatEvent.image:'https://www.churchtrac.com/articles/apple/uploads/2017/09/Antu_insert-image.svg_-846x846.png'"
             />
           </div>
           <div class="form-row">
@@ -37,19 +30,19 @@
         <div class="form-column">
           <label>
             Título:
-            <span class="error" v-if="event.title==null">*</span>
+            <span class="error" v-if="boatEvent.title==''">*</span>
           </label>
-          <input name="title" type="text" class="inputTextElement" v-model="event.title" />
+          <input name="title" type="text" class="inputTextElement" v-model="boatEvent.title" />
           <label>
             Fecha:
-            <span class="error" v-if="event.date==null">*</span>
+            <span class="error" v-if="boatEvent.date==''">*</span>
           </label>
-          <input name="date" class="inputTextElement" type="date" v-model="event.date" />
+          <input name="date" class="inputTextElement" type="date" v-model="boatEvent.date" />
           <label>
             Hora:
-            <span class="error" v-if="event.hour==null">*</span>
+            <span class="error" v-if="boatEvent.hour==''">*</span>
           </label>
-          <input name="hour" type="time" class="inputTextElement" v-model="event.hour" />
+          <input name="hour" type="time" class="inputTextElement" v-model="boatEvent.hour" />
         </div>
       </div>
       <!-- MIDDLE SECTION -->
@@ -59,7 +52,7 @@
           <div class="form-row">
             <label class="radioButtonElement" id="genderCategoryLabel">
               Sexo:
-              <span class="error" v-if="event.gender==null">*</span>
+              <span class="error" v-if="boatEvent.gender==''">*</span>
             </label>
           </div>
           <div class="form-column gender-class">
@@ -70,7 +63,7 @@
                 name="gender"
                 value="male"
                 class="radioButtonElement"
-                v-model="event.gender"
+                v-model="boatEvent.gender"
               />
             </div>
             <div class="form-row">
@@ -80,7 +73,7 @@
                 name="gender"
                 value="female"
                 class="radioButtonElement"
-                v-model="event.gender"
+                v-model="boatEvent.gender"
               />
             </div>
             <div class="form-row">
@@ -90,7 +83,7 @@
                 name="gender"
                 value="mixed"
                 class="radioButtonElement"
-                v-model="event.gender"
+                v-model="boatEvent.gender"
               />
             </div>
           </div>
@@ -100,27 +93,27 @@
           <div class="form-column">
             <label>
               Barco:
-              <span class="error" v-if="event.class_boat==null">*</span>
+              <span class="error" v-if="boatEvent.class_boat==''">*</span>
             </label>
-            <select id="boatOptions" class="optionElement" v-model="event.class_boat">
+            <select id="boatOptions" class="optionElement" v-model="boatEvent.class_boat">
               <option v-for="boat in boats" :key="boat">{{boat}}</option>
             </select>
           </div>
           <div class="form-column">
             <label>
               Categoria:
-              <span class="error" v-if="event.category==null">*</span>
+              <span class="error" v-if="boatEvent.category==''">*</span>
             </label>
-            <select id="ageOptions" class="optionElement" v-model="event.category">
+            <select id="ageOptions" class="optionElement" v-model="boatEvent.category">
               <option v-for="age in ages" :key="age">{{age}}</option>
             </select>
           </div>
           <div class="form-column">
             <label>
               Club Náutico:
-              <span class="error" v-if="event.manager==null">*</span>
+              <span class="error" v-if="boatEvent.manager==''">*</span>
             </label>
-            <select id="managerOptions" class="optionElement" v-model="event.manager">
+            <select id="managerOptions" class="optionElement" v-model="boatEvent.manager">
               <option v-for="manager in managers" :key="manager">{{manager}}</option>
             </select>
           </div>
@@ -129,18 +122,24 @@
         <div class="form-column">
           <label>
             Lugar:
-            <span class="error" v-if="event.place==null">*</span>
+            <span class="error" v-if="boatEvent.place==''">*</span>
           </label>
-          <input id="placeInput" name="place" type="text" v-model="event.place" />
+          <input id="placeInput" name="place" type="text" v-model="boatEvent.place" />
           <label>Aforo:</label>
-          <input id="capacityInput" name="capacity" type="number" min="1" v-model="event.capacity" />
+          <input
+            id="capacityInput"
+            name="capacity"
+            type="number"
+            min="1"
+            v-model="boatEvent.capacity"
+          />
         </div>
       </div>
       <!-- DESCRIPTION -->
       <div class="form-row">
         <b-form-textarea
           placeholder="Descripción..."
-          v-model="event.description"
+          v-model="boatEvent.description"
           rows="3"
           max-rows="6"
         ></b-form-textarea>
@@ -203,7 +202,7 @@ export default {
       ],
       managers: ["Real Club Nautico"],
       formHeader: "",
-      event: {
+      boatEvent: {
         title: "",
         date: "",
         hour: "",
@@ -232,64 +231,85 @@ export default {
       if (!this.formValidation()) return;
     },
     createEvent() {
-      if (!this.formValidation()) return;
+      console.log("starting");
       this.translateGender();
-      axios
-        .post("http://localhost:3000/api/v1/events", this.event)
-        .then(res => {
-          this.hideModal();
-        })
-        .catch(err => {
-          console.log(err);
-          this.errors.push("Error al conectar con la base de datos");
-        });
+      if (true) {
+        axios
+          .post("http://localhost:3000/api/v1/events", {
+            title: this.boatEvent.title,
+            date: this.boatEvent.date,
+            hour: this.boatEvent.hour,
+            place: this.boatEvent.place,
+            image: this.boatEvent.image,
+            gender: this.boatEvent.gender,
+            class_boat: this.boatEvent.class_boat,
+            category: this.boatEvent.category,
+            description: this.boatEvent.description,
+            capacity: this.boatEvent.capacity,
+            manager: this.boatEvent.manager,
+            participants: this.boatEvent.participants
+          })
+          .then(res => {
+            this.hideModal();
+          })
+          .catch(err => {
+            console.log(err);
+            this.errors.push("Error al conectar con la base de datos");
+          });
+      }
     },
     deleteEvent() {},
     formValidation() {
+      console.log("starting form validation");
       if (
-        this.dateTimeValidator() ||
-        this.event.title.length > 0 ||
-        this.event.place.length > 0 ||
-        this.event.gender.length > 0 ||
-        this.event.class_boat.length > 0 ||
-        this.event.category.length > 0 ||
-        this.event.description.length > 0 ||
-        this.event.manager.length > 0
+        !this.isDateOk() ||
+        this.boatEvent.title.length <= 0 ||
+        this.boatEvent.place.length <= 0 ||
+        this.boatEvent.gender.length <= 0 ||
+        this.boatEvent.class_boat.length <= 0 ||
+        this.boatEvent.category.length <= 0 ||
+        this.boatEvent.description.length <= 0 ||
+        this.boatEvent.manager.length <= 0
       ) {
-        return false;
-      }
-      return true;
-    },
-    dateTimeValidator() {
-      let today = new Date().getTime();
-      let eventDay = new Date(this.event.date).getTime();
-      if (eventDay < today) {
+        console.log(this.isDateOk());
+        console.log(boatEvent);
+        console.log("ese formulario es  mierda");
         return false;
       } else {
-        this.event.date = new Date(this.event.date);
+        return true;
+      }
+    },
+    isDateOk() {
+      console.log("starting date validation");
+      let today = new Date().getTime();
+      let boatEventDay = new Date(this.boatEvent.date).getTime();
+      if (boatEventDay < today) {
+        return false;
+      } else {
+        this.boatEvent.date = new Date(this.boatEvent.date);
         return true;
       }
     },
     putImageInData() {
-      //to implement maybe will need event.target
+      //to implement maybe will need boatEvent.target
       return;
     },
     translateGender() {
-      switch (this.event.gender) {
+      switch (this.boatEvent.gender) {
         case "Masculino":
-          this.event.gender = "M";
+          this.boatEvent.gender = "M";
           break;
         case "Femenino":
-          this.event.gender = "F";
+          this.boatEvent.gender = "F";
         default:
-          this.event.gender = "X";
+          this.boatEvent.gender = "X";
       }
     }
   },
   created() {
     //I don't know if this works or we will have tu use "watch: $route" because Vue.js recycles components
     if (this.id) {
-      //fill input fields if we are editing an event
+      //fill input fields if we are editing an boatEvent
       this.formHeader = "Modificar Evento";
       return;
     } else {
@@ -327,7 +347,7 @@ export default {
   flex: 1;
   margin: 1%;
 }
-.event-img {
+.boatEvent-img {
   height: 100%;
   width: 100%;
 }

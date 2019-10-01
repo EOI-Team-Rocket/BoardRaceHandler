@@ -6,21 +6,18 @@ const EVENTschema = new mongoose.Schema({
         type: String,
         required: [true, "The title is required"],
     },
-
     date: {
         type: String,
         required: [true, "The date is required"],
         //dd/mm/yyyy
-        validate: /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$/ 
+        validate: /^\d{4}-\d{2}-\d{2}$/
     },
-
     hour: {
         type: String,
         required: [true, "The hour is required"],
         //hh:mm
         validate: /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/
     },
-
     place: {
         type: String,
         required: [true, "The place is required"],
@@ -58,23 +55,18 @@ const EVENTschema = new mongoose.Schema({
         type: String,
         required: [true, "The description is required"]
     },
-
     capacity: {
         type: Number,
         min: [1, "The capacity must be greater than 1"]
     },
-
     manager: {
         type: String,
         required: [true, "The manager is required"]
     },
-
     createdAt: {
         type: Date,
         default: Date.now()
     },
-
-
     participants: [{
         type: Schema.Types.ObjectId,
         ref: 'user'

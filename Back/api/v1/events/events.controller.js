@@ -12,11 +12,15 @@ module.exports = {
 }
 
 function createEvent(req, res) {
-    return EVENTModel.create(req.body)
-        .then(response => {
-            res.status(200).json(response);
-        })
-        .catch((err) => handdleError(err, res));
+    if (new Date(req.body.date) > Date.now()) {
+        return EVENTModel.create(req.body)
+            .then(response => {
+                res.status(200).json(response);
+            })
+            .catch((err) => { console.log(err); handdleError(err, res) });
+    } else {
+        res.status(400).json({ err: "the event is in the past." })
+    }
 }
 
 function readAllEvents(req, res) {
