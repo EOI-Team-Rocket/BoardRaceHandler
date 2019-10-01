@@ -1,5 +1,5 @@
 <template>
-  <div :class="{listRow: true,deleting: this.deleteModalIsShown}">
+  <div :class="{listRow: true,deleting: this.deleteModalIsShown}" class="color--white">
     <div>
       <span class="eventProperty">{{event.title}}</span>
     </div>
@@ -22,7 +22,7 @@
     <ModalDelete
       :show="deleteModalIsShown"
       :id="event._id"
-      @hideModal="toggleModalDelete('')"
+      @hideModal="toggleModalDelete"
       @refreshList="refreshList"
       v-if="deleteModalIsShown"
     />
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import ModalDelete from "./ModalDelete.vue";
+import ModalDelete from "@/components/ModalDelete.vue";
 
 export default {
   name: "eventItem",
@@ -57,6 +57,12 @@ export default {
 </script>
 
 <style scoped>
+
+.color--white{
+  color: #ffeede;
+}
+
+
 .buttons {
   height: 100%;
   width: 40%;

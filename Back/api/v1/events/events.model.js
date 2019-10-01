@@ -11,46 +11,49 @@ const EVENTschema = new mongoose.Schema({
         type: String,
         required: [true, "The date is required"],
         //dd/mm/yyyy
-        validate: /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/ 
+        validate: /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$/ 
     },
 
     hour: {
         type: String,
         required: [true, "The hour is required"],
         //hh:mm
-        validate: /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/ 
+        validate: /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/
     },
 
     place: {
         type: String,
         required: [true, "The place is required"],
     },
-
+    cancel: {
+        type: Boolean,
+        default: false
+    },
+    celebrated: {
+        type: Boolean,
+        default: false
+    },
     image: {
         type: String //search
     },
-
     gender: {
         type: String,
         required: [true, "The gender is required"],
-        enum: ["H", "M", "X"]
+        enum: ["F", "M", "X"]
     },
-
-    boat_type: {
+    class_boat: {
         type: String,
         enum: ["420", "470", "29-ER", "49-ER", "Crucero", "Hansa 303", "Ideal 18", "J-80", "Kiteboarding",
             "Laser 4.7", "Laser Radial", "Nacra-17", "Optimist", "Radio Control", "Sin Clase", "Snipe",
             "Thecno", "Vela Adaptada Iniciacion", "Windsurf/Fun Board", "Windsurf/RSX", "Windsurf/Velocidad"],
         required: [true, "The class is required"]
     },
-
     category: {
         type: String,
         enum: ["Infantil", "Iniciacion Infantil", "Juvenil", "Senior", "Ampliacion", "Ampliacion de Autonomica"
             , "Autonomica"],
         required: [true, "The category is required"]
     },
-
     description: {
         type: String,
         required: [true, "The description is required"]
@@ -68,7 +71,7 @@ const EVENTschema = new mongoose.Schema({
 
     createdAt: {
         type: Date,
-        default: Date.now() 
+        default: Date.now()
     },
 
 

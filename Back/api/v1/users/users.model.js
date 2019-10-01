@@ -12,7 +12,7 @@ const USERschema = new mongoose.Schema({
     },
     telf1: {
         type: String,
-        required: [true, "the field telf is required"] 
+        required: [true, "the field telf is required"]
     },
 
     telf2: {
@@ -25,7 +25,7 @@ const USERschema = new mongoose.Schema({
         fullname: {
             name: {
                 type: String,
-                required: [true, "the field name is required"] 
+                required: [true, "the field name is required"]
             },
             surname1: {
                 type: String,
@@ -38,7 +38,7 @@ const USERschema = new mongoose.Schema({
 
         gender: {
             type: String,
-            enum: ["H", "M"] //required in front
+            enum: ["M", "F"] //required in front
         },
 
     },
@@ -52,7 +52,7 @@ const USERschema = new mongoose.Schema({
             enum: ["Deportista"],
             required: true
         }],
-        class: {
+        class_boat: {
             type: String,
             enum: ["420", "470", "29-ER", "49-ER", "Crucero", "Hansa 303", "Ideal 18", "J-80", "Kiteboarding",
                 "Laser 4.7", "Laser Radial", "Nacra-17", "Optimist", "Radio Control", "Sin Clase", "Snipe",
@@ -66,7 +66,7 @@ const USERschema = new mongoose.Schema({
             required: true
         },
         expiration_date: {
-            type: Date,
+            type: String,
             default: undefined
         },
         state: {

@@ -66,10 +66,6 @@
       </div>
     </div>
 
-    <aside>
-      <!-- here goes the aside for the second sprint-->
-    </aside>
-
     <router-view />
   </div>
 </template>
@@ -81,23 +77,87 @@ export default {
     return {
       boats: [
         {
-          name: "Crucero",
-          id: "crucero"
+          name: "420",
+          id: "420"
+        },
+        {
+          name: "470",
+          id: "470"
         },
         {
           name: "ER-29",
           id: "er-29"
         },
         {
+          name: "ER-49",
+          id: "er-49"
+        },
+        {
+          name: "Crucero",
+          id: "crucero"
+        },
+        {
           name: "Hansa 303",
           id: "hansa_303"
         },
         {
+          name: "Ideal 18",
+          id: "ideal-18"
+        },
+        {
+          name: "J-80",
+          id: "j-80"
+        },
+        {
+          name: "Kiteboarding",
+          id: "kiteboarding"
+        },
+        {
+          name: "Laser 4.7",
+          id: "laser_4.7"
+        },
+        {
+          name: "Laser Radial",
+          id: "laser_radial"
+        },
+        {
+          name: "Nacra-17",
+          id: "nacra-17"
+        },
+        {
           name: "Optimist",
           id: "optimist"
-        }
+        },
+        {
+          name: "Radio Control",
+          id: "radio_control"
+        },
+        {
+          name: "Snipe",
+          id: "snipe"
+        },
+        {
+          name: "Thecno",
+          id: "thecno"
+        },
+        {
+          name: "Vela Adaptada Iniciacion",
+          id: "vela_adaptada_iniciacion"
+        },
+        {
+          name: "Windsurf/Fun Board",
+          id: "windsurf/fun_board"
+        },
+        {
+          name: "Windsurf/RSX",
+          id: "windsurf/rsx"
+        },
+        {
+          name: "Windsurf/Velocidad",
+          id: "windsurf/velocidad"
+        },
       ],
-      ages: [
+ages: [
         {
           name: "Infantil",
           id: "childish"
@@ -111,11 +171,23 @@ export default {
           id: "youth"
         },
         {
+          name: "Senior",
+          id: "senior"
+        },
+        {
           name: "Ampliación",
           id: "extension"
+        },
+        {
+          name: "Ampliacion de Autonomica",
+          id: "automaty_extension"
+        },
+        {
+          name: "Autonomica",
+          id: "automaty"
         }
       ],
-      genders: [
+genders: [
         {
           name: "Hombre",
           id: "male"
@@ -123,9 +195,12 @@ export default {
         {
           name: "Mujer",
           id: "female"
+        },
+        {
+          name: "Mixto",
+          id: "mixto"
         }
       ],
-
       email: "",
       password: ""
     };
@@ -145,16 +220,23 @@ export default {
 
 
 <style>
+
+@font-face {
+  font-family: font;
+  src: url('./assets/Fragmentcore.otf');
+}
+
 body {
   background-image: url("./assets/background.jpg");
 }
 
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: font;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  font-size: 18px;
 }
 #nav {
   display: flex;
@@ -164,10 +246,10 @@ body {
 
 #nav a {
   font-weight: bold;
-  color: #222299;
+  color: #2c3e50;
   text-decoration: none;
   padding: 15px;
-  font-weight: normal;
+  font-weight: bold;
 }
 
 #nav a:hover {
@@ -176,8 +258,8 @@ body {
   font-weight: bold;
 }
 
-.routerdropdown {
-  color: mediumblue;
+.routerdropdown a{
+  color: #2c3e50;
 }
 
 #nav .dropdown-menu {
