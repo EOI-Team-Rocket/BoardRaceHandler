@@ -90,7 +90,7 @@ export default {
             this.personalInfo = res.data.personalInfo;
             this.sportInfo = res.data.sportInfo;
 
-            console.log("kdjekjkej");
+            
           })
           .catch(err => {
             this.error = err;
