@@ -97,6 +97,7 @@ export default {
              headers: { Authorization: "Bearer " + jwt.acces_token }
           })
           .then(res => {
+<<<<<<< HEAD
             this.user = res.data;
             this.name = this.user.personalInfo.fullname.name;
             this.surname1 = this.user.personalInfo.fullname.surname1;
@@ -116,6 +117,20 @@ export default {
           })
           .catch(err => {
             this.error = err;
+=======
+            this.user = JSON.parse(res.data);
+            console.log(JSON.parse(res.data));
+
+            this.personalInfo = res.data.personalInfo;
+            this.sportInfo = res.data.sportInfo;
+
+            
+          })
+          .catch(err => {
+            this.error = err;
+            console.log("err");
+            
+>>>>>>> a6becf601318ca0a2f54327ed7faf35e42d7ace7
           });
       } else {
         this.$router.replace("/");
