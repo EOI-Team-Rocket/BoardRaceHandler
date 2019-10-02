@@ -68,8 +68,8 @@
           <b-dropdown-item-button>¿Contraseña olvidada?</b-dropdown-item-button>
         </b-dropdown>
         <div class v-else>
-          <router-link to="/profile">Perfil</router-link>
-          <button id="logout" @click="logOut">Log Out</button>
+          <router-link :to="{name: 'profile', params: {numLicense: numLicense} }">Perfil</router-link>
+          <button @click="logOut">Log Out</button>
         </div>
       </div>
     </div>
@@ -218,7 +218,8 @@ export default {
         message: ""
       },
       role: "",
-      loginState: false
+      loginState: false,
+      numLicense: ""
     };
   },
 
@@ -237,13 +238,16 @@ export default {
         .then(res => {
           localStorage.setItem("jwt", JSON.stringify(res.data));
           this.loginState = true;
+          this.numLicense = JSON.parse(
+            localStorage.getItem("jwt")
+          ).license_number;
           this.role = JSON.parse(localStorage.getItem("jwt")).role;
           console.log(this.role);
         })
         .catch(err => {
           if (err.response && err.response.status == 401) {
             this.error.status = true;
-            this.error.message = "Email o cantraseña erroneo";
+            this.error.message = "Email o contraseña erroneo";
           } else {
             this.error.status = true;
             this.error.message = "Error de conexion";
@@ -253,13 +257,15 @@ export default {
     logOut() {
       this.loginState = false;
       this.role = "";
+      this.numLicense = "";
       localStorage.removeItem("jwt");
     }
   },
   created() {
-    console.log(localStorage.getItem("jwt"));
-    const storage = localStorage.getItem("jwt");
+    const storage = JSON.parse(localStorage.getItem("jwt"));
     if (storage != null) {
+      this.role = storage.role;
+      this.numLicense = storage.license_number;
       this.loginState = true;
     } else {
       this.loginState = false;

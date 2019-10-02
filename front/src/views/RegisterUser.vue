@@ -115,7 +115,7 @@
                             </div>
 
                             <div class="form-group col-md-3"> 
-                                <label> Club</label>
+                                <label>Club</label>
                                 <input type="text" class="form-control" v-model="user.club">
                             </div>
 
@@ -130,12 +130,12 @@
                         <div class="form-group col-md-6"> 
                             <label>Contraseña</label>
                             <input type="password" class="form-control" v-model="user.password">
-                            <p><small>* Requerido, Mínimo 7 caracteres con al menos 1 letra minuscula y 1 letra mayuscula, 
+                            <p><small>* Requerido, Mínimo 8 caracteres con al menos 1 letra minuscula y 1 letra mayuscula, 
                                       Debe contener caracter especial (* $ @ ! % ? &)</small></p>
                         </div>
 
                         <div class="form-group col-md-6"> 
-                            <label>* Confirmar Contraseña</label>
+                            <label>Confirmar Contraseña</label>
                             <input type="password" class="form-control" v-model="user.confirm_password">
                             <p><small>* Requerido, Debe coincidir con el campo email</small></p>
                         </div>
@@ -154,8 +154,7 @@
                                user.gender == '' ||
                                user.license_number == '' ||
                                user.class_boat == '' ||
-                               user.category == '' ||
-                               user.state == ''">
+                               user.category == ''">
                         <button type="button" class="btn btn-success mr-5" @click="togleData">Registrarse</button>
                     </div>
                     
@@ -192,7 +191,6 @@ export default {
                 license_number: "",
                 class_boat: "",
                 category: "",
-                state: "",
                 club: "",
                 federation: ""
             },
@@ -209,32 +207,28 @@ export default {
             let newUser = {
                 password: this.user.password,
                 email: this.user.email,
-                telf1: this.telf1,
-                telf2: this.telf2,
+                telf1: this.user.telf1,
+                telf2: this.user.telf2,
                 personalInfo: {
                     fullname: {
                         name: this.user.name,
-                        surname1: this.surname1,
-                        surname2: this.surname2,
+                        surname1: this.user.surname1,
+                        surname2: this.user.surname2,
                     },
-                    gender: this.gender
+                    gender: this.user.gender
                 },
                 sportInfo: {
-                    license_number: this.license_number,
-                    class_boat: this.class_boat, 
-                    category: this.category, 
-                    expiration_date: this.expiration_date,
-                    state: this.state,
-                    club: this.club,
-                    federation: this.federation
+                    license_number: this.user.license_number,
+                    class_boat: this.user.class_boat, 
+                    category: this.user.category, 
+                    club: this.user.club,
+                    federation: this.user.federation
                 }
             }
 
             /*Le añadimos la condición de que si se añade un email que se encuentra en la base de datos, que no entre 
             en el if */
-            if(this.user.password == this.user.confirm_password || 
-               this.regExpPassword.text(this.user.password == true) ||
-               this.regExpEmail.text(this.user.email) == true){
+            if(this.user.password == this.user.confirm_password){
                 axios.post('http://localhost:3000/api/v1/users', newUser)
                 .then(response => {
                     this.validation = true 
@@ -248,10 +242,7 @@ export default {
 
         togleData(){
             return this.validation = false;
-            
-        },
-
-        
+        }, 
     },
 
     watch: {
@@ -264,7 +255,6 @@ export default {
             let regExpresionEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,20})+$/;
             this.validateEmail = regExpresionEmail.test(this.user.email);
             return this.validateEmail;
-            
         }
     }
 }
