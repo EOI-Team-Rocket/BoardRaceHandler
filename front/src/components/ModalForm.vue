@@ -329,7 +329,12 @@ export default {
         "51550627371-6hoi4aai0pqudi8cmbk0k8p71f97agau.apps.googleusercontent.com";
       var redurect_uri = "http://localhost:8080/#/dashboard";
       var scope = "https://www.googleapis.com/auth/drive";
-      this.singInDrive(clientId, redurect_uri, scope);
+      var driveToken = localStorage.getItem("driveToken");
+      if (driveToken != null) {
+        console.log("aaaa:" + localStorage.getItem("driveToken"));
+      } else {
+        this.singInDrive(clientId, redurect_uri, scope);
+      }
       return;
     },
     singInDrive(clientId, redirect_uri, scope) {
@@ -337,10 +342,8 @@ export default {
         "https://accounts.google.com/o/oauth2/v2/auth?" +
         "client_id=" +
         clientId +
-        "&redirect_uri=http://localhost:8080/&prompt=consent&response_type=token&scope=" +
+        "&redirect_uri=http://localhost:8080&prompt=consent&response_type=token&scope=" +
         scope;
-
-      console.log(url);
       axios.post(url).then(res => console.log(res));
       window.open(url);
     },

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import googleAuth from "./views/driveAuth.vue";
 
 
 Vue.use(Router)
@@ -11,6 +12,11 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home
+    },
+    {
+      path: '/googleAuth',
+      name: 'googleAuth',
+      component: googleAuth
     },
     {
       path: '/dashboard',

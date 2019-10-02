@@ -268,6 +268,16 @@ export default {
   },
   created() {
     console.log(localStorage.getItem("jwt"));
+    if (this.$route.query.access_token) {
+      localStorage.setItem("driveToken", this.$route.query.access_token);
+
+      var expirationDate = new Date(Date.now());
+      expirationDate.setHours(expirationDate.getHours() + 1);
+
+      localStorage.setItem("dateToTokenDie", expirationDate);
+
+      this.$router.replace("/dashboard");
+    }
     const storage = localStorage.getItem("jwt");
     if (storage != null) {
       this.loginState = true;
