@@ -66,8 +66,8 @@
                             <div class="form-group col-md-4"> 
                                 <label>Genero</label>
                                 <select class="browser-default custom-select" v-model="user.gender">
-                                    <option>M</option>
-                                    <option>F</option>
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Femenino</option>
                                 </select>
                                 <p><small>* Requerido</small></p>
                             </div>
@@ -159,9 +159,6 @@
                                user.category == ''">
                         <button type="button" class="btn btn-success mr-5" @click="togleData">Registrarse</button>
                     </div>
-                    
-                 
-                    
                     <div v-else> 
                         <button type="submit" class="btn btn-success mr-5" @click="createUser">Registrarse</button>
                     </div>
