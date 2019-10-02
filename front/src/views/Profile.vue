@@ -94,7 +94,7 @@ export default {
           })
           .catch(err => {
             this.error = err;
-            console.log("Mal");
+            console.log("err");
             
           });
       } else {
