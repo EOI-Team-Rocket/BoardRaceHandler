@@ -344,7 +344,6 @@ export default {
         clientId +
         "&redirect_uri=http://localhost:8080&prompt=consent&response_type=token&scope=" +
         scope;
-      axios.post(url).then(res => console.log(res));
       window.open(url);
     },
     translateGender() {
