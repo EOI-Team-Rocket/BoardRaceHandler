@@ -1,8 +1,8 @@
 <template>
-  <div id="eventpage">
+  <div>
     <!--------------------------------Title of event --------------------------------------------->
 
-    <h1 class="text-center text-white mt-4">{{data_events.title}}</h1>
+    <h1 class="text-center text-white mt-4 ">{{data_events.title}}</h1>
 
     <!-------------------------------------------------------------------------------------------->
 
@@ -14,7 +14,7 @@
       <!-------------------------------------------------------------------------------------------->
 
       <!---------------------- Datas of events. Left right ----------------------------------------->
-
+  
       <CardComponent
         :place="data_events.place"
         :category="data_events.category"
@@ -24,14 +24,14 @@
         :gender="data_events.gender"
         :boat="data_events.class_boat"
         :capacity="data_events.capacity"
-        class="cardComponent"
+        class="cardComponent notransparentblue"
       />
       <!-------------------------------------------------------------------------------------------->
 
       <!------------------------------------------Participants-------------------------------------->
 
       <div class="ml-2 mt-3 card scroll-participants">
-        <div class="card-body">
+        <div class="card-body transparentblue">
           <h1>Participantes Inscritos</h1>
           <table class="table table-striped">
             <thead>
@@ -60,7 +60,7 @@
     <!-------------------------------------Description of event----------------------------------->
     <div class="d-flex">
       <div class="ml-5 mt-3 card scroll-description">
-        <div class="card-body">
+        <div class="card-body transparentblue">
           <h4>
             <strong>Descripción del evento</strong>
           </h4>
@@ -177,6 +177,19 @@ export default {
 </script>
 
 <style scoped>
+
+.transparentblue{
+  background-color: rgba(158, 210, 255, 0.6);
+}
+
+.notransparentblue{
+  background-color: transparent;
+}
+
+.card-body .transparentblue{
+  background-color: rgba(158, 210, 255, 0.6);
+}
+
 .container-img {
   flex: 0 0 25%;
 }
@@ -193,7 +206,7 @@ export default {
   max-height: 345px;
   overflow-y: auto;
   flex: 0 0 40%;
-  background-color: rgba(158, 210, 255, 0.6);
+  
 }
 
 .scroll-description {
