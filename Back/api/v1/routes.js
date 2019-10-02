@@ -13,7 +13,6 @@ router.patch("/events/:id", pass.authAdmin, eventController.updateEvent);
 router.delete("/events/:id", pass.authAdmin, eventController.deleteEvent);
 
 /*-------------- USERS ROUTES --------------*/
-
 router.get("/users/:license_number", pass.authAll, userController.getUsersByAffiliate);
 router.patch("/users/:license_number", pass.authAll, userController.patchUser);
 router.post("/users", userController.postUser);

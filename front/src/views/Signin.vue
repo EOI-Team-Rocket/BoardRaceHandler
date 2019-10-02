@@ -50,6 +50,7 @@ export default {
             axios.delete("http://localhost:3000/api/v1/users/"+licenseNum,{headers: {"Authorization": "Bearer " + tkn}}).then((res => {
                 console.log("BORRADO");
                 localStorage.removeItem("jwt");
+                this.$router.replace('/');
                 
             })).catch(err => {
                 console.log(err);
