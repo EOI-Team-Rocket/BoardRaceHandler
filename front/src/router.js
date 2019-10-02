@@ -24,14 +24,19 @@ export default new Router({
       component: () => import("./views/Create.vue")
     },
     {
-      path: "/eventpage",
+      path: "/places",
+      name: "places",
+      component: () => import("./views/Signin.vue")
+    },
+    {
+      path: "/eventpage/:id",
       name: "eventpage",
       component: () => import("./views/EventPage.vue")
     },
     {
-      path: "/places",
-      name: "places",
-      component: () => import("./views/Places.vue")
+      path: "/profile",
+      name: "Profile",
+      component: () => import("./views/Profile.vue")
     }
   ]
 });
