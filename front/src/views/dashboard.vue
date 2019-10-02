@@ -18,7 +18,7 @@ export default {
   },
   created() {
     const jwt = JSON.parse(localStorage.getItem("jwt"));
-    console.log();
+    
     if (!localStorage.getItem("jwt")) {
       this.$router.replace("/");
     } else {
