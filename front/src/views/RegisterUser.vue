@@ -8,9 +8,11 @@
                 <form>
                     
                     <div class="alert alert-danger" v-if="validation == false">
-                        <p>Posibles errores:</p>
-                        <p>No se ha cumplido algunas de las condiciones que poseen *</p>
-                        <p>El Email o el Número de Afiliado se encuentran en nuestra base de datos, probar con otro</p>
+                        <p v-if="error != ''">El email o el numero de afiliado ya esta en nuestra base de datos</p>
+                        <div v-else>
+                            <p>No se ha cumplido algunas de las condiciones que poseen *</p>
+                        </div>
+                       
                     </div>
                     <div class="container">
                         <div class="row">
@@ -64,8 +66,8 @@
                             <div class="form-group col-md-4"> 
                                 <label>Genero</label>
                                 <select class="browser-default custom-select" v-model="user.gender">
-                                    <option>M</option>
-                                    <option>F</option>
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Femenino</option>
                                 </select>
                                 <p><small>* Requerido</small></p>
                             </div>
@@ -157,13 +159,8 @@
                                user.category == ''">
                         <button type="button" class="btn btn-success mr-5" @click="togleData">Registrarse</button>
                     </div>
-                    
-                 
-                    
-                    <div v-else>
-                        <router-link to="/" >
-                            <button type="submit" class="btn btn-success mr-5" @click="createUser">Registrarse</button>
-                        </router-link>
+                    <div v-else> 
+                        <button type="submit" class="btn btn-success mr-5" @click="createUser">Registrarse</button>
                     </div>
                 </form>
             </div>
@@ -194,7 +191,7 @@ export default {
                 club: "",
                 federation: ""
             },
-
+            error:"",
             validation:true,
             validatePassword: false,
             validateEmail: false
@@ -225,17 +222,22 @@ export default {
                     federation: this.user.federation
                 }
             }
-
+            this.error="";
             /*Le añadimos la condición de que si se añade un email que se encuentra en la base de datos, que no entre 
             en el if */
             if(this.user.password == this.user.confirm_password){
                 axios.post('http://localhost:3000/api/v1/users', newUser)
                 .then(response => {
                     this.validation = true 
+                    localStorage.setItem("jwt", JSON.stringify(response.data));
+                    this.$router.replace("/");
+                    window.location.reload("/");
+
                     return console.log(response);  
                 })
                 .catch(error =>{
-                    return console.log(error);
+                    this.error = error;
+                    this.togleData();
                 })
             }
         },

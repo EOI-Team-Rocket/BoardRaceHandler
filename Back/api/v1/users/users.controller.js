@@ -76,7 +76,7 @@ function postUser(req, res) {
       return res.status(200).send(userResponde);
     })
     .catch(err => {
-      res.send(err);
+      res.status(400).send(err);
     });
 }
 
