@@ -81,7 +81,7 @@ export default {
       if (jwt.license_number == this.$route.params.numLicense) {
         axios
           .get("http://localhost:3000/api/v1/users/" + jwt.license_number, {
-            headers: { Authorization: "Bearer " + jwt.acces_token }
+             headers: { Authorization: "Bearer " + jwt.acces_token }
           })
           .then(res => {
             this.user = JSON.parse(res.data);
@@ -89,9 +89,13 @@ export default {
 
             this.personalInfo = res.data.personalInfo;
             this.sportInfo = res.data.sportInfo;
+
+            console.log("kdjekjkej");
           })
           .catch(err => {
             this.error = err;
+            console.log("Mal");
+            
           });
       } else {
         this.$router.replace("/");
