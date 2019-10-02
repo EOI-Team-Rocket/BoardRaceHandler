@@ -5,7 +5,7 @@ const eventController = require("./events/events.controller");
 const userController = require("./users/users.controller");
 
 /*-------------- EVENTS ROUTES --------------*/
-router.post("/events", eventController.createEvent);
+router.post("/events", pass.authAdmin, eventController.createEvent);
 router.get("/events", eventController.readAllEvents);
 router.get("/events/active", eventController.getActiveEvents);
 router.get("/events/:id", eventController.readOneEvent);
