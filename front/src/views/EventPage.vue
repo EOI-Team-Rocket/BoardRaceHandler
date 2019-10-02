@@ -193,6 +193,7 @@ export default {
   max-height: 345px;
   overflow-y: auto;
   flex: 0 0 40%;
+  background-color: rgba(158, 210, 255, 0.6);
 }
 
 .scroll-description {

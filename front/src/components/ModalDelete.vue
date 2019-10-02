@@ -1,11 +1,13 @@
 <template>
   <div id="vodal">
-    <vodal :show="show" animation="rotate" @hide="hideModal" height=120> <!--No consigo cambiar el color del fondo-->
+    <vodal id="vodal" :show="show" animation="rotate" @hide="hideModal" height=120> <!--No consigo cambiar el color del fondo-->
+    <div class="vodal-dialog">
       <p>¿Esta seguro que quiere eliminar este evento?</p>
       <div id="buttons">
         <button @click="deleteEvent">SI</button>
         <button @click="hideModal">NO</button>
       </div>
+    </div>
     </vodal>
   </div>
 </template>
@@ -57,6 +59,10 @@ export default {
 @import "../../node_modules/vodal/common.css";
 @import "../../node_modules/vodal/rotate.css";
 
+#vodal{
+  display: flex;
+}
+
 p{
   color:black;
 }
@@ -93,6 +99,10 @@ button:hover {
   background-image: linear-gradient(to bottom, #577eff, #84abe8);
   text-decoration: none;
   border: none;
+}
+
+#vodal .vodal-dialog{
+  background:rgb(158, 210, 255);
 }
 
 </style>
