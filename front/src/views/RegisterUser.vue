@@ -1,63 +1,175 @@
 <template>
-  <div class="registeruser">
-    <div class="d-flex justify-content-around ml-5 mt-5">
-        <div class="col-left">
-            <div class="d-flex">
-                <label class="flex-label text-white mt-1"><h5>* Número de afiliado:</h5></label>
-                <input type="text" class="form-control flex-input" v-model="user.license_number">
+    <div class="registeruser d-flex justify-content-center">
+        <div class="card mt-3">
+            <div class="card-header">
+                <h1>Registro de usuario</h1>    
             </div>
+            <div class="card-body">
+                <form>
+                    
+                    <div class="alert alert-danger" v-if="validation == false">
+                        <p>Posibles errores:</p>
+                        <p>No se ha cumplido algunas de las condiciones que poseen *</p>
+                        <p>El Email o el Número de Afiliado se encuentran en nuestra base de datos, probar con otro</p>
+                    </div>
+                    <div class="container">
+                        <div class="row">
+                            <div class="form-group col-md-4"> 
+                                <label>Nombre</label>
+                                <input type="text" class="form-control" v-model="user.name">
+                                <p><small>* Requerido</small></p>
+                            </div>
 
-            <div class="d-flex mt-5">
-                <label class="flex-label text-white mt-1"><h5>* Primer Apellido:</h5></label>
-                <input type="text" class="form-control flex-input" v-model="user.surname1">
-            </div>
+                            <div class="form-group col-md-4"> 
+                                <label>Primer Apellido</label>
+                                <input type="text" class="form-control" v-model="user.surname1">
+                                <p><small>* Requerido</small></p>
+                            </div>
 
-            <div class="d-flex mt-5">
-                <label class="flex-label text-white mt-1"><h5>* Telefono:</h5></label>
-                <input type="text" class="form-control flex-input" v-model="user.telf1">
-            </div>
+                            <div class="form-group col-md-4"> 
+                                <label>Segundo Apellido</label>
+                                <input type="text" class="form-control" v-model="user.surname2">
+                            </div>
 
-            <div class="d-flex mt-5">
-                <label class="flex-label text-white mt-1"><h5>* Password:</h5></label>
-                <input type="password" class="form-control flex-input" v-model="user.password">
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-6"> 
+                                <label>Numero de afiliado</label>
+                                <input type="text" class="form-control" v-model="user.license_number">
+                                <p><small>* Requerido</small></p>
+                            </div>
+                            
+                            <div class="form-group col-md-6"> 
+                                <label>Email</label>
+                                <input type="email" class="form-control" v-model="user.email">
+                                <p><small>* Requerido, Formato email</small></p>
+                            </div>
+                            
+                        </div>
+
+                        <div class="row">
+
+                            <div class="form-group col-md-4"> 
+                                <label>Telefono 1</label>
+                                <input type="text" class="form-control" v-model="user.telf1">
+                                <p><small>* Requerido</small></p>
+                            </div>
+
+                            <div class="form-group col-md-4"> 
+                                <label>Telefono 2</label>
+                                <input type="text" class="form-control" v-model="user.telf2">
+                            </div>
+
+                            <div class="form-group col-md-4"> 
+                                <label>Genero</label>
+                                <select class="browser-default custom-select" v-model="user.gender">
+                                    <option>M</option>
+                                    <option>F</option>
+                                </select>
+                                <p><small>* Requerido</small></p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-3">  
+                                <label>Tipo de Barco</label>
+                                <select class="browser-default custom-select" v-model="user.class_boat">
+                                    <option>420</option>
+                                    <option>470</option>
+                                    <option>29-ER</option>
+                                    <option>49-ER</option>
+                                    <option>Crucero</option>
+                                    <option>Hansa 303</option>
+                                    <option>Ideal 18</option>
+                                    <option>J-80</option>
+                                    <option>Kiteboarding</option>
+                                    <option>Laser 4.7</option>
+                                    <option>Laser Radial</option>
+                                    <option>Nacra-17</option>
+                                    <option>Optimist</option>
+                                    <option>Radio Control</option>
+                                    <option>Sin Clase</option>
+                                    <option>Snipe</option>
+                                    <option>Thecno</option>
+                                    <option>Vela Adaptada Iniciacion</option>
+                                    <option>Windsurf/Fun Board</option>
+                                    <option>Windsurf/RSX</option>
+                                    <option>Windsurf/Velocidad</option>
+                                </select>
+                                <p><small>* Requerido</small></p>
+                            </div>
+
+                            <div class="form-group col-md-3"> 
+                                <label>Categoría</label>
+                                <select class="browser-default custom-select" v-model="user.category">
+                                    <option>Infantil</option>
+                                    <option>Iniciacion Infantil</option>
+                                    <option>Juvenil</option>
+                                    <option>Senior</option>
+                                    <option>Ampliacion</option>
+                                    <option>Ampliacion de Autonomica</option>
+                                    <option>Autonomica</option>
+                                </select>
+                                <p><small>* Requerido</small></p>
+                            </div>
+
+                            <div class="form-group col-md-3"> 
+                                <label> Club</label>
+                                <input type="text" class="form-control" v-model="user.club">
+                            </div>
+
+                            <div class="form-group col-md-3"> 
+                                <label> Federación</label>
+                                <input type="text" class="form-control" v-model="user.federation">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="form-group col-md-6"> 
+                            <label>Contraseña</label>
+                            <input type="password" class="form-control" v-model="user.password">
+                            <p><small>* Requerido, Mínimo 7 caracteres con al menos 1 letra minuscula y 1 letra mayuscula, 
+                                      Debe contener caracter especial (* $ @ ! % ? &)</small></p>
+                        </div>
+
+                        <div class="form-group col-md-6"> 
+                            <label>* Confirmar Contraseña</label>
+                            <input type="password" class="form-control" v-model="user.confirm_password">
+                            <p><small>* Requerido, Debe coincidir con el campo email</small></p>
+                        </div>
+                    </div>
+                
+                    <!--Decimos que salga error si el email es igual a alguno que se encuentre en la database-->
+                    <div v-if="user.password == '' || 
+                               user.password.length < 7 ||
+                               validatePassword == false ||
+                               user.password != user.confirm_password ||
+                               user.email == '' ||
+                               validateEmail == false ||
+                               user.telf1 == '' ||
+                               user.name == '' ||
+                               user.surname1 == '' ||
+                               user.gender == '' ||
+                               user.license_number == '' ||
+                               user.class_boat == '' ||
+                               user.category == '' ||
+                               user.state == ''">
+                        <button type="button" class="btn btn-success mr-5" @click="togleData">Registrarse</button>
+                    </div>
+                    
+                 
+                    
+                    <div v-else>
+                        <router-link to="/" >
+                            <button type="submit" class="btn btn-success mr-5" @click="createUser">Registrarse</button>
+                        </router-link>
+                    </div>
+                </form>
             </div>
         </div>
-            
-        <div class="col-right">
-            <div class="d-flex">
-                <label class="flex-label text-white mt-1"><h5>* Nombre:</h5></label>
-                <input type="text" class="form-control flex-input" v-model="user.name">
-            </div>
-
-            <div class="d-flex mt-5">
-                <label class="flex-label text-white mt-1"><h5>Segundo Apellido:</h5></label>
-                <input type="text" class="form-control flex-input" v-model="user.surname2">
-            </div>
-            
-            <div class="d-flex mt-5">
-                <label class="flex-label text-white mt-1"><h5>* Email:</h5></label>
-                <input type="email" class="form-control flex-input" v-model="user.email">
-            </div>
-
-            <div class="d-flex mt-5">
-                <label class="flex-label text-white mt-1"><h5>* Confirmar Password:</h5></label>
-                <input type="password" class="form-control flex-input" v-model="user.confirm_password">
-            </div>
-        </div>
-    </div> 
-
-    <div class="d-flex justify-content-end" v-if="user.license_number == '' || user.name == '' || user.surname1 == '' 
-                                                 || user.telf1 == '' || user.email == '' || user.password == '' 
-                                                 || user.confirm_password == '' || user.password != user.confirm_password">
-        <button type="submit" class="btn-inscription mr-5 mt-3"
-                                   @click="createUser">Registrarse</button>
     </div>
-
-    <div class="d-flex justify-content-end" v-else>
-       <router-link to="/"><button type="submit" class="btn-inscription mr-5 mt-3"
-                                   @click="createUser">Registrarse</button></router-link>
-    </div>
-  </div>
 </template>
 
 <script>
@@ -68,51 +180,91 @@ export default {
     data(){
         return{
             user:{
-                license_number:"",
-                name:"",
-                surname1:"",
-                surname2:"",
-                telf1:"",
-                email:"",
                 password:"",
-                confirm_password:""
-            }
+                confirm_password:"",
+                email: "",
+                telf1: "",
+                telf2: "",
+                name: "",
+                surname1: "",
+                surname2: "",
+                gender: "",
+                license_number: "",
+                class_boat: "",
+                category: "",
+                state: "",
+                club: "",
+                federation: ""
+            },
+
+            validation:true,
+            validatePassword: false,
+            validateEmail: false
         }
     },
 
     methods: {
+
         createUser(){
             let newUser = {
                 password: this.user.password,
                 email: this.user.email,
                 telf1: this.telf1,
+                telf2: this.telf2,
                 personalInfo: {
                     fullname: {
                         name: this.user.name,
                         surname1: this.surname1,
                         surname2: this.surname2,
                     },
-                    gender: "H" /*Borrar en el futuro */
+                    gender: this.gender
                 },
                 sportInfo: {
                     license_number: this.license_number,
-                    speciality: ["Deportista"], /*Borrar en el futuro */
-                    class_boat: "Laser Radial", /*Borrar en el futuro */
-                    category: "Infantil", /*Borrar en el futuro */
-                    state: "Activo" /*Borrar en el futuro */
+                    class_boat: this.class_boat, 
+                    category: this.category, 
+                    expiration_date: this.expiration_date,
+                    state: this.state,
+                    club: this.club,
+                    federation: this.federation
                 }
             }
-            
-            
-            if(this.user.password == this.user.confirm_password){
+
+            /*Le añadimos la condición de que si se añade un email que se encuentra en la base de datos, que no entre 
+            en el if */
+            if(this.user.password == this.user.confirm_password || 
+               this.regExpPassword.text(this.user.password == true) ||
+               this.regExpEmail.text(this.user.email) == true){
                 axios.post('http://localhost:3000/api/v1/users', newUser)
                 .then(response => {
+                    this.validation = true 
                     return console.log(response);  
                 })
                 .catch(error =>{
                     return console.log(error);
                 })
             }
+        },
+
+        togleData(){
+            return this.validation = false;
+            
+        },
+
+        
+    },
+
+    watch: {
+        'user.password'(){
+            let regExpresionPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,}$/;
+            this.validatePassword = regExpresionPassword.test(this.user.password);
+            return this.validatePassword;
+        },
+        'user.email'(){
+            let regExpresionEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,20})+$/;
+            this.validateEmail = regExpresionEmail.test(this.user.email);
+            return this.validateEmail;
+            
         }
     }
 }
@@ -120,50 +272,11 @@ export default {
 </script>
 
 <style scoped>
-    
-    .col-left{
-        flex:0 0 40%;
+    .card-header{
+        background-color: #92DDF9;
     }
-
-    .col-right{
-        flex: 0 0 40%;
-    }
-
-    .flex-label{
-        flex: 0 0 40%;
-    }
-    .flex-input{
-        flex: 0 0 60%;
-    }
-  
-
-    .btn-inscription {
-        background: #84abe8;
-        background-image: -webkit-linear-gradient(top, #84abe8, #577eff);
-        background-image: -moz-linear-gradient(top, #84abe8, #577eff);
-        background-image: -ms-linear-gradient(top, #84abe8, #577eff);
-        background-image: -o-linear-gradient(top, #84abe8, #577eff);
-        background-image: linear-gradient(to bottom, #84abe8, #577eff);
-        -webkit-border-radius: 28;
-        -moz-border-radius: 28;
-        border-radius: 28px;
-        font-family: Arial;
-        color: #ffeede;
-        font-size: 18px;
-        padding: 10px 20px 10px 20px;
-        text-decoration: none;
-        border: none;
-    }
-
-    .btn-inscription:hover {
-        background: #9ed2ff;
-        background-image: -webkit-linear-gradient(top, #9ed2ff, #84c8e8);
-        background-image: -moz-linear-gradient(top, #9ed2ff, #84c8e8);
-        background-image: -ms-linear-gradient(top, #9ed2ff, #84c8e8);
-        background-image: -o-linear-gradient(top, #9ed2ff, #84c8e8);
-        background-image: linear-gradient(to bottom, #9ed2ff, #84c8e8);
-        text-decoration: none;
-        border: none;
+    .card-body{
+        background-color: #A3F992;
     }
 
 </style>

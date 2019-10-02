@@ -1,18 +1,27 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-const USERschema = new mongoose.Schema({
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const vars = require('./defaults');
+
+const Schema = mongoose.Schema;
+const UserSchema = new mongoose.Schema({
 
     password: {
         type: String,
+        minlength: 7,
+        match: [vars.regexPassword],
+        select: false,
         required: [true, "the field password is required"] //8 characters min, capital, num, schar
     },
     email: {
         type: String,
+        lowercase: true,
+        match: [vars.regexEmail],
+        unique: true,
         required: [true, "the field email is required"] //unique
     },
     telf1: {
         type: String,
-        required: [true, "the field telf is required"] 
+        required: [true, "the field telf is required"]
     },
 
     telf2: {
@@ -25,7 +34,7 @@ const USERschema = new mongoose.Schema({
         fullname: {
             name: {
                 type: String,
-                required: [true, "the field name is required"] 
+                required: [true, "the field name is required"]
             },
             surname1: {
                 type: String,
@@ -38,19 +47,21 @@ const USERschema = new mongoose.Schema({
 
         gender: {
             type: String,
-            enum: ["F", "M"] //required in front
+            enum: ["M", "F"] //required in front
         },
 
     },
     sportInfo: {
         license_number: {
             type: String,
-            required: true
+            required: true,
+            unique: true
         },
         speciality: [{
             type: String,
             enum: ["Deportista"],
-            required: true
+            required: true,
+            default: "Deportista"
         }],
         class_boat: {
             type: String,
@@ -66,13 +77,14 @@ const USERschema = new mongoose.Schema({
             required: true
         },
         expiration_date: {
-            type: Date,
+            type: String,
             default: undefined
         },
         state: {
             type: String,
             enum: ["Activo", "Inactivo", "Pendiente"], //ask alejandro
-            required: true
+            required: true,
+            default: "Activo"
         },
         club: {
             type: String,
@@ -85,8 +97,43 @@ const USERschema = new mongoose.Schema({
         regattas: [{
             type: Schema.Types.ObjectId,
             ref: 'event'
-        }]
+        }],
+    },
+    role: {
+        type: String,
+        enum: [
+            "USER", 
+            "ADMIN"
+        ],
+        required: true,
+        default: "USER"
     }
 });
 
-module.exports = mongoose.model("user", USERschema);
+function generateHashPassword(plainPassword){
+    return bcrypt.hashSync(plainPassword, bcrypt.genSaltSync(10));
+};
+
+UserSchema.pre('save', function(next){
+    try {
+        let user = this;
+        if(!user.isModified('password')) return next();
+        user.password = generateHashPassword(user.password);
+        next();
+    } catch (error) {
+        next(error);
+    }
+});
+
+UserSchema.methods.comparePassword = function (candidatePassword, hashPassword, cd) {
+    bcrypt.compare(candidatePassword, hashPassword, function (err, isMatch) {
+        if (err) {
+            return cd(err); 
+        }
+        cd(null, isMatch);
+    });
+};
+ 
+
+
+module.exports = mongoose.model("user", UserSchema);

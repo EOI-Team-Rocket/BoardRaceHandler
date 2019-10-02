@@ -8,20 +8,19 @@
       background="#ababab"
       img-width="1024"
       img-height="480"
-      style="text-shadow: 1px 1px 2px #333;"
-    >
+      style="text-shadow: 1px 1px 2px #333;" 
+    > 
       <b-carousel-slide
         v-for="data in datas"
         :key="data._id"
-        :caption="data.title?data.title:data.name"
         :img-src="data.image"
       >
-        <p>
-          {{data.date?'Fecha: '+data.date:''}}
-          <br />
-          {{data.hour?'Hora: '+data.hour:''}}
-        </p>
-        <p>{{data.place?'Lugar: '+data.place:''}}</p>
+        <div class="backTransparency">
+          <p class="titleSize">{{data.title?data.title:data.name}}</p>
+          <p>{{data.date?'Fecha: '+data.date:''}}</p>          
+          <p>{{data.hour?'Hora: '+data.hour:''}}</p>
+          <p>{{data.place?'Lugar: '+data.place:''}}</p>
+        </div>
       </b-carousel-slide>
     </b-carousel>
   </div>
@@ -61,5 +60,17 @@ export default {
 .carouselContainer {
   height: 100%;
   width: 100%;
+}
+
+#carouselContainer .carousel-caption{
+  background-color: rgba(111, 129, 143, 0.65);
+}
+
+.backTransparency{
+  background-color: rgba(111, 129, 143, 0.65);
+}
+
+.titleSize{
+  font-size: 30px;
 }
 </style>
