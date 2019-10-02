@@ -219,7 +219,6 @@ export default {
   -webkit-border-radius: 28;
   -moz-border-radius: 28;
   border-radius: 28px;
-  font-family: Arial;
   color: #ffeede;
   font-size: 15px;
   padding: 10px 20px 10px 20px;

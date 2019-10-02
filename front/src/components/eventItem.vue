@@ -9,14 +9,15 @@
     <div>
       <span class="eventProperty">{{event.place}}</span>
     </div>
-    <div>
-      <button class="buttons" @click="toggleModalDelete">
-        <md-trash-icon w="100%" h="100%" />
+    
+    <div id="buttons">
+      <button class="buttons--style" @click="toggleModalDelete">
+        <md-trash-icon w="70%" h="70%" />
       </button>
     </div>
     <div>
-      <button class="buttons">
-        <md-create-icon w="100%" h="100%" />
+      <button class="buttons--style">
+        <md-create-icon w="70%" h="70%" />
       </button>
     </div>
     <ModalDelete
@@ -62,14 +63,12 @@ export default {
   color: #ffeede;
 }
 
-
-
-.buttons {
+.buttons--style {
   filter: brightness(0) invert(1);
   background-color:transparent;
   border-color: transparent;
-  height: 100%;
-  width: 40%;
+  max-height: 50%;
+  max-width: 50%;
 }
 .listRow {
   display: flex;
@@ -85,9 +84,4 @@ export default {
   background: rgba(255, 0, 0, 0.212);
 }
 
-.buttons .button--transparent{
-  background-color: transparent;
-  border-color: transparent;
-  color:white;
-}
 </style>
