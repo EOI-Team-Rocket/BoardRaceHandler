@@ -15,11 +15,15 @@ module.exports = {
 };
 
 function createEvent(req, res) {
-  return EVENTModel.create(req.body)
-    .then(response => {
-      res.status(200).json(response);
-    })
-    .catch(err => handdleError(err, res));
+  if (new Date(req.body.date) > Date.now()) {
+    return EVENTModel.create(req.body)
+      .then(response => {
+        res.status(200).json(response);
+      })
+      .catch((err) => { console.log(err); handdleError(err, res) });
+  } else {
+    res.status(400).json({ err: "the event is in the past." })
+  }
 }
 
 function readAllEvents(req, res) {
@@ -41,30 +45,21 @@ function readOneEvent(req, res) {
     .then(data => res.status(200).json(data))
     .catch(err => handdleError(err, res));
 }
-function getUniqueEvent(req, res) {
-  req.body.title = req.params.title;
-  return EVENTModel.find(req.body)
-    .then(result => {
-      res.status(200).send(result);
-    })
-    .catch(err => {
-      res.send(err);
-    });
-}
 function updateEvent(req, res) {
-  return EVENTModel.findByIdAndUpdate(
-    req.params.id,
-    { $set: req.body },
-    { new: true }
-  )
-    .populate("participants")
-    .then(response => {
-      const event = response;
-      for (let i = 0; i < event.participants.length; i++) {
-        sendEmail(
-          event.participants[i].email,
-          response.title,
-          "El evento: " +
+  if (new Date(req.body.date) > Date.now()) {
+    return EVENTModel.findByIdAndUpdate(
+      req.params.id,
+      { $set: req.body },
+      { new: true }
+    )
+      .populate("participants")
+      .then(response => {
+        const event = response;
+        for (let i = 0; i < event.participants.length; i++) {
+          sendEmail(
+            event.participants[i].email,
+            response.title,
+            "El evento: " +
             response.title +
             ", en el cual esta inscrito, ha sido actualizado. " +
             response.title +
@@ -78,11 +73,14 @@ function updateEvent(req, res) {
             response.manager +
             ". " +
             response.description
-        );
-      }
-      return res.json(response);
-    })
-    .catch(err => handdleError(err, res));
+          );
+        }
+        return res.json(response);
+      })
+      .catch(err => handdleError(err, res));
+  } else {
+    res.status(400).json({ err: "the event is in the past." })
+  }
 }
 
 function deleteEvent(req, res) {
@@ -119,7 +117,7 @@ function sendEmail(email, subject, text) {
     text: text
   };
 
-  transporter.sendMail(mailOptions, function(error, info) {
+  transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
       console.log(error);
     } else {

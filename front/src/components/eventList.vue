@@ -1,23 +1,26 @@
 <template>
   <div id="eventList">
-    <header id="eventsHeader" class="columns headerItem">
-      <h2>Nombre</h2>
-      <h2>Fecha</h2>
-      <h2>Lugar</h2>
-      <button @click="toggleModalForm">Crear Evento</button>
-      <h2></h2>
-    </header>
+      <div class="buttonCreate">
+        <button @click="toggleModalForm">Crear Evento</button>
+      </div>
+      <header id="eventsHeader" class="columns color--white">
+        <h2>Nombre</h2>
+        <h2>Fecha</h2>
+        <h2>Lugar</h2>
+        <h2>Borrar</h2>
+        <h2>Modificar</h2>
+      </header>
     <div id="itemList">
       <div v-for="event in showEvents" :key="event._id" id="listItem">
         <eventItem :event="event" @refreshList="getEvents" />
       </div>
     </div>
     <ModalForm
-        :show="true"
-        :edit="false"
-        v-if="showModalForm"
-        @refreshList="getEvents"
-        @hideFormModal="toggleModalForm"
+      :show="true"
+      :edit="false"
+      v-if="showModalForm"
+      @refreshList="getEvents"
+      @hideFormModal="toggleModalForm"
     />
     <div class="d-flex justify-content-center mt-5" v-if="showEvents != null">
       <!--------------------------------------------Flecha de retorno------------------------------------------------>
@@ -88,9 +91,9 @@ export default {
           console.log("Error getting events:" + err);
         });
     },
-    toggleModalForm(){
-        this.showModalForm = !this.showModalForm;
-     },
+    toggleModalForm() {
+      this.showModalForm = !this.showModalForm;
+    },
     next() {
       if (this.page <= this.numberPages) {
         this.page++;
@@ -137,14 +140,56 @@ export default {
 
 <style scoped>
 
+#eventsContainers{
+  display:flex;
+  justify-content: space-between;
+}
+
+.buttonCreate{
+  text-align: right;
+  padding-top: 10px;
+}
+
+.buttonCreate button{
+  background: #84abe8;
+  background-image: -webkit-linear-gradient(top, #84abe8, #577eff);
+  background-image: -moz-linear-gradient(top, #84abe8, #577eff);
+  background-image: -ms-linear-gradient(top, #84abe8, #577eff);
+  background-image: -o-linear-gradient(top, #84abe8, #577eff);
+  background-image: linear-gradient(to bottom, #84abe8, #577eff);
+  -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  border-radius: 28px;
+  font-size: 20px;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+  border: none;
+  font-weight: bolder;
+  color: #ffeede;
+}
+
+.buttonCreate button:hover {
+  background: #9ed2ff;
+  background-image: -webkit-linear-gradient(top, #577eff, #84abe8);
+  background-image: -moz-linear-gradient(top, #577eff, #84abe8);
+  background-image: -ms-linear-gradient(top, #577eff, #84abe8);
+  background-image: -o-linear-gradient(top, #577eff, #84abe8);
+  background-image: linear-gradient(to bottom, #577eff, #84abe8);
+  text-decoration: none;
+  border: none;
+}
+
 .color--white{
   color: #ffeede;
 }
 
-.listTitles {
-  
-  font-size: 18px;
+#eventsHeader{
+  display: flex;
+  justify-content: center;
+  padding:10px;
+  font-size: 15px;
 }
+
 .columns {
   display: flex;
   justify-content: center;
@@ -156,6 +201,7 @@ export default {
 
 #itemList {
   display: flex;
+  flex-direction: column;
 }
 .select {
   background: #ffffff;

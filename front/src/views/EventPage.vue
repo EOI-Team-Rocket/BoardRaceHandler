@@ -193,6 +193,7 @@ export default {
   max-height: 345px;
   overflow-y: auto;
   flex: 0 0 40%;
+  background-color: rgba(158, 210, 255, 0.6);
 }
 
 .scroll-description {
@@ -219,7 +220,6 @@ export default {
   -webkit-border-radius: 28;
   -moz-border-radius: 28;
   border-radius: 28px;
-  font-family: Arial;
   color: #ffeede;
   font-size: 15px;
   padding: 10px 20px 10px 20px;
