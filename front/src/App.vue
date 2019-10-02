@@ -229,11 +229,7 @@ export default {
   },
 
   methods: {
-    login() {
-      this.$store.dispatch("retrieveToken", {
-        email: this.email,
-        password: this.password
-      });
+    
       console.log("he entrado en el login baby");
       if (this.user.email == "" || this.user.password == "") {
         return;
