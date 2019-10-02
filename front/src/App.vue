@@ -33,18 +33,28 @@
       </div>
       <div id="nav--rightpart">
         <router-link to="/dashboard" v-if="role === 'ADMIN'">Panel de control</router-link>
-        <b-dropdown v-if="!loginState" id="dropdown-form" right text="Iniciar Sesión" ref="dropdown" class="m-2" > <!-- disapear when login-->
+        <b-dropdown
+          v-if="!loginState"
+          id="dropdown-form"
+          right
+          text="Iniciar Sesión"
+          ref="dropdown"
+          class="m-2"
+        >
+          <!-- disapear when login-->
           <b-dropdown-form class="dropdown-menu-right">
-            <p id="error" v-if="error.status" >{{error.message}}</p>
-            <b-form-group label="Email" label-for="dropdown-form-email" >
-              <b-form-input v-model="user.email"
+            <p id="error" v-if="error.status">{{error.message}}</p>
+            <b-form-group label="Email" label-for="dropdown-form-email">
+              <b-form-input
+                v-model="user.email"
                 id="dropdown-form-email"
                 size="sm"
                 placeholder="email@example.com"
               ></b-form-input>
             </b-form-group>
             <b-form-group label="Contraseña" label-for="dropdown-form-password">
-              <b-form-input v-model="user.password"
+              <b-form-input
+                v-model="user.password"
                 id="dropdown-form-password"
                 type="password"
                 size="sm"
@@ -57,11 +67,10 @@
           <b-dropdown-item-button>Regístrate</b-dropdown-item-button>
           <b-dropdown-item-button>¿Contraseña olvidada?</b-dropdown-item-button>
         </b-dropdown>
-        <div class="" v-else>
+        <div class v-else>
           <router-link to="/profile">Perfil</router-link>
           <button id="logout" @click="logOut">Log Out</button>
         </div>
-
       </div>
     </div>
     <router-view />
@@ -69,7 +78,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 export default {
   name: "app",
   data() {
@@ -154,9 +163,9 @@ export default {
         {
           name: "Windsurf/Velocidad",
           id: "windsurf/velocidad"
-        },
+        }
       ],
-ages: [
+      ages: [
         {
           name: "Infantil",
           id: "childish"
@@ -186,7 +195,7 @@ ages: [
           id: "automaty"
         }
       ],
-genders: [
+      genders: [
         {
           name: "Hombre",
           id: "male"
@@ -200,73 +209,70 @@ genders: [
           id: "mixto"
         }
       ],
-      user:{
-        email: '',
-        password:''
+      user: {
+        email: "",
+        password: ""
       },
       error: {
         status: false,
-        message: ''
-    },
+        message: ""
+      },
       role: "",
-      loginState: false,
-    }
+      loginState: false
+    };
   },
 
   methods: {
-    login() {
+    login(){
       console.log("he entrado en el login baby");
-      if(this.user.email == '' || this.user.password == ''){
-				return;
-			}
-			this.error.status = false;
-      this.error.message = '';
+      if (this.user.email == "" || this.user.password == "") {
+        return;
+      }
+      this.error.status = false;
+      this.error.message = "";
       console.log(this.user);
-      
-			axios.post('http://localhost:3000/api/v1/login', this.user)
-				.then(res => {
-          localStorage.setItem('jwt', JSON.stringify(res.data));
+
+      axios
+        .post("http://localhost:3000/api/v1/login", this.user)
+        .then(res => {
+          localStorage.setItem("jwt", JSON.stringify(res.data));
           this.loginState = true;
           this.role = JSON.parse(localStorage.getItem("jwt")).role;
           console.log(this.role);
-          
-				})
-				.catch(err => {
-					if(err.response && err.response.status == 401) {
-						this.error.status = true;
-						this.error.message = "Email o cantraseña erroneo";
-					}else{
-						this.error.status = true;
-						this.error.message = "Error de conexion";
-					}
-				}); 
+        })
+        .catch(err => {
+          if (err.response && err.response.status == 401) {
+            this.error.status = true;
+            this.error.message = "Email o cantraseña erroneo";
+          } else {
+            this.error.status = true;
+            this.error.message = "Error de conexion";
+          }
+        });
     },
-    logOut(){
+    logOut() {
       this.loginState = false;
       this.role = "";
-      localStorage.removeItem('jwt');
-
+      localStorage.removeItem("jwt");
     }
   },
-  created(){
-    console.log(localStorage.getItem('jwt'));
-    const storage = localStorage.getItem('jwt')
-    if (storage != null){
+  created() {
+    console.log(localStorage.getItem("jwt"));
+    const storage = localStorage.getItem("jwt");
+    if (storage != null) {
       this.loginState = true;
-    }else{
+    } else {
       this.loginState = false;
     }
-    
   }
 };
 </script>
 
 
 <style>
-
 @font-face {
   font-family: font;
-  src: url('./assets/Fragmentcore.otf');
+  src: url("./assets/Fragmentcore.otf");
 }
 
 body {
@@ -301,7 +307,7 @@ body {
   font-weight: bolder;
 }
 
-.routerdropdown a{
+.routerdropdown a {
   color: #2c3e50;
 }
 

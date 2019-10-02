@@ -16,11 +16,11 @@
       </div>
     </div>
     <ModalForm
-        :show="true"
-        :edit="false"
-        v-if="showModalForm"
-        @refreshList="getEvents"
-        @hideFormModal="toggleModalForm"
+      :show="true"
+      :edit="false"
+      v-if="showModalForm"
+      @refreshList="getEvents"
+      @hideFormModal="toggleModalForm"
     />
     <div class="d-flex justify-content-center mt-5" v-if="showEvents != null">
       <!--------------------------------------------Flecha de retorno------------------------------------------------>
@@ -91,9 +91,9 @@ export default {
           console.log("Error getting events:" + err);
         });
     },
-    toggleModalForm(){
-        this.showModalForm = !this.showModalForm;
-     },
+    toggleModalForm() {
+      this.showModalForm = !this.showModalForm;
+    },
     next() {
       if (this.page <= this.numberPages) {
         this.page++;
