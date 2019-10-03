@@ -62,10 +62,6 @@ export default {
 @import "../../node_modules/vodal/common.css";
 @import "../../node_modules/vodal/rotate.css";
 
-#vodal{
-  display: flex;
-}
-
 p{
   color:black;
 }

@@ -8,6 +8,7 @@
             aria-describedby="dropdown-boat"
             v-for="boat in boats"
             :key="boat.id"
+            class="alwaysBlack"
           >
             <router-link :to="{name: 'events', params: {name: boat.id} }">{{boat.name}}</router-link>
           </b-dropdown-item-button>
@@ -17,6 +18,7 @@
             aria-describedby="dropdown-boat"
             v-for="age in ages"
             :key="age.id"
+            class="alwaysBlack"
           >
             <router-link :to="{name: 'events', params: {name: age.id} }">{{age.name}}</router-link>
           </b-dropdown-item-button>
@@ -26,6 +28,7 @@
             aria-describedby="dropdown-boat"
             v-for="gender in genders"
             :key="gender.id"
+            class="alwaysBlack"
           >
             <router-link :to="{name: 'events', params: {name: gender.id} }">{{gender.name}}</router-link>
           </b-dropdown-item-button>
@@ -41,7 +44,6 @@
           ref="dropdown"
           class="m-2"
         >
-          <!-- disapear when login-->
           <b-dropdown-form class="dropdown-menu-right">
             <p id="error" v-if="error.status">{{error.message}}</p>
             <b-form-group label="Email" label-for="dropdown-form-email">
@@ -71,7 +73,7 @@
         </b-dropdown>
         <div class v-else>
           <router-link :to="{name: 'profile', params: {numLicense: numLicense} }">Perfil</router-link>
-          <button @click="logOut">Log Out</button>
+          <button id="logout" @click="logOut">Log Out</button>
         </div>
       </div>
     </div>
@@ -305,6 +307,10 @@ body {
   background-image: url("./assets/background.jpg");
 }
 
+.alwaysBlack {
+  color: #2c3e50;
+}
+
 #app {
   font-family: font;
   -webkit-font-smoothing: antialiased;
@@ -338,8 +344,7 @@ body {
 }
 
 #nav .dropdown-menu {
-  background-color: rgba(132, 170, 232, 0.5);
-  color: #ffeede;
+  background-color: rgba(132, 170, 232, 0.9);
   font-weight: bolder;
 }
 
@@ -348,7 +353,6 @@ body {
 }
 
 #nav a.router-link-exact-active {
-  color: #ffeede;
   font-weight: bolder;
 }
 

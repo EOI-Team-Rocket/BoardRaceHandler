@@ -1,8 +1,8 @@
 <template>
-  <div id="eventpage">
+  <div>
     <!--------------------------------Title of event --------------------------------------------->
 
-    <h1 class="text-center text-white mt-4">{{data_events.title}}</h1>
+    <h1 class="text-center text-white mt-4 ">{{data_events.title}}</h1>
 
     <!-------------------------------------------------------------------------------------------->
 
@@ -14,7 +14,7 @@
       <!-------------------------------------------------------------------------------------------->
 
       <!---------------------- Datas of events. Left right ----------------------------------------->
-
+  
       <CardComponent
         :place="data_events.place"
         :category="data_events.category"
@@ -24,7 +24,7 @@
         :gender="data_events.gender"
         :boat="data_events.class_boat"
         :capacity="data_events.capacity"
-        class="cardComponent"
+        class="cardComponent notransparentblue"
       />
       <!-------------------------------------------------------------------------------------------->
 
@@ -34,28 +34,27 @@
           <GMap :lng="data_events.cord.lng" :lat="data_events.cord.lat" />
         </div>
 
-        <div class="ml-2 mt-3 card scroll-participants">
-          <div class="card-body">
-            <h1>Participantes Inscritos</h1>
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th scope="col"></th>
-                  <th scope="col">Nombre</th>
-                  <th scope="col">Primer Apellido</th>
-                  <th scope="col">Segundo Apellido</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(data_event, index) in data_events.participants" :key="data_event._id">
-                  <th scope="row">{{index + 1}}</th>
-                  <td>{{data_event.personalInfo.fullname.name}}</td>
-                  <td>{{data_event.personalInfo.fullname.surname1}}</td>
-                  <td>{{data_event.personalInfo.fullname.surname2}}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+      <div class="ml-2 mt-3 card scroll-participants">
+        <div class="card-body transparentblue">
+          <h1>Participantes Inscritos</h1>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Primer Apellido</th>
+                <th scope="col">Segundo Apellido</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(data_event, index) in data_events.participants" :key="data_event._id">
+                <th scope="row">{{index + 1}}</th>
+                <td>{{data_event.personalInfo.fullname.name}}</td>
+                <td>{{data_event.personalInfo.fullname.surname1}}</td>
+                <td>{{data_event.personalInfo.fullname.surname2}}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
@@ -65,7 +64,7 @@
     <!-------------------------------------Description of event----------------------------------->
     <div class="d-flex">
       <div class="ml-5 mt-3 card scroll-description">
-        <div class="card-body">
+        <div class="card-body transparentblue">
           <h4>
             <strong>Descripción del evento</strong>
           </h4>
@@ -184,6 +183,19 @@ export default {
 </script>
 
 <style scoped>
+
+.transparentblue{
+  background-color: rgba(158, 210, 255, 0.6);
+}
+
+.notransparentblue{
+  background-color: transparent;
+}
+
+.card-body .transparentblue{
+  background-color: rgba(158, 210, 255, 0.6);
+}
+
 .container-img {
   flex: 0 0 25%;
 }
@@ -200,7 +212,7 @@ export default {
   max-height: 345px;
   overflow-y: auto;
   flex: 0 0 40%;
-  background-color: rgba(158, 210, 255, 0.6);
+  
 }
 
 .scroll-description {
