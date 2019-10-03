@@ -2,17 +2,20 @@
     <div class="">
         <button @click="deleteUser">Delete</button>
         <ModalDelete :show="show" :id="id" @hideModal="hideModal" @refrestList="refrestList"/>
+        <GMap/>
     </div>
-
+    
 </template>
 
 <script>
+import GMap from "@/components/GMapForm.vue";
 import ModalDelete from '@/components/ModalDelete.vue'
 import axios from 'axios'
 export default {
     name: 'signin',
     components: {
-        ModalDelete
+        ModalDelete,
+        GMap
     },
     data(){
         return{

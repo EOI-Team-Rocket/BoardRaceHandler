@@ -96,4 +96,6 @@ export default {
   background: rgba(255, 0, 0, 0.212);
 }
 
+
+
 </style>

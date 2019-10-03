@@ -324,7 +324,7 @@ body {
 }
 
 #nav .dropdown-menu {
-  background-color: rgba(132, 170, 232, 0.5);
+  background-color: rgba(132, 170, 232, 0.9);
   font-weight: bolder;
 }
 
@@ -373,8 +373,5 @@ body {
   font-weight: bolder;
 }
 
-#nav .dropdown-menu-right{
-  background-color: rgba(132, 170, 232, 0.80);
-}
 
 </style>

@@ -1,21 +1,26 @@
 <template>
-  <div class>
-    <p>Nombre: {{name}}</p>
-    <p>Primer apellido: {{surname1}}</p>
-    <p>Segundo apellido: {{surname2}}</p>
-    <p>email: {{email}}</p>
-    <p v-if="gender == 'M' ">Sexo: Masculino</p>
-    <p v-else>Sexo: Femenino</p>
-    <p>Teléfono 1: {{telf1}}</p>
-    <p v-if="telf2 != ''">Teléfono 2: {{telf2}}</p>
-    <p>Clase: {{class_boat}}</p>
-    <p>Categoría: {{category}}</p>
-    <p>Estado: {{state}}</p>
-    <p>Número de licencia: {{license_number}}</p>
-    <p>Fecha de caducidad: {{expiration_date}}</p>
-    <p v-if="club != ''">Club: {{club}}</p>
-    <p v-if="federation != ''">Federación: {{federation}}</p>
-
+  <div class="profile">
+    <div class="info">
+      <p>Nombre: {{name}}</p>
+      <p>Primer apellido: {{surname1}}</p>
+      <p>Segundo apellido: {{surname2}}</p>
+      <p v-if="gender == 'M' ">Sexo: Masculino</p>
+      <p v-else>Sexo: Femenino</p>
+    </div>
+    <div class="info">
+      <p>Clase: {{class_boat}}</p>
+      <p>Categoría: {{category}}</p>
+      <p>Estado: {{state}}</p>
+      <p>Número de licencia: {{license_number}}</p>
+      <p>Fecha de caducidad: {{expiration_date}}</p>
+      <p v-if="club != ''">Club: {{club}}</p>
+      <p v-if="federation != ''">Federación: {{federation}}</p>
+    </div>
+    <div class="info">
+      <p>email: {{email}}</p>
+      <p>Teléfono 1: {{telf1}}</p>
+      <p v-if="telf2 != ''">Teléfono 2: {{telf2}}</p>
+    </div>
     <table class="table table-striped">
       <thead>
         <tr>
@@ -126,6 +131,22 @@ export default {
 </script>
 
 <style scoped>
+
+.profile{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.info{
+  display:flex;
+  flex-direction: column;
+  border: 1px solid;
+  border-radius: 16px;
+  background-color: rgba(132, 170, 232, 0.9);
+  justify-content: center;
+}
+
 p {
   color: white;
 }

@@ -36,6 +36,11 @@ export default new Router({
     },
     
     {
+      path: "/eventpage/:id",
+      name: "eventpage",
+      component: () => import("./views/EventPage.vue")
+    },
+    {
       path: "/profile/:numLicense",
       name: "profile",
       component: () => import("./views/Profile.vue")

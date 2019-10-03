@@ -29,6 +29,10 @@
       <!-------------------------------------------------------------------------------------------->
 
       <!------------------------------------------Participants-------------------------------------->
+      <div class="col">
+        <div class>
+          <GMap :lng="data_events.cord.lng" :lat="data_events.cord.lat" />
+        </div>
 
       <div class="ml-2 mt-3 card scroll-participants">
         <div class="card-body transparentblue">
@@ -85,6 +89,7 @@
 <script>
 import axios from "axios";
 import CardComponent from "@/components/CardComponent.vue"; /* fix this */
+import GMap from "@/components/GMapDetail.vue";
 
 export default {
   name: "eventpage",
@@ -97,7 +102,8 @@ export default {
     };
   },
   components: {
-    CardComponent
+    CardComponent,
+    GMap
   },
   methods: {
     getDataApi() {
