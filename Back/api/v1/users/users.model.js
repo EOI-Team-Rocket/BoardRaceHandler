@@ -78,7 +78,7 @@ const UserSchema = new mongoose.Schema({
         },
         expiration_date: {
             type: String,
-            default: undefined
+            default: "2019-12-31"
         },
         state: {
             type: String,
