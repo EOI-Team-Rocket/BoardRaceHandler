@@ -371,7 +371,10 @@ body {
   background-color: transparent;
   border-color: transparent;
   font-weight: bolder;
+}
 
+#nav .dropdown-menu-right{
+  background-color: rgba(132, 170, 232, 0.80);
 }
 
 </style>

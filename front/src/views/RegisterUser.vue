@@ -264,11 +264,13 @@ export default {
 </script>
 
 <style scoped>
-    .card-header{
-        background-color: #92DDF9;
-    }
-    .card-body{
-        background-color: #A3F992;
-    }
+.card-header{
+    background-color: rgba(158, 210, 255, 0.8);
+    font-weight: bolder;
+}
+.card .card-body{
+    background: rgba(158, 210, 255, 0.5);
+    font-weight: bold;
+}
 
 </style>
