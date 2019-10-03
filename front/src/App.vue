@@ -268,18 +268,21 @@ export default {
   },
   created() {
     console.log(localStorage.getItem("jwt"));
-    console.log(
-      window.location.href.substring(
-        window.location.href.indexOf("access_token"),
-        window.location.href.length
-      )
-    );
-    if (this.$route.query.access_token) {
-      // localStorage.setItem("driveToken", this.$route.query.access_token);
-      // var expirationDate = new Date(Date.now());
-      // expirationDate.setHours(expirationDate.getHours() + 1);
-      // localStorage.setItem("dateToTokenDie", expirationDate);
-      // this.$router.replace("/dashboard");
+    //if drive send token
+    if (window.location.href.indexOf("access_token")) {
+      //find token content
+      var params = window.location.href.substring(
+        window.location.href.indexOf("=") + 1,
+        window.location.href.indexOf("&")
+      );
+      //save token
+      localStorage.setItem("drivenToken", params + "");
+      var expirationDate = new Date(Date.now());
+      //token will live 1 hour
+      expirationDate.setHours(expirationDate.getHours() + 1);
+      localStorage.setItem("dateToTokenDie", expirationDate);
+      //go to dashboard
+      this.$router.replace("/dashboard");
     }
     const storage = localStorage.getItem("jwt");
     if (storage != null) {

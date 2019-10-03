@@ -22,10 +22,7 @@
         <!-- IMG -->
         <div class="form-column">
           <div id="imageContainer">
-            <img
-              class="boatEvent-img"
-              :src="boatEvent.image?boatEvent.image:'https://www.churchtrac.com/articles/apple/uploads/2017/09/Antu_insert-image.svg_-846x846.png'"
-            />
+            <img class="boatEvent-img" :src="boatEvent.image?boatEvent.image:eventImage" />
           </div>
           <div class="form-row">
             <label>Subir imagen</label>
@@ -176,8 +173,8 @@ export default {
   data() {
     return {
       showModal: this.show,
-      // cant close modal when click out
-      noBackdrop: false,
+      eventImage:
+        "https://www.churchtrac.com/articles/apple/uploads/2017/09/Antu_insert-image.svg_-846x846.png",
       errors: [],
       boats: [
         "420",
@@ -324,18 +321,45 @@ export default {
         return true;
       }
     },
-    putImageInData() {
+    putImageInData(event) {
+      //event.target.files[0]
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = () => {
+        this.eventImage = reader.result;
+        console.log(this.eventImage);
+      };
+    },
+    uploadToDrive() {
       var clientId =
         "51550627371-6hoi4aai0pqudi8cmbk0k8p71f97agau.apps.googleusercontent.com";
       var redurect_uri = "http://localhost:8080/#/dashboard";
       var scope = "https://www.googleapis.com/auth/drive";
       var driveToken = localStorage.getItem("driveToken");
-      if (driveToken != null) {
-        console.log("aaaa:" + localStorage.getItem("driveToken"));
+
+      if (driveToken != "") {
+        console.log("aaaa:" + localStorage.getItem("drivenToken"));
+        var config = {
+          params: {
+            uploadType: "media"
+          },
+          headers: {
+            Authorization: "Bearer " + driveToken
+          }
+        };
+        axios
+          .post(
+            "https://www.googleapis.com/upload/drive/v3/files",
+            {
+              data: this.eventImage
+            },
+            config
+          )
+          .then(res => console.log(res))
+          .catch(err => console.log(err));
       } else {
         this.singInDrive(clientId, redurect_uri, scope);
       }
-      return;
     },
     singInDrive(clientId, redirect_uri, scope) {
       var url =
