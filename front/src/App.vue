@@ -30,9 +30,6 @@
             <router-link :to="{name: 'events', params: {name: gender.id} }">{{gender.name}}</router-link>
           </b-dropdown-item-button>
         </b-dropdown>
-        <router-link to="/places">Lugares</router-link>
-        <router-link to="/eventpage">Evento</router-link>
-        <!-- this is a test for the layout-->
       </div>
       <div id="nav--rightpart">
         <router-link to="/dashboard" v-if="role === 'ADMIN'">Panel de control</router-link>
@@ -64,21 +61,18 @@
                 placeholder="Contraseña"
               ></b-form-input>
             </b-form-group>
-
-            <b-form-checkbox class="mb-3">Recuérdame</b-form-checkbox>
             <b-button variant="primary" size="sm" @click="login">Inicia sesión</b-button>
           </b-dropdown-form>
           <b-dropdown-divider></b-dropdown-divider>
-          <b-dropdown-item-button>Regístrate</b-dropdown-item-button>
+          <router-link to="/register"><b-dropdown-item-button>Regístrate</b-dropdown-item-button></router-link>
           <b-dropdown-item-button>¿Contraseña olvidada?</b-dropdown-item-button>
         </b-dropdown>
         <div class v-else>
-          <router-link to="/profile">Perfil</router-link>
+          <router-link :to="{name: 'profile', params: {numLicense: numLicense} }">Perfil</router-link>
           <button @click="logOut">Log Out</button>
         </div>
       </div>
     </div>
-
     <router-view />
   </div>
 </template>
@@ -224,16 +218,13 @@ export default {
         message: ""
       },
       role: "",
-      loginState: false
+      loginState: false,
+      numLicense: ""
     };
   },
 
   methods: {
-    login() {
-      this.$store.dispatch("retrieveToken", {
-        email: this.email,
-        password: this.password
-      });
+    login(){
       console.log("he entrado en el login baby");
       if (this.user.email == "" || this.user.password == "") {
         return;
@@ -247,13 +238,16 @@ export default {
         .then(res => {
           localStorage.setItem("jwt", JSON.stringify(res.data));
           this.loginState = true;
+          this.numLicense = JSON.parse(
+            localStorage.getItem("jwt")
+          ).license_number;
           this.role = JSON.parse(localStorage.getItem("jwt")).role;
           console.log(this.role);
         })
         .catch(err => {
           if (err.response && err.response.status == 401) {
             this.error.status = true;
-            this.error.message = "Email o cantraseña erroneo";
+            this.error.message = "Email o contraseña erroneo";
           } else {
             this.error.status = true;
             this.error.message = "Error de conexion";
@@ -263,6 +257,7 @@ export default {
     logOut() {
       this.loginState = false;
       this.role = "";
+      this.numLicense = "";
       localStorage.removeItem("jwt");
     }
   },
@@ -286,6 +281,8 @@ export default {
     }
     const storage = localStorage.getItem("jwt");
     if (storage != null) {
+      this.role = storage.role;
+      this.numLicense = storage.license_number;
       this.loginState = true;
     } else {
       this.loginState = false;
@@ -324,13 +321,13 @@ body {
   color: #2c3e50;
   text-decoration: none;
   padding: 15px;
-  font-weight: bold;
+  font-weight: bolder;
 }
 
 #nav a:hover {
   padding: 15px;
   color: black;
-  font-weight: bold;
+  font-weight: bolder;
 }
 
 .routerdropdown a {
@@ -340,16 +337,16 @@ body {
 #nav .dropdown-menu {
   background-color: rgba(132, 170, 232, 0.5);
   color: #ffeede;
-  font-weight: bold;
+  font-weight: bolder;
 }
 
 #nav .dropdown-menu a {
-  font-weight: bold;
+  font-weight: bolder;
 }
 
 #nav a.router-link-exact-active {
   color: #ffeede;
-  font-weight: bold;
+  font-weight: bolder;
 }
 
 #nav--rightpart {
@@ -361,13 +358,14 @@ body {
 }
 
 #nav .btn-secondary {
-  color: #222299;
+  color: black;
+  font-size: 18px;
   background-color: transparent;
   border-color: transparent;
 }
 
 #nav .btn-secondary:hover {
-  font-weight: bold;
+  font-weight: bolder;
 }
 
 #nav .btn-secondary.disabled,
@@ -380,4 +378,12 @@ body {
 .show > .btn-secondary.dropdown-toggle {
   color: #fff;
 }
+
+#logout{
+  background-color: transparent;
+  border-color: transparent;
+  font-weight: bolder;
+
+}
+
 </style>

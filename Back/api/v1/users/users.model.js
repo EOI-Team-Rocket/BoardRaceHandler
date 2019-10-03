@@ -60,7 +60,8 @@ const UserSchema = new mongoose.Schema({
         speciality: [{
             type: String,
             enum: ["Deportista"],
-            required: true
+            required: true,
+            default: "Deportista"
         }],
         class_boat: {
             type: String,
@@ -77,12 +78,13 @@ const UserSchema = new mongoose.Schema({
         },
         expiration_date: {
             type: String,
-            default: undefined
+            default: "2019-12-31"
         },
         state: {
             type: String,
             enum: ["Activo", "Inactivo", "Pendiente"], //ask alejandro
-            required: true
+            required: true,
+            default: "Activo"
         },
         club: {
             type: String,

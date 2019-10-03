@@ -25,6 +25,14 @@ const EVENTschema = new mongoose.Schema({
     type: String,
     required: [true, "The place is required"]
   },
+  cord:{
+    lng:{
+      type: String
+    },
+    lat:{
+      type: String
+    }
+  },
   cancel: {
     type: Boolean,
     default: false

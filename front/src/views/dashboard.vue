@@ -16,6 +16,17 @@ export default {
   data() {
     return {};
   },
+  created() {
+    const jwt = JSON.parse(localStorage.getItem("jwt"));
+    
+    if (!localStorage.getItem("jwt")) {
+      this.$router.replace("/");
+    } else {
+      if (jwt.role != "ADMIN") {
+        this.$router.replace("/");
+      }
+    }
+  },
   methods: {}
 };
 </script>
@@ -29,4 +40,6 @@ export default {
   display: flex;
   justify-content: center;
 }
+
+
 </style>

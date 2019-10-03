@@ -32,9 +32,10 @@ function getUsers(req, res) {
 }
 
 function getUsersByAffiliate(req, res) {
-  return Users.find({
+  return Users.findOne({
     "sportInfo.license_number": { $in: [req.params.license_number] }
   })
+    .populate("sportInfo.regattas")
     .then(result => {
       res.send(result);
     })
@@ -75,7 +76,7 @@ function postUser(req, res) {
       return res.status(200).send(userResponde);
     })
     .catch(err => {
-      res.send(err);
+      res.status(400).send(err);
     });
 }
 

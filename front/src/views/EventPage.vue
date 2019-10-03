@@ -29,28 +29,33 @@
       <!-------------------------------------------------------------------------------------------->
 
       <!------------------------------------------Participants-------------------------------------->
+      <div class="col">
+        <div class>
+          <GMap :lng="data_events.cord.lng" :lat="data_events.cord.lat" />
+        </div>
 
-      <div class="ml-2 mt-3 card scroll-participants">
-        <div class="card-body">
-          <h1>Participantes Inscritos</h1>
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th scope="col"></th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Primer Apellido</th>
-                <th scope="col">Segundo Apellido</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(data_event, index) in data_events.participants" :key="data_event._id">
-                <th scope="row">{{index + 1}}</th>
-                <td>{{data_event.personalInfo.fullname.name}}</td>
-                <td>{{data_event.personalInfo.fullname.surname1}}</td>
-                <td>{{data_event.personalInfo.fullname.surname2}}</td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="ml-2 mt-3 card scroll-participants">
+          <div class="card-body">
+            <h1>Participantes Inscritos</h1>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Primer Apellido</th>
+                  <th scope="col">Segundo Apellido</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(data_event, index) in data_events.participants" :key="data_event._id">
+                  <th scope="row">{{index + 1}}</th>
+                  <td>{{data_event.personalInfo.fullname.name}}</td>
+                  <td>{{data_event.personalInfo.fullname.surname1}}</td>
+                  <td>{{data_event.personalInfo.fullname.surname2}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
@@ -85,6 +90,7 @@
 <script>
 import axios from "axios";
 import CardComponent from "@/components/CardComponent.vue"; /* fix this */
+import GMap from "@/components/GMapDetail.vue";
 
 export default {
   name: "eventpage",
@@ -97,7 +103,8 @@ export default {
     };
   },
   components: {
-    CardComponent
+    CardComponent,
+    GMap
   },
   methods: {
     getDataApi() {
@@ -193,6 +200,7 @@ export default {
   max-height: 345px;
   overflow-y: auto;
   flex: 0 0 40%;
+  background-color: rgba(158, 210, 255, 0.6);
 }
 
 .scroll-description {
@@ -219,7 +227,6 @@ export default {
   -webkit-border-radius: 28;
   -moz-border-radius: 28;
   border-radius: 28px;
-  font-family: Arial;
   color: #ffeede;
   font-size: 15px;
   padding: 10px 20px 10px 20px;

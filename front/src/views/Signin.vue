@@ -2,17 +2,20 @@
     <div class="">
         <button @click="deleteUser">Delete</button>
         <ModalDelete :show="show" :id="id" @hideModal="hideModal" @refrestList="refrestList"/>
+        <GMap/>
     </div>
-
+    
 </template>
 
 <script>
+import GMap from "@/components/GMapForm.vue";
 import ModalDelete from '@/components/ModalDelete.vue'
 import axios from 'axios'
 export default {
     name: 'signin',
     components: {
-        ModalDelete
+        ModalDelete,
+        GMap
     },
     data(){
         return{
@@ -47,6 +50,7 @@ export default {
             axios.delete("http://localhost:3000/api/v1/users/"+licenseNum,{headers: {"Authorization": "Bearer " + tkn}}).then((res => {
                 console.log("BORRADO");
                 localStorage.removeItem("jwt");
+                this.$router.replace('/');
                 
             })).catch(err => {
                 console.log(err);
