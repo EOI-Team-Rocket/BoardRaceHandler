@@ -13,14 +13,14 @@
       <div class="info">
         <p>email: {{email}}</p>
         <p>Teléfono 1: {{telf1}}</p>
-        <p v-if="surname2 != '' ">Teléfono 2: {{telf2}}</p>
+        <p v-if="telf2 != ''">Teléfono 2: {{telf2}}</p>
       </div>
       <div class="info">
         <div id="name">
           <p>Nombre: {{name}}</p>
           <p>Primer apellido: {{surname1}}</p>
         </div> 
-        <p v-if="telf2 != '' ">Segundo apellido: {{surname2}}</p>
+        <p  v-if="surname2 != '' ">Segundo apellido: {{surname2}}</p>
         <div id="sex">
           <p v-if="gender == 'M' ">Sexo: Masculino</p>
           <p v-else>Sexo: Femenino</p>
