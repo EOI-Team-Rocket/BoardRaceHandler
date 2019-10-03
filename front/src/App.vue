@@ -276,7 +276,7 @@ export default {
         window.location.href.indexOf("&")
       );
       //save token
-      localStorage.setItem("drivenToken", params + "");
+      localStorage.setItem("drivenToken", params);
       var expirationDate = new Date(Date.now());
       //token will live 1 hour
       expirationDate.setHours(expirationDate.getHours() + 1);

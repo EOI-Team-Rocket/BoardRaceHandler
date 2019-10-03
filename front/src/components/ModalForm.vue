@@ -10,6 +10,7 @@
     <template v-slot:modal-header>
       <div>
         <h5>{{formHeader}}</h5>
+        <img src="https://drive.google.com/file/d/17KYguSC0EQaeEuPZYwzNtFecjfRyTZTK/edit" alt />
       </div>
       <div>
         <button @click="hideModal">X</button>
@@ -19,6 +20,8 @@
     <div id="form-column form-container">
       <!-- TOP SECTION -->
       <div class="form-row">
+        <p>{{key}}</p>
+        <button @click="deleteToken">delete token</button>
         <!-- IMG -->
         <div class="form-column">
           <div id="imageContainer">
@@ -172,7 +175,9 @@ export default {
   props: ["show", "id", "edit"],
   data() {
     return {
+      key: localStorage.getItem("drivenToken"),
       showModal: this.show,
+      img: null,
       eventImage:
         "https://www.churchtrac.com/articles/apple/uploads/2017/09/Antu_insert-image.svg_-846x846.png",
       errors: [],
@@ -227,6 +232,9 @@ export default {
     };
   },
   methods: {
+    deleteToken() {
+      localStorage.removeItem("driveToken");
+    },
     hideModal() {
       this.showModal = false;
       this.updateFatherStatus();
@@ -261,7 +269,7 @@ export default {
       }
     },
     createEvent() {
-      this.putImageInData();
+      this.uploadToDrive();
       this.translateGender();
       if (this.formValidation()) {
         axios
@@ -322,12 +330,12 @@ export default {
       }
     },
     putImageInData(event) {
-      //event.target.files[0]
       var reader = new FileReader();
+      this.eventImage = event.target.files[0];
+      this.img = event.target.files[0];
       reader.readAsDataURL(event.target.files[0]);
       reader.onload = () => {
         this.eventImage = reader.result;
-        console.log(this.eventImage);
       };
     },
     uploadToDrive() {
@@ -335,13 +343,14 @@ export default {
         "51550627371-6hoi4aai0pqudi8cmbk0k8p71f97agau.apps.googleusercontent.com";
       var redurect_uri = "http://localhost:8080/#/dashboard";
       var scope = "https://www.googleapis.com/auth/drive";
-      var driveToken = localStorage.getItem("driveToken");
+      var driveToken = localStorage.getItem("drivenToken");
 
-      if (driveToken != "") {
-        console.log("aaaa:" + localStorage.getItem("drivenToken"));
+      if (driveToken != "" && driveToken != null) {
         var config = {
           params: {
-            uploadType: "media"
+            uploadType: "media",
+            mimeType: "image/jpeg",
+            ignoreDefaultVisibility: true
           },
           headers: {
             Authorization: "Bearer " + driveToken
@@ -350,9 +359,7 @@ export default {
         axios
           .post(
             "https://www.googleapis.com/upload/drive/v3/files",
-            {
-              data: this.eventImage
-            },
+            this.img,
             config
           )
           .then(res => console.log(res))
