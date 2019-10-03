@@ -179,7 +179,7 @@ export default {
       showModal: this.show,
       img: null,
       eventImage:
-        "https://www.churchtrac.com/articles/apple/uploads/2017/09/Antu_insert-image.svg_-846x846.png",
+        "https://drive.google.com/uc?id=1ciFgUAnASqNfSnSbrLcyOHaQDMbJYXg4&export=download",
       errors: [],
       boats: [
         "420",
@@ -350,7 +350,7 @@ export default {
           params: {
             uploadType: "media",
             mimeType: "image/jpeg",
-            ignoreDefaultVisibility: true
+            addParents: "1QNloRgiX8CrcqIEvvQFzR5yw74LyXkwP"
           },
           headers: {
             Authorization: "Bearer " + driveToken
@@ -362,7 +362,26 @@ export default {
             this.img,
             config
           )
-          .then(res => console.log(res))
+          .then(res => {
+            console.log(res);
+            var config = {
+              headers: {
+                Authorization: "Bearer " + driveToken
+              }
+            };
+            axios
+              .post(
+                "https://www.googleapis.com/drive/v2/files/" +
+                  res.data.id +
+                  "/parents",
+                {
+                  id: "1QNloRgiX8CrcqIEvvQFzR5yw74LyXkwP"
+                },
+                config
+              )
+              .then(res => console.log(res))
+              .catch(err => console.log(err));
+          })
           .catch(err => console.log(err));
       } else {
         this.singInDrive(clientId, redurect_uri, scope);
