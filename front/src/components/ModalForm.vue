@@ -20,8 +20,6 @@
     <div id="form-column form-container">
       <!-- TOP SECTION -->
       <div class="form-row">
-        <p>{{key}}</p>
-        <button @click="deleteToken">delete token</button>
         <!-- IMG -->
         <div class="form-column">
           <div id="imageContainer">
@@ -179,7 +177,7 @@ export default {
       showModal: this.show,
       img: null,
       eventImage:
-        "https://drive.google.com/uc?id=1ciFgUAnASqNfSnSbrLcyOHaQDMbJYXg4&export=download",
+        "https://cdn4.iconfinder.com/data/icons/text-editor-2/24/Insert-Image-512.png",
       errors: [],
       boats: [
         "420",
