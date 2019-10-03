@@ -71,7 +71,7 @@
         </b-dropdown>
         <div class v-else>
           <router-link :to="{name: 'profile', params: {numLicense: numLicense} }">Perfil</router-link>
-          <button @click="logOut">Log Out</button>
+          <button id="logout" @click="logOut">Log Out</button>
         </div>
       </div>
     </div>
