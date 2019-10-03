@@ -260,12 +260,19 @@ export default {
     },
     updateEvent() {
       if (this.formValidation()) {
+        const place = JSON.parse(localStorage.getItem("place")); 
+        const jwt = JSON.parse(localStorage.getItem("jwt"));
+        const tkn = jwt.acces_token;
         axios
           .patch("http://localhost:3000/api/v1/events/" + this.id, {
             title: this.boatEvent.title,
             date: this.boatEvent.date,
             hour: this.boatEvent.hour,
-            place: this.boatEvent.place,
+            place: place.place,
+            cord: {
+              lng: place.marker.lng,
+              lat: place.marker.lat
+            },
             image: this.boatEvent.image,
             gender: this.boatEvent.gender,
             class_boat: this.boatEvent.class_boat,
@@ -274,11 +281,13 @@ export default {
             capacity: this.boatEvent.capacity,
             manager: this.boatEvent.manager,
             participants: this.boatEvent.participants
-          })
+          }, 
+          { headers: { Authorization: "Bearer " + tkn }})
           .then(res => {
             this.hideModal();
           })
           .catch(err => {
+            console.log(err)
             this.errors.push("Error al conectar con la base de datos");
           });
       }
@@ -287,6 +296,8 @@ export default {
       this.translateGender();
       if (this.formValidation() && (await this.uploadToDrive())) {
         const place = JSON.parse(localStorage.getItem("place")); 
+        const jwt = JSON.parse(localStorage.getItem("jwt"));
+        const tkn = jwt.acces_token;
         axios
           .post("http://localhost:3000/api/v1/events", {
             title: this.boatEvent.title,
@@ -305,7 +316,8 @@ export default {
             capacity: this.boatEvent.capacity,
             manager: this.boatEvent.manager,
             participants: this.boatEvent.participants
-          })
+          }, 
+          { headers: { Authorization: "Bearer " + tkn }})
           .then(res => {
             localStorage.removeItem("place");
             this.hideModal();

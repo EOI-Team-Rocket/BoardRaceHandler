@@ -16,7 +16,7 @@
       </button>
     </div>
     <div>
-      <button class="buttons--style">
+      <button class="buttons--style" @click="toggleModalEdit">
         <md-create-icon w="70%" h="70%" />
       </button>
     </div>

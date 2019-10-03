@@ -64,7 +64,9 @@
             <b-button variant="primary" size="sm" @click="login">Inicia sesión</b-button>
           </b-dropdown-form>
           <b-dropdown-divider></b-dropdown-divider>
-          <router-link to="/register"><b-dropdown-item-button>Regístrate</b-dropdown-item-button></router-link>
+          <router-link to="/register">
+            <b-dropdown-item-button>Regístrate</b-dropdown-item-button>
+          </router-link>
           <b-dropdown-item-button>¿Contraseña olvidada?</b-dropdown-item-button>
         </b-dropdown>
         <div class v-else>
@@ -224,7 +226,7 @@ export default {
   },
 
   methods: {
-    login(){
+    login() {
       console.log("he entrado en el login baby");
       if (this.user.email == "" || this.user.password == "") {
         return;
@@ -261,8 +263,17 @@ export default {
       localStorage.removeItem("jwt");
     }
   },
+  mounted() {
+    const storage = JSON.parse(localStorage.getItem("jwt"));
+    if (storage != null) {
+      this.role = storage.role;
+      this.numLicense = storage.license_number;
+      this.loginState = true;
+    } else {
+      this.loginState = false;
+    }
+  },
   created() {
-    console.log(localStorage.getItem("jwt"));
     //if drive send token
     if (window.location.href.indexOf("access_token")) {
       //find token content
@@ -278,14 +289,6 @@ export default {
       localStorage.setItem("dateToTokenDie", expirationDate);
       //go to dashboard
       this.$router.replace("/dashboard");
-    }
-    const storage = localStorage.getItem("jwt");
-    if (storage != null) {
-      this.role = storage.role;
-      this.numLicense = storage.license_number;
-      this.loginState = true;
-    } else {
-      this.loginState = false;
     }
   }
 };
@@ -379,11 +382,9 @@ body {
   color: #fff;
 }
 
-#logout{
+#logout {
   background-color: transparent;
   border-color: transparent;
   font-weight: bolder;
-
 }
-
 </style>

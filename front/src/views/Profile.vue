@@ -28,14 +28,14 @@
       <tbody>
         <tr v-for="(dataEvent, index) in dataEvents" :key="dataEvent._id">
           <th class="text-white" scope="row">{{index + 1}}</th>
-          <td class="text-white">{{dataEvent.title}}</td> 
-          <td class="text-white">{{dataEvent.place}}</td> 
+          <td class="text-white">{{dataEvent.title}}</td>
+          <td class="text-white">{{dataEvent.place}}</td>
           <td class="text-white">{{dataEvent.date}}</td>
         </tr>
       </tbody>
     </table>
 
-    <button>Editar</button>
+    <button v-if="false">Editar</button>
     <button @click="deleteUser">Borrar</button>
   </div>
 </template>
@@ -48,18 +48,18 @@ export default {
   data() {
     return {
       user: {},
-      name:"",
-      surname1:"",
-      surname2:"",
-      email:"",
-      gender:"",
-      telf1:"",
-      telf2:"",
-      class_boat:"",
-      category:"",
-      state:"",
-      license_number:"",
-      expiration_date:"",
+      name: "",
+      surname1: "",
+      surname2: "",
+      email: "",
+      gender: "",
+      telf1: "",
+      telf2: "",
+      class_boat: "",
+      category: "",
+      state: "",
+      license_number: "",
+      expiration_date: "",
       club: "",
       federation: "",
       dataEvents: []
@@ -94,7 +94,7 @@ export default {
       if (jwt.license_number == this.$route.params.numLicense) {
         axios
           .get("http://localhost:3000/api/v1/users/" + jwt.license_number, {
-             headers: { Authorization: "Bearer " + jwt.acces_token }
+            headers: { Authorization: "Bearer " + jwt.acces_token }
           })
           .then(res => {
             this.user = res.data;
