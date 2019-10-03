@@ -268,10 +268,9 @@ export default {
           });
       }
     },
-    createEvent() {
-      this.uploadToDrive();
+    async createEvent() {
       this.translateGender();
-      if (this.formValidation()) {
+      if (this.formValidation() && (await this.uploadToDrive())) {
         axios
           .post("http://localhost:3000/api/v1/events", {
             title: this.boatEvent.title,
@@ -349,42 +348,56 @@ export default {
         var config = {
           params: {
             uploadType: "media",
-            mimeType: "image/jpeg",
+            mimeType: "image/*",
             addParents: "1QNloRgiX8CrcqIEvvQFzR5yw74LyXkwP"
           },
           headers: {
             Authorization: "Bearer " + driveToken
           }
         };
-        axios
+        return axios
           .post(
             "https://www.googleapis.com/upload/drive/v3/files",
             this.img,
             config
           )
-          .then(res => {
-            console.log(res);
+          .then(image => {
+            console.log(image);
             var config = {
               headers: {
                 Authorization: "Bearer " + driveToken
               }
             };
-            axios
+            return axios
               .post(
                 "https://www.googleapis.com/drive/v2/files/" +
-                  res.data.id +
+                  image.data.id +
                   "/parents",
                 {
                   id: "1QNloRgiX8CrcqIEvvQFzR5yw74LyXkwP"
                 },
                 config
               )
-              .then(res => console.log(res))
-              .catch(err => console.log(err));
+              .then(res => {
+                console.log(res);
+                this.boatEvent.image =
+                  "https://drive.google.com/uc?id=" +
+                  image.data.id +
+                  "&export=download";
+                return true;
+              })
+              .catch(err => {
+                console.log(err);
+                return false;
+              });
           })
-          .catch(err => console.log(err));
+          .catch(err => {
+            console.log(err);
+            return false;
+          });
       } else {
         this.singInDrive(clientId, redurect_uri, scope);
+        return false;
       }
     },
     singInDrive(clientId, redirect_uri, scope) {

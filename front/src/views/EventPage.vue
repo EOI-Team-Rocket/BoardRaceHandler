@@ -104,6 +104,7 @@ export default {
       axios
         .get("http://localhost:3000/api/v1/events/" + this.id_events)
         .then(response => {
+          console.log(response);
           this.data_events = response.data;
           const jwt = JSON.parse(localStorage.getItem("jwt"));
           if (jwt != null) {
@@ -170,7 +171,6 @@ export default {
 
   created() {
     this.id_events = this.$route.params.id;
-
     this.getDataApi();
   }
 };
