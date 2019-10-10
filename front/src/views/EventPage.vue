@@ -1,9 +1,7 @@
 <template>
-  <div>
+  <div id="eventpage">
     <!--------------------------------Title of event --------------------------------------------->
-
-    <h1 class="text-center text-white mt-4 ">{{data_events.title}}</h1>
-
+    <h1 class="text-center text-white mt-4">{{data_events.title}}</h1>
     <!-------------------------------------------------------------------------------------------->
 
     <div class="d-flex">
@@ -14,7 +12,6 @@
       <!-------------------------------------------------------------------------------------------->
 
       <!---------------------- Datas of events. Left right ----------------------------------------->
-  
       <CardComponent
         :place="data_events.place"
         :category="data_events.category"
@@ -24,7 +21,7 @@
         :gender="data_events.gender"
         :boat="data_events.class_boat"
         :capacity="data_events.capacity"
-        class="cardComponent notransparentblue"
+        class="cardComponent"
       />
       <!-------------------------------------------------------------------------------------------->
 
@@ -34,27 +31,28 @@
           <GMap :lng="data_events.cord.lng" :lat="data_events.cord.lat" />
         </div>
 
-      <div class="ml-2 mt-3 card scroll-participants">
-        <div class="card-body transparentblue">
-          <h1>Participantes Inscritos</h1>
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th scope="col"></th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Primer Apellido</th>
-                <th scope="col">Segundo Apellido</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(data_event, index) in data_events.participants" :key="data_event._id">
-                <th scope="row">{{index + 1}}</th>
-                <td>{{data_event.personalInfo.fullname.name}}</td>
-                <td>{{data_event.personalInfo.fullname.surname1}}</td>
-                <td>{{data_event.personalInfo.fullname.surname2}}</td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="ml-2 mt-3 card scroll-participants">
+          <div class="card-body">
+            <h1>Participantes Inscritos</h1>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Primer Apellido</th>
+                  <th scope="col">Segundo Apellido</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(data_event, index) in data_events.participants" :key="data_event._id">
+                  <th scope="row">{{index + 1}}</th>
+                  <td>{{data_event.personalInfo.fullname.name}}</td>
+                  <td>{{data_event.personalInfo.fullname.surname1}}</td>
+                  <td>{{data_event.personalInfo.fullname.surname2}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
@@ -64,7 +62,7 @@
     <!-------------------------------------Description of event----------------------------------->
     <div class="d-flex">
       <div class="ml-5 mt-3 card scroll-description">
-        <div class="card-body transparentblue">
+        <div class="card-body">
           <h4>
             <strong>Descripción del evento</strong>
           </h4>
@@ -72,25 +70,21 @@
         </div>
       </div>
     </div>
-
     <!-------------------------------------------------------------------------------------------->
 
     <!-------------------------------------Button of inscription----------------------------------->
     <div class="d-flex justify-content-end">
-      <p v-if="error != ''" class="error">{{error}}</p>
+      <p style="color:white" class="error">{{error}}</p>
       <button v-if="stateBtn" @click="inscription" class="btn-inscription mr-5 mt-3">Inscribirse</button>
       <button v-else @click="unSubcription" class="btn-inscription mr-5 mt-3">Desinscribirse</button>
     </div>
     <!--------------------------------------------------------------------------------------------->
   </div>
 </template>
-
-
 <script>
 import axios from "axios";
 import CardComponent from "@/components/CardComponent.vue"; /* fix this */
 import GMap from "@/components/GMapDetail.vue";
-
 export default {
   name: "eventpage",
   data() {
@@ -110,7 +104,6 @@ export default {
       axios
         .get("http://localhost:3000/api/v1/events/" + this.id_events)
         .then(response => {
-          console.log(response);
           this.data_events = response.data;
           const jwt = JSON.parse(localStorage.getItem("jwt"));
           if (jwt != null) {
@@ -125,23 +118,21 @@ export default {
         });
     },
     inscription() {
-      const jwt = JSON.parse(localStorage.getItem("jwt"));
-      const tkn = jwt.acces_token;
-      this.error = "";
-      if (jwt != null) {
+      if (localStorage.getItem("jwt")) {
+        const jwt = JSON.parse(localStorage.getItem("jwt"));
+        const tkn = jwt.acces_token;
+        this.error = "";
         const ids = {
           userId: jwt.id,
           eventId: this.id_events
         };
         console.log(jwt.acces_token);
-
         axios
           .post("http://localhost:3000/api/v1/registerInEvent", ids, {
             headers: { Authorization: "Bearer " + tkn }
           })
           .then(res => {
             console.log(res);
-
             this.stateBtn = false;
             this.getDataApi();
           })
@@ -149,6 +140,8 @@ export default {
             this.error = err;
           });
       } else {
+        console.log("NO");
+
         this.error = "Debe estar autenticado para poder inscribirse";
       }
     },
@@ -160,7 +153,6 @@ export default {
         eventId: this.id_events
       };
       console.log(jwt.acces_token);
-
       axios
         .post("http://localhost:3000/api/v1/unSubscription", ids, {
           headers: { Authorization: "Bearer " + tkn }
@@ -174,53 +166,33 @@ export default {
         });
     }
   },
-
   created() {
     this.id_events = this.$route.params.id;
     this.getDataApi();
   }
 };
 </script>
-
 <style scoped>
-
-.transparentblue{
-  background-color: rgba(158, 210, 255, 0.6);
-}
-
-.notransparentblue{
-  background-color: transparent;
-}
-
-.card-body .transparentblue{
-  background-color: rgba(158, 210, 255, 0.6);
-}
-
 .container-img {
   flex: 0 0 25%;
 }
-
 .card-img-top {
-  height: 100%;
+  max-height: 500px;
 }
-
 .cardComponent {
   flex: 0 0 30%;
 }
-
 .scroll-participants {
   max-height: 345px;
   overflow-y: auto;
   flex: 0 0 40%;
-  
+  background-color: rgba(158, 210, 255, 0.6);
 }
-
 .scroll-description {
   max-height: 200px;
   overflow-y: auto;
   flex: 0 0 55%;
 }
-
 .border-design {
   padding: 3px 10px;
   border: PowderBlue 5px solid;
@@ -228,7 +200,6 @@ export default {
   width: 400px;
   height: 50px;
 }
-
 .btn-inscription {
   background: #84abe8;
   background-image: -webkit-linear-gradient(top, #84abe8, #577eff);
@@ -245,7 +216,6 @@ export default {
   text-decoration: none;
   border: none;
 }
-
 .btn-inscription:hover {
   background: #9ed2ff;
   background-image: -webkit-linear-gradient(top, #577eff, #84abe8);

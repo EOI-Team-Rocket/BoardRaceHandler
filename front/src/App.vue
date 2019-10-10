@@ -3,36 +3,7 @@
     <div id="nav">
       <div id="nav--leftpart">
         <router-link to="/">Pagina principal</router-link>
-        <b-dropdown id="dropdown" text="Embarcaciones" class="m-md-2">
-          <b-dropdown-item-button
-            aria-describedby="dropdown-boat"
-            v-for="boat in boats"
-            :key="boat.id"
-            class="alwaysBlack"
-          >
-            <router-link :to="{name: 'events', params: {name: boat.id} }">{{boat.name}}</router-link>
-          </b-dropdown-item-button>
-        </b-dropdown>
-        <b-dropdown id="dropdown" text="Edad" class="m-md-2">
-          <b-dropdown-item-button
-            aria-describedby="dropdown-boat"
-            v-for="age in ages"
-            :key="age.id"
-            class="alwaysBlack"
-          >
-            <router-link :to="{name: 'events', params: {name: age.id} }">{{age.name}}</router-link>
-          </b-dropdown-item-button>
-        </b-dropdown>
-        <b-dropdown id="dropdown" text="Sexo" class="m-md-2">
-          <b-dropdown-item-button
-            aria-describedby="dropdown-boat"
-            v-for="gender in genders"
-            :key="gender.id"
-            class="alwaysBlack"
-          >
-            <router-link :to="{name: 'events', params: {name: gender.id} }">{{gender.name}}</router-link>
-          </b-dropdown-item-button>
-        </b-dropdown>
+
       </div>
       <div id="nav--rightpart">
         <router-link to="/dashboard" v-if="role === 'ADMIN'">Panel de control</router-link>
