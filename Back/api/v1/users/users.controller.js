@@ -26,7 +26,7 @@ module.exports = {
 function getUsers(req, res) {
   return Users.find()
     .then(result => {
-      res.send(result);
+      res.status(200).send(result);
     })
     .catch(err => handdleError(err, res));
 }
@@ -37,7 +37,7 @@ function getUsersByAffiliate(req, res) {
   })
     .populate("sportInfo.regattas")
     .then(result => {
-      res.send(result);
+      res.status(200).send(result);
     })
     .catch(err => handdleError(err, res));
 }
@@ -136,13 +136,14 @@ function patchUser(req, res) {
   )
     .then(result => {
       if (result) {
-        res.json(result);
+        res.status(200).json(result);
       } else {
-        res.json({ err: "there is no user" });
+        res.status(400).json({ err: "there is no user" });
       }
     })
     .catch(err => {
-      res.json(err);
+
+      res.status(400).json(err);
     });
 }
 function deleteUser(req, res) {
@@ -150,10 +151,10 @@ function deleteUser(req, res) {
     "sportInfo.license_number": { $in: [req.params.license_number] }
   })
     .then(result => {
-      res.send(result);
+      res.status(400).send(result);
     })
     .catch(err => {
-      res.send(err);
+      res.status(400).send(err);
     });
 }
 async function registerInEvent(req, res) {
@@ -166,12 +167,12 @@ async function registerInEvent(req, res) {
   var err = confirmRegister(user, event);
 
   if (err == true) {
-    res.json({
+    res.status(200).json({
       event: await addUserToEvent(event, userId),
       user: await addEvent(eventId, user)
     });
   } else {
-    res.json(err);
+    res.status(400).json(err);
   }
 }
 /**
@@ -187,7 +188,10 @@ function confirmRegister(user, event) {
       event.participants.includes(user._id) ||
       user.sportInfo.regattas.includes(event._id)
     ) {
+      console.log("joined");
+      
       return { err: "regatta already joined" };
+      
     } else {
       var err = canUserJoin(user, event);
       if (err == true) {
@@ -197,6 +201,8 @@ function confirmRegister(user, event) {
       }
     }
   } else {
+    console.log("celebrate");
+    
     return { err: "regatta already celebrated 96" };
   }
 }
@@ -206,15 +212,25 @@ function canUserJoin(user, event) {
   if (err == true) {
     if (user.sportInfo.class_boat == event.class_boat) {
       if (new Date(user.sportInfo.expiration_date) > Date.now()) {
-        if (event.participants.length < event.capacity) {
+        if (event.capacity >0 && event.participants.length < event.capacity) {
           return true;
         } else {
+          if (event.capacity==0||event.capacity==null||event.capacity==undefined) {
+            return true
+          } else {
+            console.log("full");
+          
           return { err: "the event is full" };
+          }
         }
       } else {
+        console.log("expirate");
+        
         return { err: "the user has his lisence expirated" };
       }
     } else {
+      console.log("class");
+      
       return { err: "the class boat is: " + event.class_boat };
     }
   } else {
@@ -227,6 +243,8 @@ function checkGender(user, event) {
     return true;
   } else {
     if (user.personalInfo.gender != event.gender) {
+      console.log("gender");
+      
       return { err: "the event is for " + event.gender };
     }
   }
@@ -241,8 +259,12 @@ function checkGender(user, event) {
  */
 function handleEventFail(event) {
   if (eventController.celebrateEvent(event) != false) {
+    console.log("already");
+    
     return { err: "regatta already celebrated" };
   } else {
+    console.log("can");
+    
     return { err: "regatta canceled" };
   }
 }
@@ -287,12 +309,12 @@ async function unregisterInEvent(req, res) {
   var err = confirmUnregister(user, event);
 
   if (err == true) {
-    res.json({
+    res.status(200).json({
       event: await rmUserToEvent(event, userId),
       user: await rmEvent(eventId, user)
     });
   } else {
-    res.json(err);
+    res.status(400).json(err);
   }
 }
 
@@ -311,9 +333,13 @@ function confirmUnregister(user, event) {
     ) {
       return true;
     } else {
+      console.log("not");
+      
       return { err: "User is not joined" };
     }
   } else {
+    console.log("52");
+    
     return { err: "regatta already celebrated 52" };
   }
 }

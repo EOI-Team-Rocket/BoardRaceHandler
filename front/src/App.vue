@@ -3,36 +3,7 @@
     <div id="nav">
       <div id="nav--leftpart">
         <router-link to="/">Pagina principal</router-link>
-        <b-dropdown id="dropdown" text="Embarcaciones" class="m-md-2">
-          <b-dropdown-item-button
-            aria-describedby="dropdown-boat"
-            v-for="boat in boats"
-            :key="boat.id"
-            class="alwaysBlack"
-          >
-            <router-link :to="{name: 'events', params: {name: boat.id} }">{{boat.name}}</router-link>
-          </b-dropdown-item-button>
-        </b-dropdown>
-        <b-dropdown id="dropdown" text="Edad" class="m-md-2">
-          <b-dropdown-item-button
-            aria-describedby="dropdown-boat"
-            v-for="age in ages"
-            :key="age.id"
-            class="alwaysBlack"
-          >
-            <router-link :to="{name: 'events', params: {name: age.id} }">{{age.name}}</router-link>
-          </b-dropdown-item-button>
-        </b-dropdown>
-        <b-dropdown id="dropdown" text="Sexo" class="m-md-2">
-          <b-dropdown-item-button
-            aria-describedby="dropdown-boat"
-            v-for="gender in genders"
-            :key="gender.id"
-            class="alwaysBlack"
-          >
-            <router-link :to="{name: 'events', params: {name: gender.id} }">{{gender.name}}</router-link>
-          </b-dropdown-item-button>
-        </b-dropdown>
+
       </div>
       <div id="nav--rightpart">
         <router-link to="/dashboard" v-if="role === 'ADMIN'">Panel de control</router-link>
@@ -66,7 +37,9 @@
             <b-button class="btn-login" variant="primary" size="sm" @click="login">Inicia sesión</b-button>
           </b-dropdown-form>
           <b-dropdown-divider></b-dropdown-divider>
-          <router-link to="/register"><b-dropdown-item-button>Regístrate</b-dropdown-item-button></router-link>
+          <router-link to="/register">
+            <b-dropdown-item-button>Regístrate</b-dropdown-item-button>
+          </router-link>
           <b-dropdown-item-button>¿Contraseña olvidada?</b-dropdown-item-button>
         </b-dropdown>
         <div class v-else>
@@ -226,7 +199,7 @@ export default {
   },
 
   methods: {
-    login(){
+    login() {
       console.log("he entrado en el login baby");
       if (this.user.email == "" || this.user.password == "") {
         return;
@@ -263,7 +236,7 @@ export default {
       localStorage.removeItem("jwt");
     }
   },
-  created() {
+  mounted() {
     const storage = JSON.parse(localStorage.getItem("jwt"));
     if (storage != null) {
       this.role = storage.role;
@@ -271,6 +244,24 @@ export default {
       this.loginState = true;
     } else {
       this.loginState = false;
+    }
+  },
+  created() {
+    //if drive send token
+    if (window.location.href.indexOf("access_token")) {
+      //find token content
+      var params = window.location.href.substring(
+        window.location.href.indexOf("=") + 1,
+        window.location.href.indexOf("&")
+      );
+      //save token
+      localStorage.setItem("drivenToken", params);
+      var expirationDate = new Date(Date.now());
+      //token will live 1 hour
+      expirationDate.setHours(expirationDate.getHours() + 1);
+      localStorage.setItem("dateToTokenDie", expirationDate);
+      //go to dashboard
+      this.$router.replace("/dashboard");
     }
   }
 };
@@ -287,8 +278,8 @@ body {
   background-image: url("./assets/background.jpg");
 }
 
-.alwaysBlack{
-    color: #2c3e50;
+.alwaysBlack {
+  color: #2c3e50;
 }
 
 #app {
@@ -330,7 +321,6 @@ body {
 
 #nav .dropdown-menu a {
   font-weight: bolder;
-  
 }
 
 #nav a.router-link-exact-active {
@@ -367,7 +357,7 @@ body {
   color: #fff;
 }
 
-#logout{
+#logout {
   background-color: transparent;
   border-color: transparent;
   font-weight: bolder;
@@ -400,5 +390,4 @@ body {
   text-decoration: none;
   border: none;
 }
-
 </style>

@@ -40,8 +40,11 @@ export default {
       this.$emit("hideModal");
     },
     deleteEvent() {
+      const jwt = JSON.parse(localStorage.getItem("jwt"));
+      const tkn = jwt.acces_token;
       axios
-        .delete("http://localhost:3000/api/v1/events/" + this.id)
+        .delete("http://localhost:3000/api/v1/events/" + this.id, {
+          headers: { Authorization: "Bearer " + tkn }})
         .then(info => {
           this.updateFatherStatus();
         })

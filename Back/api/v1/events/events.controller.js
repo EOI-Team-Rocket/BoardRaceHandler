@@ -75,7 +75,7 @@ function updateEvent(req, res) {
             response.description
           );
         }
-        return res.json(response);
+        return res.status(200).json(response);
       })
       .catch(err => handdleError(err, res));
   } else {

@@ -1,15 +1,15 @@
 <template>
   <div class="profile">
     <div class="info">
-      <h2> Información deportiva </h2>
-      <br/> 
+      <h2>Información deportiva</h2>
+      <br />
       <p>Número de licencia: {{license_number}}</p>
       <div class="row">
         <p v-if="federation != ''">Federación: {{federation}}</p>
         <p v-if="club != ''">Club: {{club}}</p>
       </div>
       <div class="row">
-        <p>Clase: {{class_boat}}</p> &nbsp;&nbsp;
+        <p>Clase: {{class_boat}}</p>&nbsp;&nbsp;
         <p>Categoría: {{category}}</p>
       </div>
       <p>Estado: {{state}}</p>
@@ -17,11 +17,11 @@
     </div>
     <div id="right">
       <div class="info">
-        <h2> Información personal </h2>
+        <h2>Información personal</h2>
         <div id="name">
           <p>Nombre: {{name}}</p>
           <p>Primer apellido: {{surname1}}</p>
-        </div> 
+        </div>
         <p v-if="surname2 != '' ">Segundo apellido: {{surname2}}</p>
         <div id="sex">
           <p v-if="gender == 'M' ">Sexo: Masculino</p>
@@ -29,7 +29,7 @@
         </div>
       </div>
       <div class="info">
-        <h2> Información cuenta de usuario </h2>
+        <h2>Información cuenta de usuario</h2>
         <p>email: {{email}}</p>
         <p>Teléfono 1: {{telf1}}</p>
         <p v-if="telf2 != ''">Teléfono 2: {{telf2}}</p>
@@ -47,14 +47,14 @@
       <tbody>
         <tr v-for="(dataEvent, index) in dataEvents" :key="dataEvent._id">
           <th class="text-white" scope="row">{{index + 1}}</th>
-          <td class="text-white">{{dataEvent.title}}</td> 
-          <td class="text-white">{{dataEvent.place}}</td> 
+          <td class="text-white">{{dataEvent.title}}</td>
+          <td class="text-white">{{dataEvent.place}}</td>
           <td class="text-white">{{dataEvent.date}}</td>
         </tr>
       </tbody>
     </table>
 
-    <button class="boton">Editar</button>
+    <button class="boton" v-if="false">Editar</button>
     <button class="boton" @click="deleteUser">Borrar</button>
   </div>
 </template>
@@ -67,18 +67,18 @@ export default {
   data() {
     return {
       user: {},
-      name:"",
-      surname1:"",
-      surname2:"",
-      email:"",
-      gender:"",
-      telf1:"",
-      telf2:"",
-      class_boat:"",
-      category:"",
-      state:"",
-      license_number:"",
-      expiration_date:"",
+      name: "",
+      surname1: "",
+      surname2: "",
+      email: "",
+      gender: "",
+      telf1: "",
+      telf2: "",
+      class_boat: "",
+      category: "",
+      state: "",
+      license_number: "",
+      expiration_date: "",
       club: "",
       federation: "",
       dataEvents: []
@@ -113,7 +113,7 @@ export default {
       if (jwt.license_number == this.$route.params.numLicense) {
         axios
           .get("http://localhost:3000/api/v1/users/" + jwt.license_number, {
-             headers: { Authorization: "Bearer " + jwt.acces_token }
+            headers: { Authorization: "Bearer " + jwt.acces_token }
           })
           .then(res => {
             this.user = res.data;
@@ -145,15 +145,14 @@ export default {
 </script>
 
 <style scoped>
-
-.profile{
+.profile {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
 }
 
-.info{
-  display:flex;
+.info {
+  display: flex;
   flex-direction: column;
   border: 1px solid;
   border-radius: 16px;
@@ -163,24 +162,24 @@ export default {
   margin: 15px;
 }
 
-#right{
-  display:flex;
+#right {
+  display: flex;
   flex-direction: column;
   border-radius: 16px;
   flex: 1 1 auto;
 }
 
-h2{
-  color:white;
+h2 {
+  color: white;
   font-weight: bolder;
 }
 
-#right .info{
-  display:flex;
+#right .info {
+  display: flex;
   justify-content: center;
 }
 
-.info .row{
+.info .row {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -190,7 +189,7 @@ p {
   color: white;
 }
 
-.boton{
+.boton {
   background: #84abe8;
   background-image: -webkit-linear-gradient(top, #84abe8, #577eff);
   background-image: -moz-linear-gradient(top, #84abe8, #577eff);
@@ -207,7 +206,7 @@ p {
   border: none;
 }
 
-.boton:hover{
+.boton:hover {
   background: #9ed2ff;
   background-image: -webkit-linear-gradient(top, #577eff, #84abe8);
   background-image: -moz-linear-gradient(top, #577eff, #84abe8);

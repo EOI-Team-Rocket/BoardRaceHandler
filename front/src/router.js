@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import googleAuth from "./views/driveAuth.vue";
 
 
 Vue.use(Router)
@@ -13,10 +14,14 @@ export default new Router({
       component: Home
     },
     {
-      path: "/dashboard",
-      name: "dashboard",
-      component: () =>
-        import(/* webpackChunkName: "dashboard" */ "./views/dashboard.vue")
+      path: '/googleAuth',
+      name: 'googleAuth',
+      component: googleAuth
+    },
+    {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: () => import(/* webpackChunkName: "dashboard" */ './views/dashboard.vue')
     },
     {
       path: "/create",
@@ -34,7 +39,7 @@ export default new Router({
       name: 'register',
       component: () => import('./views/RegisterUser.vue')
     },
-    
+
     {
       path: "/eventpage/:id",
       name: "eventpage",

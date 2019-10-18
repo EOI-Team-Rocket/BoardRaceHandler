@@ -11,7 +11,7 @@ import CardComponent from '@/components/CardComponent.vue';
                 <p v-if="gender == 'H'" class="card-text">Gender: &nbsp;<span class="clean"> Masculino </span></p>
                 <p v-if="gender == 'M'" class="card-text">Gender: &nbsp;<span class="clean"> Femenino</span></p>
                 <p v-if="gender == 'X'" class="card-text">Gender: &nbsp;<span class="clean"> Mixto </span></p>
-                <p class="card-text">Tipo de bote: &nbsp;<span class="clean">{{boat}}</span></p>
+                <p class="card-text">Clase: &nbsp;<span class="clean">{{boat}}</span></p>
                 <p v-if="capacity != null" class="card-text">Capacity: <span class="clean">{{capacity}}</span></p>
             </div>
         </div>

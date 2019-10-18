@@ -190,9 +190,11 @@ export default {
   },
   data() {
     return {
+      key: localStorage.getItem("drivenToken"),
       showModal: this.show,
-      // cant close modal when click out
-      noBackdrop: false,
+      img: null,
+      eventImage:
+        "https://cdn4.iconfinder.com/data/icons/text-editor-2/24/Insert-Image-512.png",
       errors: [],
       boats: [
         "420",
@@ -245,6 +247,9 @@ export default {
     };
   },
   methods: {
+    deleteToken() {
+      localStorage.removeItem("driveToken");
+    },
     hideModal() {
       this.showModal = false;
       this.updateFatherStatus();
@@ -255,12 +260,19 @@ export default {
     },
     updateEvent() {
       if (this.formValidation()) {
+        const place = JSON.parse(localStorage.getItem("place")); 
+        const jwt = JSON.parse(localStorage.getItem("jwt"));
+        const tkn = jwt.acces_token;
         axios
           .patch("http://localhost:3000/api/v1/events/" + this.id, {
             title: this.boatEvent.title,
             date: this.boatEvent.date,
             hour: this.boatEvent.hour,
-            place: this.boatEvent.place,
+            place: place.place,
+            cord: {
+              lng: place.marker.lng,
+              lat: place.marker.lat
+            },
             image: this.boatEvent.image,
             gender: this.boatEvent.gender,
             class_boat: this.boatEvent.class_boat,
@@ -269,19 +281,23 @@ export default {
             capacity: this.boatEvent.capacity,
             manager: this.boatEvent.manager,
             participants: this.boatEvent.participants
-          })
+          }, 
+          { headers: { Authorization: "Bearer " + tkn }})
           .then(res => {
             this.hideModal();
           })
           .catch(err => {
+            console.log(err)
             this.errors.push("Error al conectar con la base de datos");
           });
       }
     },
-    createEvent() {
+    async createEvent() {
       this.translateGender();
-      if (this.formValidation()) {
+      if (this.formValidation() && (await this.uploadToDrive())) {
         const place = JSON.parse(localStorage.getItem("place")); 
+        const jwt = JSON.parse(localStorage.getItem("jwt"));
+        const tkn = jwt.acces_token;
         axios
           .post("http://localhost:3000/api/v1/events", {
             title: this.boatEvent.title,
@@ -300,7 +316,8 @@ export default {
             capacity: this.boatEvent.capacity,
             manager: this.boatEvent.manager,
             participants: this.boatEvent.participants
-          })
+          }, 
+          { headers: { Authorization: "Bearer " + tkn }})
           .then(res => {
             localStorage.removeItem("place");
             this.hideModal();
@@ -345,9 +362,86 @@ export default {
         return true;
       }
     },
-    putImageInData() {
-      //to implement maybe will need boatEvent.target
-      return;
+    putImageInData(event) {
+      var reader = new FileReader();
+      this.eventImage = event.target.files[0];
+      this.img = event.target.files[0];
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = () => {
+        this.eventImage = reader.result;
+      };
+    },
+    uploadToDrive() {
+      var clientId =
+        "51550627371-6hoi4aai0pqudi8cmbk0k8p71f97agau.apps.googleusercontent.com";
+      var redurect_uri = "http://localhost:8080/#/dashboard";
+      var scope = "https://www.googleapis.com/auth/drive";
+      var driveToken = localStorage.getItem("drivenToken");
+
+      if (driveToken != "" && driveToken != null) {
+        var config = {
+          params: {
+            uploadType: "media",
+            mimeType: "image/*",
+            addParents: "1QNloRgiX8CrcqIEvvQFzR5yw74LyXkwP"
+          },
+          headers: {
+            Authorization: "Bearer " + driveToken
+          }
+        };
+        return axios
+          .post(
+            "https://www.googleapis.com/upload/drive/v3/files",
+            this.img,
+            config
+          )
+          .then(image => {
+            console.log(image);
+            var config = {
+              headers: {
+                Authorization: "Bearer " + driveToken
+              }
+            };
+            return axios
+              .post(
+                "https://www.googleapis.com/drive/v2/files/" +
+                  image.data.id +
+                  "/parents",
+                {
+                  id: "1QNloRgiX8CrcqIEvvQFzR5yw74LyXkwP"
+                },
+                config
+              )
+              .then(res => {
+                console.log(res);
+                this.boatEvent.image =
+                  "https://drive.google.com/uc?id=" +
+                  image.data.id +
+                  "&export=download";
+                return true;
+              })
+              .catch(err => {
+                console.log(err);
+                return false;
+              });
+          })
+          .catch(err => {
+            console.log(err);
+            return false;
+          });
+      } else {
+        this.singInDrive(clientId, redurect_uri, scope);
+        return false;
+      }
+    },
+    singInDrive(clientId, redirect_uri, scope) {
+      var url =
+        "https://accounts.google.com/o/oauth2/v2/auth?" +
+        "client_id=" +
+        clientId +
+        "&redirect_uri=http://localhost:8080&prompt=consent&response_type=token&scope=" +
+        scope;
+      window.open(url);
     },
     translateGender() {
       switch (this.boatEvent.gender) {
